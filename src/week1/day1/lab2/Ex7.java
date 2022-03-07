@@ -1,4 +1,4 @@
 package week1.day1.lab2;
 
-public class ex1 {
+public class Ex7 {
 }
