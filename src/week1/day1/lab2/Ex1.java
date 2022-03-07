@@ -7,15 +7,15 @@ public class Ex1 {
     public static void main(String[] args){
         Random rand=new Random();
         int n=rand.nextInt(9)+2;// rand.next(max-min+1)+min
-        System.out.println("a) "+n);
+        System.out.println("n= "+n);
         int myArray[];
         myArray=new int[n];
-        System.out.println("Introduceti "+n+ " elemente");
+        System.out.println("Input "+n+ " elements");
         Scanner in=new Scanner(System.in);
         for(int i=0;i<n;i++){
             myArray[i]=in.nextInt();
         }
-        System.out.println("Array-ul e ");
+        System.out.println("Array: ");
         for(int i=0;i<n;i++) {
             System.out.print(myArray[i]+" ");
         }
@@ -25,7 +25,7 @@ public class Ex1 {
             sum=sum+myArray[i];
         }
         float mean=sum/n;
-        System.out.println("Medie "+mean);
+        System.out.println("Mean "+mean);
 
 
     }
