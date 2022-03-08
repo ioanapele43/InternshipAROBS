@@ -1,3 +1,5 @@
+package week1.day1.lab3;
+
 public class MyPoint {
     private int x;
     private int y;

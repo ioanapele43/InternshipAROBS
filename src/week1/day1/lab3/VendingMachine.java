@@ -1,3 +1,5 @@
+package week1.day1.lab3;
+
 import java.util.HashMap;
 
 public class VendingMachine {

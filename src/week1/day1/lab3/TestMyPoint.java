@@ -1,3 +1,5 @@
+package week1.day1.lab3;
+
 public class TestMyPoint {
     public static void main(String[] args){
         MyPoint point1=new MyPoint(1,2,3);
