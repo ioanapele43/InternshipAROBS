@@ -37,7 +37,6 @@ public class TestNewVendingMachine {
                         System.out.print("new quantity=");
                         qP=in.nextInt();
                     }
-
                     break;
                 case 3:
                     vm.displayCredit(idP,qP);

@@ -28,6 +28,15 @@ public class TestVendingMachine {
                 case 2:
                     System.out.print("\nquantity=");
                     qP=in.nextInt();
+                    if(vm.selectProductQuantity(idP)==0){
+                        System.out.println("\nProduct no longer available");
+                        break;
+                    }
+                    while(qP>vm.selectProductQuantity(idP)){
+                        System.out.println("\nQuantity too large");
+                        System.out.print("new quantity=");
+                        qP=in.nextInt();
+                    }
                     break;
                 case 3:
                     vm.displayCredit(idP,qP);

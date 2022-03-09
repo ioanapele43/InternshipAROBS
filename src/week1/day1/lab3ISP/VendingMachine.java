@@ -31,7 +31,15 @@ public class VendingMachine {
         }
         return productName;
     }
-
+    public int selectProductQuantity(int id){
+        int prodQ=0;
+        for(Product p:products){
+            if(p.getId()==id){
+                prodQ=p.getQuantity();
+            }
+        }
+        return prodQ;
+    }
     public void displayCredit(int id, int q){
         int credit=0;
         for(Product p:products){
