@@ -31,6 +31,7 @@ public class VendingMachine {
         }
         return productName;
     }
+
     public void displayCredit(int id, int q){
         int credit=0;
         for(Product p:products){
