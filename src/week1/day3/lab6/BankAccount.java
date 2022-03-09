@@ -1,11 +1,17 @@
 package week1.day3.lab6;
 
-public class BankAccount {
+import java.util.Comparator;
+
+public class BankAccount implements Comparable<BankAccount> {
     private String owner;
     private double balance;
     public BankAccount(String owner, double balance){
         this.owner=owner;
         this.balance=balance;
+    }
+    public BankAccount(String owner){
+        this.owner=owner;
+        this.balance=0;
     }
     public void withdraw(double amount){
         this.balance-=amount;
@@ -13,6 +19,9 @@ public class BankAccount {
     public void deposit(double amount){
         this.balance+=amount;
     }
+
+
+
     @Override
     public boolean equals(Object o){
         if(this==o){
@@ -23,7 +32,7 @@ public class BankAccount {
         }
 
         BankAccount ba=(BankAccount) o;
-        return (ba.owner==this.owner && ba.balance==this.balance);
+        return (this.owner.equals(ba.owner) );
     }
     @Override
     public int hashCode(){
@@ -44,5 +53,10 @@ public class BankAccount {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public int compareTo(BankAccount o) {
+        return this.getOwner().compareTo(o.getOwner());
     }
 }
