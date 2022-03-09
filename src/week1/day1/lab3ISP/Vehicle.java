@@ -48,4 +48,16 @@ public class Vehicle {
     public String toString() {
         return   model+"("+type+") speed "+speed+" fuel type "+fuelType;
     }
+    @Override
+    public boolean equals(Object o){
+        if(o==this){
+            return true;
+        }
+        if(!(o instanceof Vehicle)){
+            return false;
+        }
+        Vehicle c=(Vehicle) o;
+        return this.model==c.model && this.type==c.type && this.speed==c.speed && this.fuelType==c.fuelType;
+
+    }
 }
