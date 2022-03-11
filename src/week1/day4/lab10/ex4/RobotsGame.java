@@ -51,7 +51,7 @@ public class RobotsGame implements Runnable {
         for(int i=0;i<30;i++) {
             robotsGame.run();
         }
-        robotsGame.getRobotList().stream().forEach((robot)->{
+        robotsGame.getRobotList().forEach((robot)->{
             if(robot.isDestroyed()) {
                 System.out.println("Robot " + robot.getIdR() + " was destroyed");
              }
