@@ -10,7 +10,7 @@ public class SerializationDeserialization {
             out.writeObject(car);
             out.close();
             fileOut.close();
-           
+
         } catch (IOException i) {
             i.printStackTrace();
         }
