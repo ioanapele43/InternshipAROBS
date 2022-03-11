@@ -7,7 +7,10 @@ public class Robot extends Thread{
     private int currentPositionX;
     private int currentPositionY;
     private boolean destroyed;
-    public Robot(int currentPositionX, int currentPositionY){
+    private int id;
+
+    public Robot(int id,int currentPositionX, int currentPositionY){
+        this.id=id;
         this.currentPositionX=currentPositionX;
         this.currentPositionY=currentPositionY;
         this.destroyed=false;
@@ -21,29 +24,38 @@ public class Robot extends Thread{
     }
     public void run(){
         Random rand=new Random();
-        int nextX=this.currentPositionX;
-        int nextY=this.currentPositionY;
-        do{
-            nextX=this.currentPositionX;
-            nextY=this.currentPositionY;
-            int nextMove=rand.nextInt(4)+1; // 1-sus 2-dreapta 3-jos 4 -stanga
-            switch (nextMove){
-                case 1:
-                    nextX--;
-                    break;
-                case 2:
-                    nextY++;
-                    break;
-                case 3:
-                    nextX--;
-                    break;
-                case 4:
-                    nextY--;
-                    break;
-                default:
-            }
-        }while(!checkPositionInSpace(nextX,nextY));
-        System.out.println("Thread "+Thread.currentThread().getName()+" move "+nextX+","+nextY);
+        if(!destroyed) {
+            int nextX;
+            int nextY;
+            do {
+                nextX = this.currentPositionX;
+                nextY = this.currentPositionY;
+                int nextMove = rand.nextInt(4) + 1; // 1-sus 2-dreapta 3-jos 4 -stanga
+                switch (nextMove) {
+                    case 1:
+                        nextX--;
+                        break;
+                    case 2:
+                        nextY++;
+                        break;
+                    case 3:
+                        nextX--;
+                        break;
+                    case 4:
+                        nextY--;
+                        break;
+                    default:
+                }
+            } while (!checkPositionInSpace(nextX, nextY));
+
+            System.out.println("Robot "+this.id+" move "+nextX+","+nextY);
+            this.currentPositionX=nextX;
+            this.currentPositionY=nextY;
+        }
+        if(destroyed)
+        {
+            System.out.println("Robot "+this.id+" destroyed");
+        }
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -76,17 +88,26 @@ public class Robot extends Thread{
         this.destroyed = destroyed;
     }
 
+
+    public int getIdR() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public static void main(String[] args) throws InterruptedException {
-        Robot robot1=new Robot(0,0);
-        Robot robot2=new Robot(10,0);
-        Robot robot3=new Robot(20,0);
-        Robot robot4=new Robot(30,0);
-        Robot robot5=new Robot(40,0);
-        Robot robot6=new Robot(50,0);
-        Robot robot7=new Robot(60,0);
-        Robot robot8=new Robot(70,0);
-        Robot robot9=new Robot(80,0);
-        Robot robot10=new Robot(99,0);
+        Robot robot1=new Robot(1,0,0);
+        Robot robot2=new Robot(2,10,0);
+        Robot robot3=new Robot(3,20,0);
+        Robot robot4=new Robot(4,30,0);
+        Robot robot5=new Robot(5,40,0);
+        Robot robot6=new Robot(6,50,0);
+        Robot robot7=new Robot(7,60,0);
+        Robot robot8=new Robot(8,70,0);
+        Robot robot9=new Robot(9,80,0);
+        Robot robot10=new Robot(10,99,0);
         robot1.start();
         //robot1.join();
         robot2.start();
