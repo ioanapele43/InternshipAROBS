@@ -2,8 +2,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@WebFilter(urlPatterns="/Login")
-public class UsernameFilter implements Filter {
+@WebFilter(urlPatterns = "/register")
+public class RegisterFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
