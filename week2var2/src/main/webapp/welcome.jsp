@@ -139,6 +139,11 @@ body {
              out.println("\n current number of users "+session.getAttribute("currentusers"));
         %></p>
         <br>
+        <p>
+        <%
+              out.println("\n execution time "+application.getAttribute("executionTime"));
+         %></p>
+         <br>
   </form>
 </div>
 

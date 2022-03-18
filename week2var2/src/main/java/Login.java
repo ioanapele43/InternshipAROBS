@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @WebServlet(name = "login", urlPatterns = "/Login")
 public class Login  extends HttpServlet {
@@ -25,11 +26,11 @@ public class Login  extends HttpServlet {
         session.setAttribute("pass",password);
 
         ServletContext ctx=getServletContext();
-        int t=(Integer)ctx.getAttribute("totalusers");
-        int c=(Integer)ctx.getAttribute("currentusers");
+        AtomicInteger t=(AtomicInteger)ctx.getAttribute("totalusers");
+        AtomicInteger c=(AtomicInteger)ctx.getAttribute("currentusers");
 
-        session.setAttribute("totalusers",t);
-        session.setAttribute("currentusers",c);
+        session.setAttribute("totalusers",t.get());
+        session.setAttribute("currentusers",c.get());
         resp.sendRedirect("welcome.jsp");
 
     }

@@ -18,7 +18,7 @@ public class LoginFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
 
         } else {
-            servletResponse.getWriter().println("Missing input parameter");
+            servletResponse.getWriter().println("Incorrect inputs");
         }
     }
 

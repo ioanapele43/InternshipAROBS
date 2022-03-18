@@ -14,11 +14,11 @@ public class RegisterFilter implements Filter {
         String username = servletRequest.getParameter("user");
         String password = servletRequest.getParameter("pass");
 
-        if (username.equals("admin") && password.equals("pass")) {
+        if (username.length()>5 || password.length()>4) {
             filterChain.doFilter(servletRequest, servletResponse);
 
         } else {
-            servletResponse.getWriter().println("Missing input parameter");
+            servletResponse.getWriter().println("Incorrect inputs");
         }
     }
 
