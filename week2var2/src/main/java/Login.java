@@ -1,4 +1,5 @@
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +13,6 @@ import java.io.PrintWriter;
 public class Login  extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // read form fields
 
     }
 
@@ -23,6 +23,13 @@ public class Login  extends HttpServlet {
         HttpSession session= req.getSession();
         session.setAttribute("user",username);
         session.setAttribute("pass",password);
+
+        ServletContext ctx=getServletContext();
+        int t=(Integer)ctx.getAttribute("totalusers");
+        int c=(Integer)ctx.getAttribute("currentusers");
+
+        session.setAttribute("totalusers",t);
+        session.setAttribute("currentusers",c);
         resp.sendRedirect("welcome.jsp");
 
     }

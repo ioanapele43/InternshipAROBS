@@ -33,6 +33,10 @@ body {
   padding: 35px 35px 0 35px;
   font-weight: 300;
 }
+.login-form p {
+  padding: 35px 35px 0 35px;
+  font-weight: 50;
+}
 .login-form .content {
   padding: 35px;
   text-align: center;
@@ -120,13 +124,21 @@ body {
 
 <div class="login-form">
   <form action="Login" method="post">
-    <h1>Welcome </h1>
-        <%
+        <h1><%
+             out.println("\n Welcome back, "+session.getAttribute("user"));
+         %> </h1>
+       <p> <%
              out.println("Your IP address is " + request.getRemoteAddr());
-             %><br><%
-             out.println("\n Welcome back "+session.getAttribute("user"));
-
-        %>
+        %></p>
+        <p>
+        <%
+             out.println("\n total number users "+session.getAttribute("totalusers"));
+        %></p>
+        <p>
+        <%
+             out.println("\n current number of users "+session.getAttribute("currentusers"));
+        %></p>
+        <br>
   </form>
 </div>
 
