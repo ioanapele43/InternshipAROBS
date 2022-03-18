@@ -2,7 +2,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = "/uppercase")
+@WebFilter(urlPatterns="/Login")
 public class UsernameFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -11,10 +11,12 @@ public class UsernameFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        String inputString = servletRequest.getParameter("input");
+        String username = servletRequest.getParameter("user");
+        String password = servletRequest.getParameter("pass");
 
-        if (inputString != null && inputString.matches("[A-Za-z0-9]+")) {
+        if (username.equals("admin") && password.equals("pass")) {
             filterChain.doFilter(servletRequest, servletResponse);
+
         } else {
             servletResponse.getWriter().println("Missing input parameter");
         }
