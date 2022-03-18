@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Simple Login Form Example</title>
+  <title>Login</title>
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
 <style>
 * {
@@ -13,7 +13,7 @@
 }
 
 body {
-  background: #e35869;
+  background: #000099;
   font-family: 'Rubik', sans-serif;
 }
 
@@ -129,7 +129,7 @@ body {
         <input type="password" placeholder="Password" name="pass" >
 
     <div class="action">
-     <input type="submit" value="login">
+     <button class="btn" type="submit" value="login" >Log in</button>
     </div>
   </form>
 </div>

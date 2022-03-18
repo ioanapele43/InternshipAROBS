@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Welcome Page</title>
+  <title>Register</title>
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
 <style>
 * {
@@ -19,7 +19,7 @@ body {
 
 .login-form {
   background: #fff;
-  width: 1000px;
+  width: 500px;
   margin: 65px auto;
   display: -webkit-box;
   display: flex;
@@ -119,14 +119,18 @@ body {
 <body>
 
 <div class="login-form">
-  <form action="Login" method="post">
-    <h1>Welcome </h1>
-        <%
-             out.println("Your IP address is " + request.getRemoteAddr());
-             %><br><%
-             out.println("\n Welcome back "+session.getAttribute("user"));
+  <form action="register" method="post">
+    <h1>Register</h1>
+    <div class="content">
+      <div class="input-field">
+        <input type="text" placeholder="username" name="user" >
+      </div>
+      <div class="input-field">
+        <input type="password" placeholder="Password" name="pass" >
 
-        %>
+    <div class="action">
+     <button class="btn" type="submit" value="register" >Sign in</button>
+    </div>
   </form>
 </div>
 

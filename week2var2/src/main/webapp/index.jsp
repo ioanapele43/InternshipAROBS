@@ -2,138 +2,82 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Simple Login Form Example</title>
-  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
+  <title>Home Page</title>
+ <style>
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700");
+#bg {
+  background: #000099;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  filter: blur(5px);
 }
 
 body {
-  background: #000099;
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Lato', sans-serif;
+  color: #4A4A4A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
-.login-form {
-  background: #fff;
-  width: 500px;
-  margin: 65px auto;
+form {
+  width: 350px;
+  position: relative;
+}
+
+
+form .form-field {
   display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-          flex-direction: column;
-  border-radius: 4px;
-  box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  position: relative;
 }
-.login-form h1 {
-  padding: 35px 35px 0 35px;
-  font-weight: 300;
-}
-.login-form .content {
-  padding: 35px;
-  text-align: center;
-}
-.login-form .input-field {
-  padding: 12px 5px;
-}
-.login-form .input-field input {
-  font-size: 16px;
-  display: block;
-  font-family: 'Rubik', sans-serif;
-  width: 100%;
-  padding: 10px 1px;
-  border: 0;
-  border-bottom: 1px solid #747474;
+
+form .btn {
   outline: none;
-  -webkit-transition: all .2s;
-  transition: all .2s;
-}
-.login-form .input-field input::-webkit-input-placeholder {
-  text-transform: uppercase;
-}
-.login-form .input-field input::-moz-placeholder {
-  text-transform: uppercase;
-}
-.login-form .input-field input:-ms-input-placeholder {
-  text-transform: uppercase;
-}
-.login-form .input-field input::-ms-input-placeholder {
-  text-transform: uppercase;
-}
-.login-form .input-field input::placeholder {
-  text-transform: uppercase;
-}
-.login-form .input-field input:focus {
-  border-color: #222;
-}
-.login-form a.link {
-  text-decoration: none;
-  color: #747474;
-  letter-spacing: 0.2px;
-  text-transform: uppercase;
-  display: inline-block;
-  margin-top: 20px;
-}
-.login-form .action {
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-          flex-direction: row;
-}
-.login-form .action button {
-  width: 100%;
   border: none;
-  padding: 18px;
-  font-family: 'Rubik', sans-serif;
   cursor: pointer;
-  text-transform: uppercase;
-  background: #e8e9ec;
-  color: #777;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 0;
-  letter-spacing: 0.2px;
-  outline: 0;
-  -webkit-transition: all .3s;
-  transition: all .3s;
-}
-.login-form .action button:hover {
-  background: #d8d8d8;
-}
-.login-form .action button:nth-child(2) {
-  background: #2d3b55;
+  display: inline-block;
+  margin: 0 auto;
+  padding: 0.9rem 2.5rem;
+  text-align: center;
+  background-color: #6699ff;
   color: #fff;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 4px;
-}
-.login-form .action button:nth-child(2):hover {
-  background: #3c4d6d;
+  border-radius: 4px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  font-size: 17px;
 }
 </style>
-
 </head>
 <body>
+<div id="bg"></div>
 
-<div class="login-form">
-  <form action="Login" method="post">
-    <h1>Login</h1>
-    <div class="content">
-      <div class="input-field">
-        <input type="text" placeholder="username" name="user" >
-      </div>
-      <div class="input-field">
-        <input type="password" placeholder="Password" name="pass" >
+<form action="homeL" method="post">
 
-    <div class="action">
-     <input type="submit" value="login">
-    </div>
+  <div class="form-field">
+    <button class="btn" type="submit" value="homeL" >Log in</button>
+  </div>
   </form>
-</div>
-
-
+  <br>
+  <form action="homeR" method="post">
+  <div class="form-field">
+      <button class="btn" type="submit" value="homeR" >Register</button>
+    </div>
+</form>
 </body>
 </html>
