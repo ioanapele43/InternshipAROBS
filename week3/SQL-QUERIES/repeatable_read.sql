@@ -1,15 +1,7 @@
 START TRANSACTION;
-
-	select * 
-    from shows ;
-    
-    do sleep(15);
-    
-    UPDATE shows 
-    set title="orasul " 
-    where idshow=2;
-    
-    select * 
-    from shows;
+	insert into shows ( title, director, releasedate,lastmodification) 
+    values ("r2","aaaA",now(),now());
     
 COMMIT;
+    
+	

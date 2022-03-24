@@ -1,6 +1,4 @@
 SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
-
-	do sleep(10);
     
 	select * 
     from shows 
