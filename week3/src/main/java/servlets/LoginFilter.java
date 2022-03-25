@@ -19,9 +19,9 @@ public class LoginFilter implements Filter {
         String username = servletRequest.getParameter("user");
         String password = servletRequest.getParameter("pass");
         System.out.println("\n"+username+" "+password);
-       // UserDao userDao=new UserDao();
-        if(username.equals("ioanap")&& password.equals("1234")){
-        //if (userDao.login(username,password)) {
+        UserDao userDao=new UserDao();
+        //if(username.equals("ioanap")&& password.equals("1234")){
+       if (userDao.login(username,password)) {
             filterChain.doFilter(servletRequest, servletResponse);
 
         } else {

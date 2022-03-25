@@ -11,6 +11,7 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <packaging>war</packaging>
     </properties>
     <dependencies>
         <dependency>
@@ -56,6 +57,7 @@
     </dependencies>
     <build>
     <finalName>week3</finalName>
+
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
         <plugins>
             <plugin>
