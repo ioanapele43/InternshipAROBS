@@ -15,6 +15,7 @@
       <module name="week2" target="17" />
       <module name="week2var2" target="1.7" />
       <module name="week3" target="17" />
+      <module name="week3Login" target="6" />
     </bytecodeTargetLevel>
   </component>
 </project>

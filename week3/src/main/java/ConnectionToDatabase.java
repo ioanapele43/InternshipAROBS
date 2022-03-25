@@ -1,10 +1,17 @@
+import connection.BasicConnection;
+import connection.HikariConnection;
+
 import java.sql.*;
 
 public class ConnectionToDatabase {
     Connection connection = null;
+    BasicConnection basicConnection=new BasicConnection("jdbc:mysql://localhost:3306/arobs-internship", "student", "pele",3);
+    HikariConnection hikariConnection=new HikariConnection("jdbc:mysql://localhost:3306/arobs-internship", "student", "pele",3);
     public void seeShowsTable(){
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/arobs-internship", "student", "pele");
+            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/arobs-internship", "student", "pele");
+           // connection= basicConnection.getConnection();
+            connection= hikariConnection.getConnection();
             if (connection != null) {
                 System.out.println("Connection ok. select");
                 Statement statement = connection.createStatement();
@@ -26,11 +33,17 @@ public class ConnectionToDatabase {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            //basicConnection.releaseConnection(connection);
             try {
-                connection.close();
+                hikariConnection.releaseConnection(connection);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+           /* try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }*/
         }
     }
     public void insertShowsTable(){
