@@ -16,10 +16,16 @@ public class UserController {
         System.out.println("id : "+id);
         return userService.getMessage();
     }*/
-   @GetMapping("/user")
+   @GetMapping("/u")
    public String helloSpring(){
 
        return userService.getMessage();
+   }
+   @GetMapping("/user")
+    public String getUserFromURL(@RequestParam String firstName,@RequestParam String lastName){
+       System.out.println(" first name: "+firstName+" and last name: "+lastName);
+       return " first name: "+firstName+" <br> and<br> last name: "+lastName+" ";
+
    }
    /* @PostMapping
     public String post(@RequestBody User user){
