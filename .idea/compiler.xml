@@ -9,13 +9,16 @@
         <module name="week2var2" />
         <module name="week2" />
         <module name="week3" />
+        <module name="week4" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="musify" target="17" />
       <module name="week2" target="17" />
       <module name="week2var2" target="1.7" />
       <module name="week3" target="17" />
       <module name="week3Login" target="6" />
+      <module name="week4" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
