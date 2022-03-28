@@ -7,13 +7,14 @@ public class User {
     private String password;
     private String country;
     private String role;
-    public User(String firstName,String lastName,String email,String password,String country,String role){
-        this.firstName=firstName;
-        this.lastName=lastName;
-        this.email=email;
-        this.password=password;
-        this.country=country;
-        this.role=role;
+
+    public User(String firstName, String lastName, String email, String password, String country, String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.country = country;
+        this.role = role;
     }
 
     public String getFirstName() {
