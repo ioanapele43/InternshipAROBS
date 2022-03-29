@@ -37,6 +37,8 @@ public class UserRepository {
     }
 
     public List<User> getUserById(int id) {
+       // User u=null;
+        // return jdbcTemplate.queryForObject("Select * from users where idusers=?;", new Object[]{id},User.class);
         return jdbcTemplate.query("Select * from users where idusers=?;", new Object[]{id},
                 (rs, rowNum) ->
                         new User(

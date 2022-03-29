@@ -53,6 +53,7 @@ public class UserController {
     public String getUserById(@RequestParam int id) {
         userRepository = new UserRepository(dataSource);
         List<User> users = userRepository.getUserById(id);
+       // User u=userRepository.getUserById(id);
         AtomicReference<String> s = new AtomicReference<>("");
         users.forEach(u -> {
             System.out.println(u.getFirstName() + " " + u.getLastName() + " " + u.getEmail() + " " + u.getPassword() + " " + u.getCountry() + " " + u.getRole());
