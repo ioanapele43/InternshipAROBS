@@ -15,13 +15,15 @@ import java.util.List;
 @Repository
 public class UserRepository {
     private JdbcTemplate jdbcTemplate;
-    public UserRepository(DataSource dataSource){
-        this.jdbcTemplate=new JdbcTemplate(dataSource);
+
+    public UserRepository(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
 
     }
-    public List<User> getALlUSers(){
 
-       return jdbcTemplate.query("Select * from users ;",
+    public List<User> getALlUSers() {
+
+        return jdbcTemplate.query("Select * from users ;",
                 (rs, rowNum) ->
                         new User(
                                 rs.getString("firstname"),
@@ -33,8 +35,9 @@ public class UserRepository {
                         ));
 
     }
-    public List<User> getUserById(int id){
-        return jdbcTemplate.query("Select * from users where idusers=?;",new Object[]{id},
+
+    public List<User> getUserById(int id) {
+        return jdbcTemplate.query("Select * from users where idusers=?;", new Object[]{id},
                 (rs, rowNum) ->
                         new User(
                                 rs.getString("firstname"),
@@ -46,13 +49,16 @@ public class UserRepository {
                         ));
 
     }
-    public void insertUser(User user){
-        jdbcTemplate.update("insert into users(firstname,lastname, email, password,country,role) values (?,?,?,?,?,?);",user.getFirstName(),user.getLastName(),user.getEmail(),user.getPassword(),user.getCountry(),user.getRole());
+
+    public void insertUser(User user) {
+        jdbcTemplate.update("insert into users(firstname,lastname, email, password,country,role) values (?,?,?,?,?,?);", user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getCountry(), user.getRole());
     }
-    public void updateUser(User user){
-        jdbcTemplate.update("update users set firstname=?, lastname=?,password=?,country=?,role=? where email=?;",user.getFirstName(),user.getLastName(),user.getPassword(),user.getCountry(),user.getRole(),user.getEmail());
+
+    public void updateUser(User user) {
+        jdbcTemplate.update("update users set firstname=?, lastname=?,password=?,country=?,role=? where email=?;", user.getFirstName(), user.getLastName(), user.getPassword(), user.getCountry(), user.getRole(), user.getEmail());
     }
-    public void deleteUser(User user){
-        jdbcTemplate.update("delete from users where email=?;",user.getEmail());
+
+    public void deleteUser(User user) {
+        jdbcTemplate.update("delete from users where email=?;", user.getEmail());
     }
 }
