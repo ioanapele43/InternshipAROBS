@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     public String getMessage(){
-        return "hello spring";
+        return "hello from user service";
     }
 }
