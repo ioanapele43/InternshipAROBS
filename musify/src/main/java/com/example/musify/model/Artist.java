@@ -3,6 +3,7 @@ package com.example.musify.model;
 import java.sql.Date;
 
 public class Artist {
+    private int id;
     private Date startDate;
     private Date endDate;
 

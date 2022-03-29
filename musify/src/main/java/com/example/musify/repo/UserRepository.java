@@ -25,7 +25,7 @@ public class UserRepository {
 
         return jdbcTemplate.query("Select * from users ;",
                 (rs, rowNum) ->
-                        new User(
+                        new User(rs.getInt("idusers"),
                                 rs.getString("firstname"),
                                 rs.getString("lastname"),
                                 rs.getString("email"),
@@ -41,7 +41,7 @@ public class UserRepository {
         // return jdbcTemplate.queryForObject("Select * from users where idusers=?;", new Object[]{id},User.class);
         return jdbcTemplate.query("Select * from users where idusers=?;", new Object[]{id},
                 (rs, rowNum) ->
-                        new User(
+                        new User(rs.getInt("idusers"),
                                 rs.getString("firstname"),
                                 rs.getString("lastname"),
                                 rs.getString("email"),
@@ -57,10 +57,10 @@ public class UserRepository {
     }
 
     public void updateUser(User user) {
-        jdbcTemplate.update("update users set firstname=?, lastname=?,password=?,country=?,role=? where email=?;", user.getFirstName(), user.getLastName(), user.getPassword(), user.getCountry(), user.getRole(), user.getEmail());
+        jdbcTemplate.update("update users set firstname=?, lastname=?,password=?,country=?,role=?,email=? where idusers=?;", user.getFirstName(), user.getLastName(), user.getPassword(), user.getCountry(), user.getRole(), user.getEmail(),user.getId());
     }
 
     public void deleteUser(User user) {
-        jdbcTemplate.update("delete from users where email=?;", user.getEmail());
+        jdbcTemplate.update("delete from users where idusers=?;", user.getId());
     }
 }

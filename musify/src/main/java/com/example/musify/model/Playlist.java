@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 public class Playlist {
+    private int id;
     private User owner;
     private String type;
     private Date createdDate;

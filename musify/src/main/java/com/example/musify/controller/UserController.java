@@ -63,10 +63,10 @@ public class UserController {
     }
 
     @GetMapping("/insertUser")
-    public String insertUser(@RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
+    public String insertUser(@RequestParam int id, @RequestParam String firstname,@RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
         userRepository = new UserRepository(dataSource);
         try {
-            userRepository.insertUser(new User(firstname, lastname, email, password, country, role));
+            userRepository.insertUser(new User(id,firstname, lastname, email, password, country, role));
         } catch (Exception e) {
             System.out.println("exista deja");
         }
@@ -81,10 +81,10 @@ public class UserController {
     }
 
     @GetMapping("/updateUser")
-    public String updateUser(@RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
+    public String updateUser(@RequestParam int id,@RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
         userRepository = new UserRepository(dataSource);
         try {
-            userRepository.updateUser(new User(firstname, lastname, email, password, country, role));
+            userRepository.updateUser(new User(id,firstname, lastname, email, password, country, role));
         } catch (Exception e) {
         }
         List<User> users = userRepository.getALlUSers();
@@ -98,10 +98,10 @@ public class UserController {
     }
 
     @GetMapping("/deleteUser")
-    public String deleteUser(@RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
+    public String deleteUser(@RequestParam int id,@RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
         userRepository = new UserRepository(dataSource);
         try {
-            userRepository.deleteUser(new User(firstname, lastname, email, password, country, role));
+            userRepository.deleteUser(new User(id,firstname, lastname, email, password, country, role));
         } catch (Exception e) {
         }
         List<User> users = userRepository.getALlUSers();

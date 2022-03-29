@@ -3,6 +3,7 @@ package com.example.musify.model;
 import java.sql.Date;
 
 public class Person extends Artist {
+    private int idPerson;
     private String firstname;
     private String lastname;
     private String stagename;

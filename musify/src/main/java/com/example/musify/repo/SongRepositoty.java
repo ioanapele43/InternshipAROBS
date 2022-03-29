@@ -13,5 +13,5 @@ public class SongRepositoty {
     public SongRepositoty(DataSource dataSource){
         this.jdbcTemplate=new JdbcTemplate(dataSource);
     }
-   
+
 }

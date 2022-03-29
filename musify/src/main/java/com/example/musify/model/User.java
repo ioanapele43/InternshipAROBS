@@ -1,6 +1,7 @@
 package com.example.musify.model;
 
 public class User {
+    private int id;
     private String firstName;
     private String lastName;
     private String email;
@@ -8,7 +9,8 @@ public class User {
     private String country;
     private String role;
 
-    public User(String firstName, String lastName, String email, String password, String country, String role) {
+    public User(int id,String firstName, String lastName, String email, String password, String country, String role) {
+        this.id=id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -63,5 +65,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

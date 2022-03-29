@@ -5,6 +5,7 @@ import java.sql.Time;
 import java.util.List;
 
 public class Song {
+    private int id;
     private String title;
     private String alternativeTitle;
     private List<Artist> contributorArtist;

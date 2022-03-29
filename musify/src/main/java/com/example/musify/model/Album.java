@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 public class Album {
+    private int id;
     private String title;
     private String description;
     private String genre;
