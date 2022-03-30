@@ -1,12 +1,20 @@
 package com.example.musify.controller;
 
+import com.example.musify.dto.UserDTO;
+import com.example.musify.dto.UserViewDTO;
 import com.example.musify.model.User;
 import com.example.musify.repo.UserRepository;
 import com.example.musify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.sql.DataSource;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -112,6 +120,20 @@ public class UserController {
         });
         return s.get();
         //localhost:8080/deleteUser?firstname=bb&lastname=bb&email=bb&password=1234&country=romania&role=regular
+    }
+    @GetMapping("/{id}")
+    public UserViewDTO getUser(@PathVariable int id){
+        try{
+            return userService.getUser(id);
+        }
+        catch(Exception e){
+            return null;
+        }
+
+    }
+    @PostMapping("/saveu")
+    public UserViewDTO saveUSer(@RequestBody UserDTO userDTO) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        return userService.saveUser(userDTO);
     }
    /* @PostMapping
     public String post(@RequestBody User user){

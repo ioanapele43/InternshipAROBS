@@ -25,9 +25,9 @@ public class UserRepository {
 
         return jdbcTemplate.query("Select * from users ;",
                 (rs, rowNum) ->
-                        new User(rs.getInt("idusers"),
-                                rs.getString("firstname"),
-                                rs.getString("lastname"),
+                        new User(rs.getInt("id"),
+                                rs.getString("first_name"),
+                                rs.getString("last_name"),
                                 rs.getString("email"),
                                 rs.getString("password"),
                                 rs.getString("country"),
@@ -39,11 +39,11 @@ public class UserRepository {
     public List<User> getUserById(int id) {
        // User u=null;
         // return jdbcTemplate.queryForObject("Select * from users where idusers=?;", new Object[]{id},User.class);
-        return jdbcTemplate.query("Select * from users where idusers=?;", new Object[]{id},
+        return jdbcTemplate.query("Select * from users where id=?;", new Object[]{id},
                 (rs, rowNum) ->
-                        new User(rs.getInt("idusers"),
-                                rs.getString("firstname"),
-                                rs.getString("lastname"),
+                        new User(rs.getInt("id"),
+                                rs.getString("first_name"),
+                                rs.getString("last_name"),
                                 rs.getString("email"),
                                 rs.getString("password"),
                                 rs.getString("country"),
@@ -53,14 +53,14 @@ public class UserRepository {
     }
 
     public void insertUser(User user) {
-        jdbcTemplate.update("insert into users(firstname,lastname, email, password,country,role) values (?,?,?,?,?,?);", user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getCountry(), user.getRole());
+        jdbcTemplate.update("insert into users(first_name,last_name, email, password,country,role) values (?,?,?,?,?,?);", user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getCountry(), user.getRole());
     }
 
     public void updateUser(User user) {
-        jdbcTemplate.update("update users set firstname=?, lastname=?,password=?,country=?,role=?,email=? where idusers=?;", user.getFirstName(), user.getLastName(), user.getPassword(), user.getCountry(), user.getRole(), user.getEmail(),user.getId());
+        jdbcTemplate.update("update users set first_name=?, last_name=?,password=?,country=?,role=?,email=? where id=?;", user.getFirstName(), user.getLastName(), user.getPassword(), user.getCountry(), user.getRole(), user.getEmail(),user.getId());
     }
 
     public void deleteUser(User user) {
-        jdbcTemplate.update("delete from users where idusers=?;", user.getId());
+        jdbcTemplate.update("delete from users where id=?;", user.getId());
     }
 }
