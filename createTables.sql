@@ -122,3 +122,20 @@ CREATE TABLE `album-artist` (
   CONSTRAINT `album` FOREIGN KEY (`album_id`) REFERENCES `albums` (`id`),
   CONSTRAINT `artistid` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`id`)
 );
+CREATE TABLE `musify`.`followed_playlists_by_user` (
+  `id` INT NOT NULL,
+  `user_id` INT NULL,
+  `playlist_id` INT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `user_who_is_following_idx` (`user_id` ASC) VISIBLE,
+  INDEX `playlist_followed_idx` (`playlist_id` ASC) VISIBLE,
+  CONSTRAINT `user_who_is_following`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `musify`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `playlist_followed`
+    FOREIGN KEY (`playlist_id`)
+    REFERENCES `musify`.`playlists` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
