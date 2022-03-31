@@ -8,13 +8,8 @@ import com.example.musify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.sql.DataSource;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -132,9 +127,23 @@ public class UserController {
 
     }
     @PostMapping("/saveu")
-    public UserViewDTO saveUSer(@RequestBody UserDTO userDTO) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    public UserViewDTO saveUSer(@RequestBody UserDTO userDTO)  {
         return userService.saveUser(userDTO);
     }
+
+    @GetMapping("/getUserDto")
+    public UserDTO getUserDto(@RequestParam int id) {
+        return userService.getUserDto(id);
+    }
+    @GetMapping("/Login")
+    public UserViewDTO login(@RequestParam String email, @RequestParam String password){
+        return userService.login(email, password);
+    }
+    @PostMapping("/Register")
+    public UserViewDTO registerUser(@RequestBody @Valid  UserDTO userDTO)  {
+        return userService.register(userDTO);
+    }
+
    /* @PostMapping
     public String post(@RequestBody User user){
         System.out.println("");

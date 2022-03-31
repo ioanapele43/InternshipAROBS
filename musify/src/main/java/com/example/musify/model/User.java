@@ -1,5 +1,8 @@
 package com.example.musify.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class User {
     private int id;
     private String firstName;
