@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.sql.DataSource;
 
 @RestController
-public class PlatylistController {
+public class PlaylistController {
     @Autowired
     private PlaylistRepository playlistRepository;
     @Autowired
