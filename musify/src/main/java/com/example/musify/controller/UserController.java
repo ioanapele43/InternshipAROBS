@@ -4,8 +4,12 @@ import com.example.musify.dto.UserDTO;
 import com.example.musify.dto.UserViewDTO;
 import com.example.musify.model.User;
 import com.example.musify.repo.UserRepository;
+import com.example.musify.security.JwtAuthorizationFilter;
+import com.example.musify.security.JwtUtils;
 import com.example.musify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
@@ -135,15 +139,26 @@ public class UserController {
     public UserDTO getUserDto(@RequestParam int id) {
         return userService.getUserDto(id);
     }
-    @GetMapping("/Login")
-    public UserViewDTO login(@RequestParam String email, @RequestParam String password){
-        return userService.login(email, password);
+    @PostMapping("/Login")
+    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password){
+        String token= userService.login(email, password);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
+    /*public UserViewDTO login(@RequestParam String email, @RequestParam String password){
+        return userService.login(email, password);
+    }*/
     @PostMapping("/Register")
     public UserViewDTO registerUser(@RequestBody @Valid  UserDTO userDTO)  {
         return userService.register(userDTO);
     }
-
+    @GetMapping("/JustAdmin")
+    public String justAdmin(){
+        return userService.justAdmin();
+    }
+    /*@PostMapping("/logout")
+    public void logout(@RequestParam String token){
+        JwtUtils.invalidateToken(token);
+    }*/
    /* @PostMapping
     public String post(@RequestBody User user){
         System.out.println("");

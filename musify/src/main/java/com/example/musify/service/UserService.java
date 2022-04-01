@@ -2,8 +2,10 @@ package com.example.musify.service;
 
 import com.example.musify.dto.UserDTO;
 import com.example.musify.dto.UserViewDTO;
+import com.example.musify.exception.UnauthorizedException;
 import com.example.musify.model.User;
 import com.example.musify.repo.UserRepository;
+import com.example.musify.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,15 +46,38 @@ public class UserService {
         userRepository.insertUser(user);
         return userMapper.toViewDto(user);
     }
-    public UserViewDTO login(String email, String password){
+    /*public UserViewDTO login(String email, String password){
         User user=null;
         if(userRepository.getUserByEmailPassword(email,password).size()>0) {
             user = userRepository.getUserByEmailPassword(email, password).get(0);
         }
         return userMapper.toViewDto(user);
+    }*/
+    public String login(String email,String password){
+        User user=null;
+        if(userRepository.getUserByEmail(email).size()>0){
+            user=userRepository.getUserByEmail(email).get(0);
+        }
+        if(user==null || !password.equals(user.getPassword())){
+            throw new UnauthorizedException("Email or password invalid");
+        }
+        return JwtUtils.generateToken(user.getId(),user.getEmail(),user.getRole());
+
     }
     public UserViewDTO register(UserDTO userDTO){
         return saveUser(userDTO);
+    }
+    public void logout(String token){
+        JwtUtils.invalidateToken(token);
+    }
+    public String justAdmin(){
+        String role=JwtUtils.getCurrentUserRole();
+        if(role.equals("admin")){
+            return "Welcome admin";
+        }
+        else{
+            throw new UnauthorizedException("you're not admin");
+        }
     }
     //https://www.baeldung.com/java-aes-encryption-decryption
     /*
