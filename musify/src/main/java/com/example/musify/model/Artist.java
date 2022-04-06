@@ -5,8 +5,9 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
-@Entity
+@Entity(name="person")
 @Table(name = "person")
+@NamedQuery(name="Artist.findByArtistId",query = "select a from ArtistEntity a where a.id=artistId")
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

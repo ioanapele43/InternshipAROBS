@@ -9,13 +9,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @SpringBootApplication
 @ComponentScan("com.example.musify")
+
 public class MusifyApplication {
 	//asa parametrizam aplicatia
 
@@ -43,6 +47,7 @@ public class MusifyApplication {
 								)
 				);
 	}
+
 
 
 }

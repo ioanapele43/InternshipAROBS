@@ -10,5 +10,16 @@
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">pele</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <mapping class="com.example.musify.model.Artist"/>
+        <mapping class="com.example.musify.model.Album"/>
+        <mapping class="com.example.musify.model.AlbumArtist"/>
+        <mapping class="com.example.musify.model.AlbumSong"/>
+        <mapping class="com.example.musify.model.AlternativeTitles"/>
+        <mapping class="com.example.musify.model.Band"/>
+        <mapping class="com.example.musify.model.Playlist"/>
+        <mapping class="com.example.musify.model.PlaylistSong"/>
+        <mapping class="com.example.musify.model.Song"/>
+        <mapping class="com.example.musify.model.SongArtist"/>
+        <mapping class="com.example.musify.model.User"/>
     </session-factory>
 </hibernate-configuration>
