@@ -24,26 +24,11 @@ public class Album {
     @Column(name="label")
     private String label;
 
-    @ManyToMany
-    @JoinTable(
-            name="song-album",
-            joinColumns ={ @JoinColumn(name="album_id")},
-            inverseJoinColumns ={ @JoinColumn(name="song_id")}
-    )
-    private Set<Song> songsFromTheAlbum;
+    @OneToMany(mappedBy ="albumId")
+    private List<AlbumSong> songs;
 
-    @ManyToMany
-    @JoinTable(name = "albums_song-album",
-            joinColumns = @JoinColumn(name = "album_id", referencedColumnName = "song-album_id"))
-    private List<Song> song_id = new ArrayList<>();
-
-    public List<Song> getSong_id() {
-        return song_id;
-    }
-
-    public void setSong_id(List<Song> song_id) {
-        this.song_id = song_id;
-    }
+    @OneToMany(mappedBy = "albumId")
+    private List<AlbumArtist> albumArtist;
 
     public Album() {
     }

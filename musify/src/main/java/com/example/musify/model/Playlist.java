@@ -1,30 +1,42 @@
 package com.example.musify.model;
 
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
+@Entity
+@Table(name="playlists")
 public class Playlist {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
-    private User owner;
+    @Column(name="type")
     private String type;
+    @Column(name="created_date")
     private Date createdDate;
+    @Column(name="last_update_date")
     private Date lastUpdatedate;
-    private List<Song> songs;
 
-    public Playlist(User owner, String type, Date createdDate, Date lastUpdatedate, List<Song> songs) {
-        this.owner = owner;
+    @ManyToMany
+    @JoinTable(
+            name="followed_playlists_by_user",
+            joinColumns ={ @JoinColumn(name="playlist_id")},
+            inverseJoinColumns ={ @JoinColumn(name="user_id")}
+    )
+    private Set<User> usersWhoFollows;
+
+    @OneToMany(mappedBy ="playlistId")
+    private List<PlaylistSong> songs;
+
+    public Playlist() {
+    }
+
+    public Playlist( String type, Date createdDate, Date lastUpdatedate) {
         this.type = type;
         this.createdDate = createdDate;
         this.lastUpdatedate = lastUpdatedate;
-        this.songs = songs;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
     }
 
     public String getType() {
@@ -51,11 +63,5 @@ public class Playlist {
         this.lastUpdatedate = lastUpdatedate;
     }
 
-    public List<Song> getSongs() {
-        return songs;
-    }
 
-    public void setSongs(List<Song> songs) {
-        this.songs = songs;
-    }
 }

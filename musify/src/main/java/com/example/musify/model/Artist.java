@@ -2,11 +2,12 @@ package com.example.musify.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "person")
-public class Person {
+public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -27,10 +28,16 @@ public class Person {
     @ManyToMany(mappedBy = "members")
     private Set<Band> bands;
 
-    public Person() {
+    @OneToMany(mappedBy = "artistId")
+    private List<SongArtist> songArtist;
+
+    @OneToMany(mappedBy = "artistId")
+    private List<AlbumArtist> albumArtist;
+
+    public Artist() {
     }
 
-    public Person(String firstname, String lastname, String stagename, Date birthday, Date startDate, Date endDate) {
+    public Artist(String firstname, String lastname, String stagename, Date birthday, Date startDate, Date endDate) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.stagename = stagename;

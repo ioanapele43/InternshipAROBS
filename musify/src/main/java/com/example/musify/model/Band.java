@@ -2,7 +2,6 @@ package com.example.musify.model;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +27,13 @@ public class Band  {
             joinColumns = @JoinColumn(name="band_id"),
             inverseJoinColumns = @JoinColumn(name="person_id")
     )
-    private Set<Person> members;
+    private Set<Artist> members;
+
+    @OneToMany(mappedBy = "artistId")
+    private List<SongArtist> songArtist;
+
+    @OneToMany(mappedBy = "artistId")
+    private List<AlbumArtist> albumArtist;
 
     public Band() {
     }
@@ -81,11 +86,11 @@ public class Band  {
         this.activityEndDate = activityEndDate;
     }
 
-    public Set<Person> getMembers() {
+    public Set<Artist> getMembers() {
         return members;
     }
 
-    public void setMembers(Set<Person> members) {
+    public void setMembers(Set<Artist> members) {
         this.members = members;
     }
 

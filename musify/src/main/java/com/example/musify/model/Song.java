@@ -20,10 +20,18 @@ public class Song {
     @Column(name="creation_date")
     private Date creationDate;
 
-    @ManyToMany(mappedBy = "songsFromTheAlbum")
-    private Set<Album> albums;
 
+    @OneToMany
+    private List<AlternativeTitles> alternativeTitles;
 
+    @OneToMany(mappedBy = "songId")
+    private  List<SongArtist> songArtists;
+
+    @OneToMany(mappedBy ="songId")
+    private List<AlbumSong> albumWhereIsAdded;
+
+    @OneToMany(mappedBy ="songId")
+    private List<PlaylistSong> playlistsWhereIsAdded;
 
     public Song() {
     }

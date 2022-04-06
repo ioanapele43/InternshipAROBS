@@ -3,6 +3,8 @@ package com.example.musify.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -28,6 +30,12 @@ public class User {
 
     @Column(name="role")
     private String role;
+
+    @OneToMany
+    private List<Playlist> playlistsCreated;
+
+    @ManyToMany(mappedBy = "usersWhoFollows")
+    private List<Playlist> playlistsFollowed;
 
     public User() {
     }
