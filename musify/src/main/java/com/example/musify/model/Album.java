@@ -1,16 +1,52 @@
 package com.example.musify.model;
 
+import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+@Entity
+@Table(name="albums")
 public class Album {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
+    @Column(name="title")
     private String title;
+    @Column(name="description")
     private String description;
+    @Column(name="genre")
     private String genre;
+    @Column(name="release_date")
     private Date releaseDate;
+    @Column(name="label")
     private String label;
-    private List<Song> songs;
+
+    @ManyToMany
+    @JoinTable(
+            name="song-album",
+            joinColumns ={ @JoinColumn(name="album_id")},
+            inverseJoinColumns ={ @JoinColumn(name="song_id")}
+    )
+    private Set<Song> songsFromTheAlbum;
+
+    @ManyToMany
+    @JoinTable(name = "albums_song-album",
+            joinColumns = @JoinColumn(name = "album_id", referencedColumnName = "song-album_id"))
+    private List<Song> song_id = new ArrayList<>();
+
+    public List<Song> getSong_id() {
+        return song_id;
+    }
+
+    public void setSong_id(List<Song> song_id) {
+        this.song_id = song_id;
+    }
+
+    public Album() {
+    }
 
     public Album(String title, String description, String genre, Date releaseDate, String label, List<Song> songs) {
         this.title = title;
@@ -18,7 +54,7 @@ public class Album {
         this.genre = genre;
         this.releaseDate = releaseDate;
         this.label = label;
-        this.songs = songs;
+
     }
 
     public String getTitle() {
@@ -61,11 +97,4 @@ public class Album {
         this.label = label;
     }
 
-    public List<Song> getSongs() {
-        return songs;
-    }
-
-    public void setSongs(List<Song> songs) {
-        this.songs = songs;
-    }
 }

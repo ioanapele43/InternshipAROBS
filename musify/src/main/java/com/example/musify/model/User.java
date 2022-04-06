@@ -1,18 +1,38 @@
 package com.example.musify.model;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
+
+    @Column(name="first_name")
     private String firstName;
+
+    @Column(name="last_name")
     private String lastName;
+
+    @Column(name="email",unique = true)
     private String email;
+
+    @Column(name="password")
     private String password;
+
+    @Column(name="country")
     private String country;
+
+    @Column(name="role")
     private String role;
 
-    public User(int id,String firstName, String lastName, String email, String password, String country, String role) {
+    public User() {
+    }
+
+    public User(int id, String firstName, String lastName, String email, String password, String country, String role) {
         this.id=id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -81,4 +101,5 @@ public class User {
     public String composeFullName() {
         return firstName+" "+lastName;
     }
+
 }
