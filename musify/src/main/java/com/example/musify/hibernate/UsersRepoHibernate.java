@@ -128,7 +128,7 @@ public class UsersRepoHibernate {
         }*/
         //User user=urh.getUserById(1);
         //System.out.println(user.getFirstName());
-        User user=new User(9,"try","skadhak","askdkasld","bjbk","knknk","klnjk");
+        User user=new User(10,"try","skadhak","vhvhd","bjbk","knknk","klnjk");
         urh.addUser(user);
         //urh.updateUser(user);
         //urh.deleteUser(user);

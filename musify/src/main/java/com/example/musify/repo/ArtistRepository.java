@@ -1,14 +1,11 @@
 package com.example.musify.repo;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import com.example.musify.model.Artist;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-
 @Repository
-public class ArtistRepository {
-    private JdbcTemplate jdbcTemplate;
-    public ArtistRepository(DataSource dataSource){
-        this.jdbcTemplate= new JdbcTemplate(dataSource);
-    }
+public interface ArtistRepository extends JpaRepository<Artist,Integer> {
+
 }
