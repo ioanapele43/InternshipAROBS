@@ -4,29 +4,17 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
-@Component
+
 public class JwtUtils {
-    private final Logger log= LoggerFactory.getLogger(JwtUtils.class);
-    private static final String issuer="musify";
-    @Value("${jwt.secret:INTERNAROBS}")
-    private String signatureSecret ;
+    private static String signatureSecret = "myMusifyApp2022";
+    private static String issuer = "musify";
     private static List<String> blacklistTokens=new ArrayList<String>();
 
-    @PostConstruct
-    public void init(){
-        log.info("Secret: {}",signatureSecret);
-    }
-
-    public String generateToken(int id, String email, String role) {
+    public static String generateToken(int id, String email, String role) {
         Algorithm algorithm = Algorithm.HMAC256(signatureSecret);
 
         Calendar c = Calendar.getInstance();
@@ -46,7 +34,7 @@ public class JwtUtils {
                 .sign(algorithm);
     }
 
-    public Map<String, Object> validateToken(String jwtToken) {
+    public static Map<String, Object> validateToken(String jwtToken) {
         Algorithm algorithm = Algorithm.HMAC256(signatureSecret);
 
         JWTVerifier verifier = JWT.require(algorithm)
@@ -66,14 +54,14 @@ public class JwtUtils {
 
         return userInfo;
     }
-    public  void invalidateToken(String jwtToken){
+    public static void invalidateToken(String jwtToken){
         //add to blacklist
         blacklistTokens.add(jwtToken);
     }
-    public boolean isBlackListed(String token){
+    public static boolean isBlackListed(String token){
         return blacklistTokens.contains(token);
     }
-    public Integer getCurrentUserId() {
+    public static Integer getCurrentUserId() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof Map) {
@@ -83,7 +71,7 @@ public class JwtUtils {
         throw new RuntimeException("Something went wrong!");
     }
 
-    public  String getCurrentUserEmail() {
+    public static String getCurrentUserEmail() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof Map) {
@@ -93,7 +81,7 @@ public class JwtUtils {
         throw new RuntimeException("Something went wrong!");
     }
 
-    public String getCurrentUserRole() {
+    public static String getCurrentUserRole() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof Map) {

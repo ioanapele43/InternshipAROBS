@@ -7,10 +7,8 @@ import com.example.musify.model.User;
 import com.example.musify.repo.UserRepository;
 import com.example.musify.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.codec.Hex;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
 
 
 @Service
@@ -19,9 +17,6 @@ public class UserService {
     private UserMapper userMapper;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private JwtUtils jwtUtils;
-
 
 
     public String getMessage() {
@@ -48,7 +43,6 @@ public class UserService {
 
         User user = userMapper.toEntity(userDTO);
         //user.setPassword(encoder.encodeToString(user.getPassword().getBytes()));
-        user.setPassword(String.valueOf(Hex.encode(user.getPassword().getBytes())));
         userRepository.insertUser(user);
         return userMapper.toViewDto(user);
     }
@@ -64,21 +58,20 @@ public class UserService {
         if(userRepository.getUserByEmail(email).size()>0){
             user=userRepository.getUserByEmail(email).get(0);
         }
-        String encpass=String.valueOf(Hex.encode(password.getBytes()));
-        if(user==null || !encpass.equals(user.getPassword())){
+        if(user==null || !password.equals(user.getPassword())){
             throw new UnauthorizedException("Email or password invalid");
         }
-        return jwtUtils.generateToken(user.getId(),user.getEmail(),user.getRole());
+        return JwtUtils.generateToken(user.getId(),user.getEmail(),user.getRole());
 
     }
     public UserViewDTO register(UserDTO userDTO){
         return saveUser(userDTO);
     }
     public void logout(String token){
-        jwtUtils.invalidateToken(token);
+        JwtUtils.invalidateToken(token);
     }
     public String justAdmin(){
-        String role=jwtUtils.getCurrentUserRole();
+        String role=JwtUtils.getCurrentUserRole();
         if(role.equals("admin")){
             return "Welcome admin";
         }
@@ -86,7 +79,6 @@ public class UserService {
             throw new UnauthorizedException("you're not admin");
         }
     }
-
     //https://www.baeldung.com/java-aes-encryption-decryption
     /*
     public static String encrypt(String algorithm, String input, SecretKey key, IvParameterSpec iv) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {

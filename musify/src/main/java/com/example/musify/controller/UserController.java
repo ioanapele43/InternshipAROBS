@@ -25,8 +25,6 @@ public class UserController {
     private DataSource dataSource;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private JwtUtils jwtUtils;
 
     /* @GetMapping
      public String helloSpring(@RequestParam String id){
