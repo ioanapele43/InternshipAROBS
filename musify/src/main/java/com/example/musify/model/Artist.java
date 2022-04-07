@@ -5,9 +5,12 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
-@Entity(name="person")
-@Table(name = "person")
-@NamedQuery(name="Artist.findByArtistId",query = "select a from ArtistEntity a where a.id=artistId")
+@Entity
+@Table(name = "artist")
+@NamedQueries({
+        @NamedQuery(name = "findAllArtists", query = "from Artist"),
+        @NamedQuery(name = "findArtistById", query = "from Artist where id = :id")
+})
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +30,7 @@ public class Artist {
     private Date activityEndDate;
 
     @ManyToMany(mappedBy = "members")
-    private Set<Band> bands;
+    private Set<Band> bandMembers;
 
     @OneToMany(mappedBy = "artistId")
     private List<SongArtist> songArtist;
@@ -103,14 +106,7 @@ public class Artist {
         this.activityEndDate = activityEndDate;
     }
 
-    public Set<Band> getBands() {
-        return bands;
-    }
 
-
-    public void setBands(Set<Band> bands) {
-        this.bands = bands;
-    }
 
     @Override
     public String toString() {

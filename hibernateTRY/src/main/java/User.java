@@ -1,4 +1,3 @@
-package com.example.musify.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -7,6 +6,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@NamedQueries({
+        @NamedQuery(name = "findAllUsers", query = "from User"),
+        @NamedQuery(name = "findArtistById", query = "from Artist where id = :id")
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +34,6 @@ public class User {
     @Column(name="role")
     private String role;
 
-    @OneToMany
-    private List<Playlist> playlistsCreated;
-
-    @ManyToMany(mappedBy = "usersWhoFollows")
-    private List<Playlist> playlistsFollowed;
 
     public User() {
     }

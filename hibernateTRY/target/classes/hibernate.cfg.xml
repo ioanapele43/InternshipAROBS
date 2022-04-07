@@ -8,9 +8,8 @@
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/musify</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">pelex</property>
+        <property name="hibernate.connection.password">pele</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <mapping class="com.example.musify.model.Artist"/>
 
     </session-factory>
 </hibernate-configuration>

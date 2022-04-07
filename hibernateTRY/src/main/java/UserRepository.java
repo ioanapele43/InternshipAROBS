@@ -1,20 +1,17 @@
-package com.example.musify.hibernate;
-
-import com.example.musify.model.Artist;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
-public class ArtistRepositoryHibernate {
-    public List<Artist> getAllArtists() {
+public class UserRepository {
+    public List<User> getAllUsers() {
         Transaction transaction = null;
-        List<Artist> artists = null;
+        List<User> artists = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            Query<Artist> query = session.createNamedQuery("findAllArtists", Artist.class);
+            Query<User> query = session.createNamedQuery("findAllUsers", User.class);
             artists = query.getResultList();
 
             transaction.commit();
@@ -32,7 +29,8 @@ public class ArtistRepositoryHibernate {
     }
 
     public static void main(String[] args){
-        ArtistRepositoryHibernate aRH=new ArtistRepositoryHibernate();
-        aRH.getAllArtists();
+        UserRepository ur=new UserRepository();
+        ur.getAllUsers();
+
     }
 }
