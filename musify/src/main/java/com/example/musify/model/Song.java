@@ -24,14 +24,6 @@ public class Song {
     @OneToMany
     private List<AlternativeTitles> alternativeTitles;
 
-    @OneToMany(mappedBy = "songId")
-    private  List<SongArtist> songArtists;
-
-    @OneToMany(mappedBy ="songId")
-    private List<AlbumSong> albumWhereIsAdded;
-
-    @OneToMany(mappedBy ="songId")
-    private List<PlaylistSong> playlistsWhereIsAdded;
 
     public Song() {
     }

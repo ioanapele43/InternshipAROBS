@@ -24,11 +24,7 @@ public class Album {
     @Column(name="label")
     private String label;
 
-    @OneToMany(mappedBy ="albumId")
-    private List<AlbumSong> songs;
 
-    @OneToMany(mappedBy = "albumId")
-    private List<AlbumArtist> albumArtist;
 
     public Album() {
     }

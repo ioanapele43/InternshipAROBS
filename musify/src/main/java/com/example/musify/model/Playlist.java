@@ -27,8 +27,7 @@ public class Playlist {
     )
     private Set<User> usersWhoFollows;
 
-    @OneToMany(mappedBy ="playlistId")
-    private List<PlaylistSong> songs;
+
 
     public Playlist() {
     }
