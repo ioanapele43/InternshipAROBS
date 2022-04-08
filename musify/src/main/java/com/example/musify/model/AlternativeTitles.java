@@ -6,25 +6,25 @@ import javax.persistence.*;
 @Table(name="alternative_titles")
 public class AlternativeTitles {
     @Id
-    @Column(name="song_id")
-    private int song_id;
+    @Column(name="id")
+    private Integer id;
     @Column(name="alternative_title")
     private String alternativeTitle;
 
     public AlternativeTitles() {
     }
 
-    public AlternativeTitles(int song_id, String alternativeTitle) {
-        this.song_id = song_id;
+    public AlternativeTitles(Integer id, String alternativeTitle) {
+        this.id = id;
         this.alternativeTitle = alternativeTitle;
     }
 
-    public int getSong_id() {
-        return song_id;
+    public Integer getSong_id() {
+        return id;
     }
 
     public void setSong_id(int song_id) {
-        this.song_id = song_id;
+        this.id = song_id;
     }
 
     public String getAlternativeTitle() {

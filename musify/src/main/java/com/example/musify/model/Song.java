@@ -12,7 +12,7 @@ public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Integer id;
     @Column(name="title")
     private String title;
     @Column(name="duration")
@@ -24,6 +24,14 @@ public class Song {
     @OneToMany
     private List<AlternativeTitles> alternativeTitles;
 
+    /*@OneToMany(mappedBy = "songId")
+    private  List<SongArtist> songArtists;*/
+
+    /* @OneToMany(mappedBy ="songId")
+    private List<AlbumSong> albumWhereIsAdded;
+
+    @OneToMany(mappedBy ="songId")
+    private List<PlaylistSong> playlistsWhereIsAdded;*/
 
     public Song() {
     }

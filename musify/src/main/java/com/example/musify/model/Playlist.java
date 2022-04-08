@@ -11,7 +11,7 @@ public class Playlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Integer id;
     @Column(name="type")
     private String type;
     @Column(name="created_date")
@@ -27,7 +27,8 @@ public class Playlist {
     )
     private Set<User> usersWhoFollows;
 
-
+/*    @OneToMany(mappedBy ="playlistId")
+    private List<PlaylistSong> songs;*/
 
     public Playlist() {
     }

@@ -1,65 +1,65 @@
 package com.example.musify.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "band")
-public class Band {
+@Table(name="band")
+public class Band  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
-    @Column(name = "band_name")
-    private String name;
-    @Column(name = "location")
+    @Column(name="id")
+    private Integer id;
+    @Column(name="band_name")
+    private String bandname;
+    @Column(name="location")
     private String location;
-    @Column(name = "activity_start_date")
-    private String activityStartDate;
-    @Column(name = "activity_end_date")
-    private String activityEndDate;
+    @Column(name="activity_start_date")
+    private Date acritivtyStartDate;
+    @Column(name="activity_end_date")
+    private Date activityEndDate;
 
-    @ManyToMany(mappedBy = "bands")
-    private Set<Artist> artists = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name="members",
+            joinColumns = @JoinColumn(name="band_id"),
+            inverseJoinColumns = @JoinColumn(name="person_id")
+    )
+    private Set<Artist> members;
 
-    //, fetch = FetchType.LAZY
+    /*@OneToMany(mappedBy = "artistId")
+    private List<SongArtist> songArtist;*/
+
+    /*@OneToMany(mappedBy = "artistId")
+    private List<AlbumArtist> albumArtist;*/
+
     public Band() {
     }
 
-    public Band(int id, String name, String location, String activityStartDate, String activityEndDate) {
-        this.id = id;
-        this.name = name;
+    public Band(Integer idBand, String bandname, String location, Date startDate, Date endDate) {
+        this.id = idBand;
+        this.bandname = bandname;
         this.location = location;
-        this.activityStartDate = activityStartDate;
-        this.activityEndDate = activityEndDate;
+        this.acritivtyStartDate=startDate;
+        this.activityEndDate=endDate;
     }
 
-    public Band(int id, String name, String location, String activityStartDate, String activityEndDate, Set<Artist> artists) {
-        this.id = id;
-        this.name = name;
-        this.location = location;
-        this.activityStartDate = activityStartDate;
-        this.activityEndDate = activityEndDate;
-        this.artists = artists;
-    }
-
-    public int getId() {
+    public int getIdBand() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdBand(int idBand) {
+        this.id = idBand;
     }
 
-    public String getName() {
-        return name;
+    public String getBandname() {
+        return bandname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBandname(String bandname) {
+        this.bandname = bandname;
     }
 
     public String getLocation() {
@@ -70,44 +70,38 @@ public class Band {
         this.location = location;
     }
 
-    public String getActivityStartDate() {
-        return activityStartDate;
+    public Date getAcritivtyStartDate() {
+        return acritivtyStartDate;
     }
 
-    public void setActivityStartDate(String activityStartDate) {
-        this.activityStartDate = activityStartDate;
+    public void setAcritivtyStartDate(Date acritivtyStartDate) {
+        this.acritivtyStartDate = acritivtyStartDate;
     }
 
-    public String getActivityEndDate() {
+    public Date getActivityEndDate() {
         return activityEndDate;
     }
 
-    public void setActivityEndDate(String activityEndDate) {
+    public void setActivityEndDate(Date activityEndDate) {
         this.activityEndDate = activityEndDate;
     }
 
-    public Set<Artist> getArtists() {
-        return artists;
+    public Set<Artist> getMembers() {
+        return members;
     }
 
-    public void setArtists(Set<Artist> artists) {
-        this.artists = artists;
+    public void setMembers(Set<Artist> members) {
+        this.members = members;
     }
 
     @Override
     public String toString() {
-        List<Artist> artistsToString = new ArrayList<>();
-        artists.forEach(x -> {
-            artistsToString.add(new Artist(x.getId(), x.getFirstName(), x.getLastName(),
-                    x.getStageName(), x.getBirthday(), x.getActivityStartDate(), x.getActivityEndDate(), x.getType()));
-        });
         return "Band{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "idBand=" + id +
+                ", bandname='" + bandname + '\'' +
                 ", location='" + location + '\'' +
-                ", activityStartDate='" + activityStartDate + '\'' +
-                ", activityEndDate='" + activityEndDate + '\'' +
-                ", artists=" + artistsToString +
+                ", acritivtyStartDate=" + acritivtyStartDate +
+                ", activityEndDate=" + activityEndDate +
                 '}';
     }
 }

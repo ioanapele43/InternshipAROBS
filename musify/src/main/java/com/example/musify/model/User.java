@@ -1,17 +1,17 @@
 package com.example.musify.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-@NamedQuery(name = "getAllUsers", query = "FROM User")
-
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Integer id;
 
     @Column(name="first_name")
     private String firstName;
@@ -31,12 +31,16 @@ public class User {
     @Column(name="role")
     private String role;
 
+    @OneToMany
+    private List<Playlist> playlistsCreated;
 
+    @ManyToMany(mappedBy = "usersWhoFollows")
+    private List<Playlist> playlistsFollowed;
 
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String email, String password, String country, String role) {
+    public User(Integer id, String firstName, String lastName, String email, String password, String country, String role) {
         this.id=id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -94,11 +98,11 @@ public class User {
         this.role = role;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

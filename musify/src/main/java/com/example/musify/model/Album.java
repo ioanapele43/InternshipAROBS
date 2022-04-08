@@ -2,9 +2,7 @@ package com.example.musify.model;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="albums")
@@ -12,7 +10,7 @@ public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Integer id;
     @Column(name="title")
     private String title;
     @Column(name="description")
@@ -24,8 +22,30 @@ public class Album {
     @Column(name="label")
     private String label;
 
+    @OneToMany
+    private List<Artist> artists = new ArrayList<Artist>();
 
+    @OneToMany
+    private List<Song> songs=new ArrayList<Song>();
 
+    @OneToMany
+    private List<Band> bands = new ArrayList<Band>();
+
+    public List<Artist> getArtists() {
+        return artists;
+    }
+
+    public void setArtists(List<Artist> artists) {
+        this.artists = artists;
+    }
+
+    /*
+        @OneToMany(mappedBy ="albumId")
+        private List<AlbumSong> songs;
+
+        @OneToMany(mappedBy = "albumId")
+        private List<AlbumArtist> albumArtist;
+    */
     public Album() {
     }
 
