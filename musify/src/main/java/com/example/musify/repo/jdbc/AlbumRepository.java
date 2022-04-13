@@ -1,4 +1,4 @@
-package com.example.musify.repo;
+package com.example.musify.repo.jdbc;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

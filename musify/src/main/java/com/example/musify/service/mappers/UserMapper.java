@@ -1,4 +1,4 @@
-package com.example.musify.service;
+package com.example.musify.service.mappers;
 
 import com.example.musify.dto.UserDTO;
 import com.example.musify.dto.UserViewDTO;

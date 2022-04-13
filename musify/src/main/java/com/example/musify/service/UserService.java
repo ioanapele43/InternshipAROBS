@@ -4,11 +4,13 @@ import com.example.musify.dto.UserDTO;
 import com.example.musify.dto.UserViewDTO;
 import com.example.musify.exception.UnauthorizedException;
 import com.example.musify.model.User;
-import com.example.musify.repo.UserRepository;
+import com.example.musify.repo.jdbc.UserRepository;
 import com.example.musify.security.JwtUtils;
+import com.example.musify.service.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 
 
 @Service
@@ -42,7 +44,8 @@ public class UserService {
     public UserViewDTO saveUser(UserDTO userDTO) {
 
         User user = userMapper.toEntity(userDTO);
-        //user.setPassword(encoder.encodeToString(user.getPassword().getBytes()));
+        Base64.Encoder encoder = null;
+        user.setPassword(encoder.encodeToString(user.getPassword().getBytes()));
         userRepository.insertUser(user);
         return userMapper.toViewDto(user);
     }

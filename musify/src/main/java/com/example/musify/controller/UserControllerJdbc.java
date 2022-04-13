@@ -3,9 +3,7 @@ package com.example.musify.controller;
 import com.example.musify.dto.UserDTO;
 import com.example.musify.dto.UserViewDTO;
 import com.example.musify.model.User;
-import com.example.musify.repo.UserRepository;
-import com.example.musify.security.JwtAuthorizationFilter;
-import com.example.musify.security.JwtUtils;
+import com.example.musify.repo.jdbc.UserRepository;
 import com.example.musify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
-public class UserController {
+public class UserControllerJdbc {
     @Autowired
     private UserService userService;
     @Autowired
@@ -69,7 +67,7 @@ public class UserController {
         return s.get();
     }
 
-    @GetMapping("/insertUser")
+    @PostMapping("/insertUser")
     public String insertUser(@RequestParam int id, @RequestParam String firstname,@RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
         userRepository = new UserRepository(dataSource);
         try {
@@ -87,7 +85,7 @@ public class UserController {
         //localhost:8080/insertUser?firstname=bb&lastname=bb&email=bb&password=1234&country=romania&role=regular
     }
 
-    @GetMapping("/updateUser")
+    @PutMapping("/updateUser")
     public String updateUser(@RequestParam int id,@RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
         userRepository = new UserRepository(dataSource);
         try {
@@ -104,7 +102,7 @@ public class UserController {
         //localhost:8080/updateUser?firstname=bb&lastname=bb&email=bb&password=1234&country=romania&role=regular
     }
 
-    @GetMapping("/deleteUser")
+    @DeleteMapping("/deleteUser")
     public String deleteUser(@RequestParam int id,@RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
         userRepository = new UserRepository(dataSource);
         try {

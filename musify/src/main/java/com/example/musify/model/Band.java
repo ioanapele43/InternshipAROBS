@@ -1,10 +1,15 @@
 package com.example.musify.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 import java.util.Set;
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name="band")
 public class Band  {
@@ -35,9 +40,6 @@ public class Band  {
     /*@OneToMany(mappedBy = "artistId")
     private List<AlbumArtist> albumArtist;*/
 
-    public Band() {
-    }
-
     public Band(Integer idBand, String bandname, String location, Date startDate, Date endDate) {
         this.id = idBand;
         this.bandname = bandname;
@@ -46,62 +48,4 @@ public class Band  {
         this.activityEndDate=endDate;
     }
 
-    public int getIdBand() {
-        return id;
-    }
-
-    public void setIdBand(int idBand) {
-        this.id = idBand;
-    }
-
-    public String getBandname() {
-        return bandname;
-    }
-
-    public void setBandname(String bandname) {
-        this.bandname = bandname;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Date getAcritivtyStartDate() {
-        return acritivtyStartDate;
-    }
-
-    public void setAcritivtyStartDate(Date acritivtyStartDate) {
-        this.acritivtyStartDate = acritivtyStartDate;
-    }
-
-    public Date getActivityEndDate() {
-        return activityEndDate;
-    }
-
-    public void setActivityEndDate(Date activityEndDate) {
-        this.activityEndDate = activityEndDate;
-    }
-
-    public Set<Artist> getMembers() {
-        return members;
-    }
-
-    public void setMembers(Set<Artist> members) {
-        this.members = members;
-    }
-
-    @Override
-    public String toString() {
-        return "Band{" +
-                "idBand=" + id +
-                ", bandname='" + bandname + '\'' +
-                ", location='" + location + '\'' +
-                ", acritivtyStartDate=" + acritivtyStartDate +
-                ", activityEndDate=" + activityEndDate +
-                '}';
-    }
 }

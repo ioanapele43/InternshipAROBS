@@ -1,10 +1,15 @@
 package com.example.musify.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 import java.util.Set;
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name="playlists")
 public class Playlist {
@@ -30,38 +35,13 @@ public class Playlist {
 /*    @OneToMany(mappedBy ="playlistId")
     private List<PlaylistSong> songs;*/
 
-    public Playlist() {
-    }
-
     public Playlist( String type, Date createdDate, Date lastUpdatedate) {
         this.type = type;
         this.createdDate = createdDate;
         this.lastUpdatedate = lastUpdatedate;
     }
 
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getLastUpdatedate() {
-        return lastUpdatedate;
-    }
-
-    public void setLastUpdatedate(Date lastUpdatedate) {
-        this.lastUpdatedate = lastUpdatedate;
-    }
 
 
 }

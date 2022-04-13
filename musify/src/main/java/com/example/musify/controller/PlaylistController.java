@@ -1,6 +1,6 @@
 package com.example.musify.controller;
 
-import com.example.musify.repo.PlaylistRepository;
+import com.example.musify.repo.jdbc.PlaylistRepository;
 import com.example.musify.service.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;

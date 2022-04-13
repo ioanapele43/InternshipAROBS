@@ -1,10 +1,16 @@
 package com.example.musify.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "artist")
 @NamedQueries({
@@ -39,9 +45,6 @@ public class Artist {
     @OneToMany(mappedBy = "artistId")
     private List<AlbumArtist> albumArtist;*/
 
-    public Artist() {
-    }
-
     public Artist(String firstname, String lastname, String stagename, Date birthday, Date startDate, Date endDate) {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -51,77 +54,5 @@ public class Artist {
         this.activityEndDate = endDate;
     }
 
-    public String getFirstName() {
-        return firstname;
-    }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getStagename() {
-        return stagename;
-    }
-
-    public void setStagename(String stagename) {
-        this.stagename = stagename;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-
-    public Date getAcritivtyStartDate() {
-        return acritivtyStartDate;
-    }
-
-    public void setAcritivtyStartDate(Date acritivtyStartDate) {
-        this.acritivtyStartDate = acritivtyStartDate;
-    }
-
-    public Date getActivityEndDate() {
-        return activityEndDate;
-    }
-
-    public void setActivityEndDate(Date activityEndDate) {
-        this.activityEndDate = activityEndDate;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "idPerson=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", stagename='" + stagename + '\'' +
-                ", birthday=" + birthday +
-                ", acritivtyStartDate=" + acritivtyStartDate +
-                ", activityEndDate=" + activityEndDate +
-                '}';
-    }
 }

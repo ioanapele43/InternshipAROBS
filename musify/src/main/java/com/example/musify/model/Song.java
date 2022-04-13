@@ -1,11 +1,17 @@
 package com.example.musify.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
-import java.util.Set;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name="songs")
 public class Song {
@@ -33,39 +39,10 @@ public class Song {
     @OneToMany(mappedBy ="songId")
     private List<PlaylistSong> playlistsWhereIsAdded;*/
 
-    public Song() {
-    }
-
     public Song(String title, Time duration, Date creationDate) {
         this.title = title;
 
         this.duration = duration;
-        this.creationDate = creationDate;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
-
-    public Time getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Time duration) {
-        this.duration = duration;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 }
