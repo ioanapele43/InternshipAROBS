@@ -37,6 +37,8 @@ public class Artist {
 
     @ManyToMany(mappedBy = "members")
     private Set<Band> bandMembers;
+    @ManyToOne
+    private Album album;
 
 
    /* @OneToMany(mappedBy = "artistId")

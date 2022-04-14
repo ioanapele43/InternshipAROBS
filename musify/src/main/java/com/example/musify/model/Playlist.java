@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 @Getter
 @Setter
@@ -31,6 +33,9 @@ public class Playlist {
             inverseJoinColumns ={ @JoinColumn(name="user_id")}
     )
     private Set<User> usersWhoFollows;
+
+    @OneToMany
+    private List<Song> songs=new ArrayList<Song>();
 
 /*    @OneToMany(mappedBy ="playlistId")
     private List<PlaylistSong> songs;*/

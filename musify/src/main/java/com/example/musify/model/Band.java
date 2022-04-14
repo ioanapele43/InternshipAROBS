@@ -34,6 +34,10 @@ public class Band  {
     )
     private Set<Artist> members;
 
+    @ManyToOne
+    private Album album;
+
+
     /*@OneToMany(mappedBy = "artistId")
     private List<SongArtist> songArtist;*/
 

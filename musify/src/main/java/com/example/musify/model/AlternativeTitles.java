@@ -16,5 +16,6 @@ public class AlternativeTitles {
     private Integer id;
     @Column(name="alternative_title")
     private String alternativeTitle;
-
+    @ManyToOne
+    private Song song;
 }

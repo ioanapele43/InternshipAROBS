@@ -1,10 +1,10 @@
-package com.example.musify.controller;
+package com.example.musify.controller.jdbc;
 
 import com.example.musify.dto.UserDTO;
 import com.example.musify.dto.UserViewDTO;
 import com.example.musify.model.User;
 import com.example.musify.repo.jdbc.UserRepository;
-import com.example.musify.service.UserService;
+import com.example.musify.service.jdbc.UserServiceJdbc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @RestController
 public class UserControllerJdbc {
     @Autowired
-    private UserService userService;
+    private UserServiceJdbc userService;
     @Autowired
     private DataSource dataSource;
     @Autowired

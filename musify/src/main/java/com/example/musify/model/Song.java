@@ -27,17 +27,13 @@ public class Song {
     private Date creationDate;
 
 
-    @OneToMany
+    @OneToMany(mappedBy = "song")
     private List<AlternativeTitles> alternativeTitles;
 
-    /*@OneToMany(mappedBy = "songId")
-    private  List<SongArtist> songArtists;*/
+    @ManyToMany(mappedBy = "songs")
+    private List<Album> album;
 
-    /* @OneToMany(mappedBy ="songId")
-    private List<AlbumSong> albumWhereIsAdded;
 
-    @OneToMany(mappedBy ="songId")
-    private List<PlaylistSong> playlistsWhereIsAdded;*/
 
     public Song(String title, Time duration, Date creationDate) {
         this.title = title;
