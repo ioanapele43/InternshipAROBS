@@ -4,12 +4,14 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Getter
+@Setter
 @Entity
 @Table(name="band")
 public class Band  {
@@ -22,7 +24,7 @@ public class Band  {
     @Column(name="location")
     private String location;
     @Column(name="activity_start_date")
-    private Date acritivtyStartDate;
+    private Date activityStartDate;
     @Column(name="activity_end_date")
     private Date activityEndDate;
 
@@ -34,8 +36,8 @@ public class Band  {
     )
     private Set<Artist> members;
 
-    @ManyToOne
-    private Album album;
+    @OneToMany
+    private List<Album> album=new ArrayList<Album>();
 
 
     /*@OneToMany(mappedBy = "artistId")
@@ -48,7 +50,7 @@ public class Band  {
         this.id = idBand;
         this.bandname = bandname;
         this.location = location;
-        this.acritivtyStartDate=startDate;
+        this.activityStartDate=startDate;
         this.activityEndDate=endDate;
     }
 

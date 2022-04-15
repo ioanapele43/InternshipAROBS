@@ -44,8 +44,8 @@ public class UserServiceJdbc {
     public UserViewDTO saveUser(UserDTO userDTO) {
 
         User user = userMapper.toEntity(userDTO);
-        Base64.Encoder encoder = null;
-        user.setPassword(encoder.encodeToString(user.getPassword().getBytes()));
+       // Base64.Encoder encoder = null;
+        //user.setPassword(encoder.encodeToString(user.getPassword().getBytes()));
         userRepository.insertUser(user);
         return userMapper.toViewDto(user);
     }

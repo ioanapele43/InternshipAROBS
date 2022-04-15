@@ -7,11 +7,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Getter
+@Setter
 @Entity
 @Table(name="playlists")
 public class Playlist {
@@ -45,8 +45,6 @@ public class Playlist {
         this.createdDate = createdDate;
         this.lastUpdatedate = lastUpdatedate;
     }
-
-
 
 
 }

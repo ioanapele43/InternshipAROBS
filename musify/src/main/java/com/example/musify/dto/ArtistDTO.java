@@ -6,20 +6,21 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Getter
+@Setter
+
 public class ArtistDTO {
     @NotNull
     private Integer id;
     @NotBlank(message = "First name cannot be blank!")
-    private String firstName;
+    private String firstname;
     @NotBlank(message = "Last name cannot be blank!")
-    private String lastName;
+    private String lastname;
     @NotBlank(message = "Stage name cannot be blank!")
-    private String stageName;
+    private String stagename;
     @NotBlank(message = "Birthday cannot be blank!")
     private Date birthday;
     @NotBlank(message = "Activity start date cannot be blank!")

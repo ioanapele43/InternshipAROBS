@@ -36,6 +36,9 @@ public class User {
     @Column(name="role")
     private String role;
 
+    @Column(name="status")
+    private String status;
+
     @OneToMany
     private List<Playlist> playlistsCreated;
 
@@ -57,5 +60,6 @@ public class User {
     public String composeFullName() {
         return firstName+" "+lastName;
     }
+
 
 }

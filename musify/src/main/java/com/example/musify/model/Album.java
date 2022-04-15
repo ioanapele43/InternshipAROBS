@@ -5,11 +5,11 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.*;
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Setter
+@Getter
 @Entity
 @Table(name="albums")
 public class Album {
@@ -28,19 +28,22 @@ public class Album {
     @Column(name="label")
     private String label;
 
-    @OneToMany(mappedBy = "album")
-    private List<Artist> artists = new ArrayList<Artist>();
-    @OneToMany(mappedBy = "album")
-    private List<Band> bands=new ArrayList<Band>();
+    @ManyToOne
+    private Artist artist ;
 
-    @ManyToMany
+    @ManyToOne
+    private Band band;
+
+   /* @ManyToMany
     @JoinTable(
             name="album_songs",
             joinColumns = @JoinColumn(name="album_id"),
             inverseJoinColumns = @JoinColumn(name="song_id")
     )
     private List<Song> songs=new ArrayList<Song>();
-
+*/
+    @OneToMany(mappedBy = "album")
+    private List<AlbumSongs> albumSongs;
 
     public Album(String title, String description, String genre, Date releaseDate, String label, List<Song> songs) {
         this.title = title;
@@ -50,5 +53,6 @@ public class Album {
         this.label = label;
 
     }
+
 
 }

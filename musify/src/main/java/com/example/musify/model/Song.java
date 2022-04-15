@@ -7,11 +7,11 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Getter
+@Setter
 @Entity
 @Table(name="songs")
 public class Song {
@@ -30,15 +30,16 @@ public class Song {
     @OneToMany(mappedBy = "song")
     private List<AlternativeTitles> alternativeTitles;
 
-    @ManyToMany(mappedBy = "songs")
+   /* @ManyToMany(mappedBy = "songs")
     private List<Album> album;
-
-
+    */
+   @OneToMany(mappedBy = "song")
+   private List<AlbumSongs> albumSongs;
 
     public Song(String title, Time duration, Date creationDate) {
         this.title = title;
-
         this.duration = duration;
         this.creationDate = creationDate;
     }
+
 }

@@ -4,13 +4,15 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Getter
+@Setter
 @Entity
 @Table(name = "artist")
 @NamedQueries({
@@ -31,14 +33,15 @@ public class Artist {
     @Column(name = "birthday")
     private Date birthday;
     @Column(name = "activity_start_date")
-    private Date acritivtyStartDate;
+    private Date activityStartDate;
     @Column(name = "activity_end_date")
     private Date activityEndDate;
 
     @ManyToMany(mappedBy = "members")
     private Set<Band> bandMembers;
-    @ManyToOne
-    private Album album;
+    @OneToMany
+    private List<Album> album=new ArrayList<Album>();
+
 
 
    /* @OneToMany(mappedBy = "artistId")
@@ -52,9 +55,8 @@ public class Artist {
         this.lastname = lastname;
         this.stagename = stagename;
         this.birthday = birthday;
-        this.acritivtyStartDate = startDate;
+        this.activityStartDate = startDate;
         this.activityEndDate = endDate;
     }
 
-
-}
+  }

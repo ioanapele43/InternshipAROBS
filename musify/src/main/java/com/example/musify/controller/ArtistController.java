@@ -24,7 +24,7 @@ public class ArtistController {
 
     @GetMapping("/artists")
     public ResponseEntity<List<Artist>> getAllArtist(){
-        List<Artist> artists=artistService.getArtistis();
+        List<Artist> artists=artistService.getArtists();
         return new ResponseEntity<>(artists, HttpStatus.OK);
     }
     @GetMapping("/artists/{id}")

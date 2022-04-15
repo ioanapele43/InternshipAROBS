@@ -25,7 +25,7 @@ public class ArtistService {
         this.artistRepository=artistRepository;
     }
 
-    public List<Artist> getArtistis(){
+    public List<Artist> getArtists(){
         return artistRepository.findAll();
     }
     public Optional<Artist> getArtistById(int id){return artistRepository.findById(id);};
