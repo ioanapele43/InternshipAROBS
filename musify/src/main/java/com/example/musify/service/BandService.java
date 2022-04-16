@@ -24,8 +24,8 @@ public class BandService {
     public List<Band> getAllBands(){
         return bandRepositoryJPA.findAll();
     }
-    public Optional<Band> getBandById(Integer id){
-        return bandRepositoryJPA.findById(id);
+    public Band getBandById(Integer id){
+        return bandRepositoryJPA.getBandById(id);
     }
     @Transactional
     public void createBand(BandDTO bandDTO){

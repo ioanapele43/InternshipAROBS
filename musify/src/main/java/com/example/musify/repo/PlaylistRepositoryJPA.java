@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface PlaylistRepositoryJPA extends JpaRepository<Playlist,Integer> {
-    Optional<Playlist> findById(Integer id);
+    Playlist getPlaylistById(Integer id);
 }

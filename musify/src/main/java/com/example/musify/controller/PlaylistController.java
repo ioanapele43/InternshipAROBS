@@ -1,11 +1,17 @@
 package com.example.musify.controller;
 
+import com.example.musify.dto.PlaylistDTO;
+import com.example.musify.model.Playlist;
 import com.example.musify.repo.jdbc.PlaylistRepository;
 import com.example.musify.service.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class PlaylistController {
@@ -15,4 +21,29 @@ public class PlaylistController {
     private PlaylistService playlistService;
     @Autowired
     private DataSource dataSource;
+    @GetMapping("/playlists")
+    public ResponseEntity<List<Playlist>> getAllPlaylists(){
+        List<Playlist> playlist=playlistService.getAllPlaylists();
+        return new ResponseEntity<>(playlist, HttpStatus.OK);
+    }
+    @GetMapping("/playlist/{id}")
+    public ResponseEntity<Playlist> getPlaylistById(Integer id){
+        Playlist playlist=playlistService.getPlaylistbyId(id);
+        return new ResponseEntity<>(playlist,HttpStatus.OK);
+    }
+    @PostMapping("/playlist/create")
+    public String createPlaylist(@RequestBody @Valid PlaylistDTO playlistDTO){
+        playlistService.createPlaylist(playlistDTO);
+        return "success!";
+    }
+    @PutMapping("/playlist/update")
+    public String updatePlaylist(@RequestBody @Valid PlaylistDTO playlistDTO){
+        playlistService.updatePlaylist(playlistDTO);
+        return "success!";
+    }
+    @DeleteMapping("/playlist/delete")
+    public String deletePlaylist(@RequestBody @Valid PlaylistDTO playlistDTO){
+        playlistService.deletePlaylist(playlistDTO);
+        return "success!";
+    }
 }

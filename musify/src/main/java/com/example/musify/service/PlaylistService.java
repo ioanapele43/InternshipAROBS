@@ -24,8 +24,8 @@ public class PlaylistService {
    public List<Playlist> getAllPlaylists(){
        return playlistRepositoryJPA.findAll();
    }
-   public Optional<Playlist> getPlaylistbyId(Integer id){
-       return  playlistRepositoryJPA.findById(id);
+   public Playlist getPlaylistbyId(Integer id){
+       return  playlistRepositoryJPA.getPlaylistById(id);
    }
    @Transactional
     public void createPlaylist(PlaylistDTO playlistDTO){

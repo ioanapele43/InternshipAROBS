@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface AlbumRepositoryJPA extends JpaRepository<Album,Integer> {
-    Optional<Album> findById(Integer id);
+    Album getAlbumById(Integer id);
 
 }

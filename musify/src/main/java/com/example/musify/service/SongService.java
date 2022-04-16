@@ -23,8 +23,8 @@ public class SongService {
     public List<Song> getAllSongs(){
         return songRepositoryJPA.findAll();
     }
-    public Optional<Song> getSongById(Integer id){
-        return songRepositoryJPA.findById(id);
+    public Song getSongById(Integer id){
+        return songRepositoryJPA.getSongById(id);
     }
     @Transactional
     public void createSong(SongDTO songDTO){

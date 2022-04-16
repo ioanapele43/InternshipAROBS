@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.sql.DataSource;
 
 @SpringBootApplication
-@ComponentScan("com.example.musify")
+//@ComponentScan("com.example.musify")
 public class MusifyApplication {
 
 	public static void main(String[] args) {SpringApplication.run(MusifyApplication.class, args);

@@ -36,10 +36,10 @@ public class UserController {
         userService.register(userDTO);
         return "Success!";
     }
-    @GetMapping("/Login")
-    public String login(@RequestParam String email, @RequestParam String password){
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password){
         String token= userService.login(email, password);
-        return token;
+        return new ResponseEntity<>(token,HttpStatus.OK);
     }
     @PutMapping("/user/update")
     public String updateUser(@RequestBody UserDTO userDTO){

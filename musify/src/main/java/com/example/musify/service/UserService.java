@@ -27,7 +27,7 @@ public class UserService {
         return userRepositoryJPA.findAll();
     }
     public User getUserById(Integer id){
-        return userRepositoryJPA.getById(id);
+        return userRepositoryJPA.getUserById(id);
     }
     public User getUserByEmailAndPassword(String email, String password){
         return  userRepositoryJPA.findByEmailAndPassword(email,password);
@@ -53,8 +53,8 @@ public class UserService {
 
     public String login(String email, String password){
         User user=null;
-        if(userRepositoryJPA.findByEmail(email)!=null){
-            user=userRepositoryJPA.findByEmail(email);
+        if(userRepositoryJPA.getUserByEmail(email)!=null){
+            user=userRepositoryJPA.getUserByEmail(email);
         }
         if(user==null || !password.equals(user.getPassword())){
             throw new UnauthorizedException("Email or password invalid");

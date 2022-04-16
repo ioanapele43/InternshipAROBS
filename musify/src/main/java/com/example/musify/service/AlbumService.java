@@ -24,8 +24,8 @@ public class AlbumService {
     public List<Album> getAllAlbums(){
         return albumRepositoryJPA.findAll();
     }
-    public Optional<Album> getAlbumById(Integer id){
-        return albumRepositoryJPA.findById(id);
+    public Album getAlbumById(Integer id){
+        return albumRepositoryJPA.getAlbumById(id);
     }
     @Transactional
     public void createAlbum(AlbumDTO albumDTO){
