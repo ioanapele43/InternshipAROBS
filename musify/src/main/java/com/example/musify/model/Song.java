@@ -35,6 +35,8 @@ public class Song {
     */
    @OneToMany(mappedBy = "song")
    private List<AlbumSongs> albumSongs;
+    @OneToMany(mappedBy = "song")
+    private List<PlaylistSongs> playlistSongs;
 
     public Song(String title, Time duration, Date creationDate) {
         this.title = title;

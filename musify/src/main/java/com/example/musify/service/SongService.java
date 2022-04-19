@@ -36,7 +36,7 @@ public class SongService {
     }
     @Transactional
     public void deleteSong(SongDTO songDTO){
-        songRepositoryJPA.save(songMapper.toEntity(songDTO));
+        songRepositoryJPA.delete(songMapper.toEntity(songDTO));
     }
 
 }

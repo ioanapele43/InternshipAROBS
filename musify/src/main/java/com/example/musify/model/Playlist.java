@@ -26,6 +26,9 @@ public class Playlist {
     @Column(name="last_update_date")
     private Date lastUpdatedate;
 
+    @ManyToOne
+    private User owner;
+
     @ManyToMany
     @JoinTable(
             name="followed_playlists_by_user",
@@ -33,11 +36,11 @@ public class Playlist {
             inverseJoinColumns ={ @JoinColumn(name="user_id")}
     )
     private Set<User> usersWhoFollows;
-
+/*
     @OneToMany
     private List<Song> songs=new ArrayList<Song>();
 
-/*    @OneToMany(mappedBy ="playlistId")
+    @OneToMany(mappedBy ="playlistId")
     private List<PlaylistSong> songs;*/
 
     public Playlist( String type, Date createdDate, Date lastUpdatedate) {

@@ -21,5 +21,5 @@ public class PlaylistDTO {
     @NotBlank(message = "Creation date cannot be blank!")
     private Date createdDate;
     @NotBlank(message = "Last update date cannot be blank!")
-    private Date lastUpdateDate;
+    private Date lastUpdatedate;
 }

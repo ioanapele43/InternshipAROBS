@@ -36,8 +36,8 @@ public class Band  {
     )
     private Set<Artist> members;
 
-    @OneToMany
-    private List<Album> album=new ArrayList<Album>();
+   /* @OneToMany
+    private List<Album> album=new ArrayList<Album>();*/
 
 
     /*@OneToMany(mappedBy = "artistId")

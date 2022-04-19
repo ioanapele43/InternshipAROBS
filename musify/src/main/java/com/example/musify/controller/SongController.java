@@ -42,8 +42,10 @@ public class SongController {
         songService.updateSong(songDTO);
         return "success!";
     }
-    @DeleteMapping("/song/delete")
-    public String deleteSong(@RequestBody @Valid SongDTO songDTO){
+    @DeleteMapping("/song/delete/{id}")
+    public String deleteSong(@PathVariable Integer id){
+        SongDTO songDTO=new SongDTO();
+        songDTO.setId(id);
         songService.deleteSong(songDTO);
         return "success!";
     }

@@ -15,10 +15,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "artist")
-@NamedQueries({
-        @NamedQuery(name = "findAllArtists", query = "from Artist"),
-        @NamedQuery(name = "findArtistById", query = "from Artist where id = :id")
-})
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,8 +35,7 @@ public class Artist {
 
     @ManyToMany(mappedBy = "members")
     private Set<Band> bandMembers;
-    @OneToMany
-    private List<Album> album=new ArrayList<Album>();
+
 
 
 

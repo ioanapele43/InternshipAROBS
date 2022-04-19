@@ -8,6 +8,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.codec.Hex;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
@@ -33,6 +34,7 @@ public class UserController {
     }
     @PostMapping("/register")
     public String register(@RequestBody @Valid UserDTO userDTO){
+
         userService.register(userDTO);
         return "Success!";
     }
@@ -56,6 +58,17 @@ public class UserController {
         userService.setInactive(id);
         return "success!";
     }
+    @PutMapping("/user/inactivate_account")
+    public String inactivate(){
+        userService.inactivateUser();
+        return "success!";
+    }
+    @PutMapping("/user/activate_account")
+    public String activate(){
+        userService.activateUser();
+        return "success!";
+    }
+   
 
 
 

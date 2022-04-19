@@ -28,7 +28,7 @@ public class Album {
     @Column(name="label")
     private String label;
 
-    @ManyToOne
+   @ManyToOne
     private Artist artist ;
 
     @ManyToOne
