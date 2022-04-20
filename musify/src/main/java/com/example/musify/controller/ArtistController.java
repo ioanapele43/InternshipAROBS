@@ -39,15 +39,25 @@ public class ArtistController {
     }
 
     @PostMapping("/artist/save")
-    public void saveArtist(@RequestBody ArtistDTO artistDTO){
+    public String saveArtist(@RequestBody ArtistDTO artistDTO){
         artistService.saveArtist(artistDTO);
+        return "Success!";
     }
     @PutMapping("/artist/update")
-    public void updateArtist(@RequestBody ArtistDTO artistDTO){
+    public String updateArtist(@RequestBody ArtistDTO artistDTO){
         artistService.updateArtist(artistDTO);
+        return "Success!";
     }
-    @DeleteMapping("/artist/delete")
-    public void deleteArtist(@RequestBody ArtistDTO artistDTO){
+    @DeleteMapping("/artist/delete/{id}")
+    public String deleteArtist(@PathVariable Integer id){
+        ArtistDTO artistDTO=new ArtistDTO();
+        artistDTO.setId(id);
         artistService.deleteArtist(artistDTO);
+        return "Success!";
     }
+    /*@GetMapping("/artist/search")
+    public Optional<Artist> searchForAnArtist(@RequestParam String name){
+        Optional<Artist> artist=artistService.searchArtist(name);
+        return artist;
+    }*/
 }

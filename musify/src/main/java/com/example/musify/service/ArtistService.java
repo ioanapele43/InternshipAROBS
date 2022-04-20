@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 
@@ -46,6 +48,20 @@ public class ArtistService {
     @Transactional
     public void deleteArtist(ArtistDTO artist){
         artistRepository.delete(artistMapper.toEntity(artist));
+    }
+    @Transactional
+    public Optional<List<Artist>> searchByFirstName(String firstname){
+        //Optional<List<Artist>> artists;
+        //artists=artistRepository.findArtistsByFirstname(firstname);
+        List<Artist> artists=artistRepository.findAll();
+        List<Artist> aux=artists.stream().filter(artist -> artist.getFirstname().contains(firstname)).collect(Collectors.toList());
+        return Optional.of(aux);
+    }
+    @Transactional
+    public List<Artist> searchByLastName(String lastname){
+        List<Artist> artists= new ArrayList<Artist>();
+        artists=artistRepository.getArtistsByLastnameContainingIgnoreCase(lastname);
+        return artists;
     }
 
 }

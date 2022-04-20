@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,5 +40,10 @@ public class BandService {
     public void deleteBand(BandDTO bandDTO){
         bandRepositoryJPA.delete(bandMapper.toEntity(bandDTO));
     }
-
+    @Transactional
+    public List<Band> searchByBandname(String bandname){
+        List<Band> bands=new ArrayList<Band>();
+        bands=bandRepositoryJPA.getBandsByBandnameContainingIgnoreCase(bandname);
+        return bands;
+    }
 }

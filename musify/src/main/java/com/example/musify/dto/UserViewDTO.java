@@ -2,6 +2,8 @@ package com.example.musify.dto;
 
 import lombok.*;
 
+import java.util.Objects;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,4 +25,16 @@ public class UserViewDTO {
         this.fullName = fullName;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserViewDTO that = (UserViewDTO) o;
+        return id == that.id && firstName.equals(that.firstName) && lastName.equals(that.lastName) && fullName.equals(that.fullName) && email.equals(that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, fullName, email);
+    }
 }

@@ -68,7 +68,7 @@ public class UserController {
         userService.activateUser();
         return "success!";
     }
-   
+
 
 
 

@@ -41,8 +41,10 @@ public class AlbumController {
         albumService.updateAlbum(albumDTO);
         return "success!";
     }
-    @DeleteMapping("/album/delete")
-    public String deleteAlbum(@RequestBody @Valid AlbumDTO albumDTO){
+    @DeleteMapping("/album/delete/{id}")
+    public String deleteAlbum(@PathVariable Integer id){
+        AlbumDTO albumDTO=new AlbumDTO();
+        albumDTO.setId(id);
         albumService.deleteAlbum(albumDTO);
         return "success!";
     }

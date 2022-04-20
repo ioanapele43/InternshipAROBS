@@ -41,8 +41,10 @@ public class PlaylistController {
         playlistService.updatePlaylist(playlistDTO);
         return "success!";
     }
-    @DeleteMapping("/playlist/delete")
-    public String deletePlaylist(@RequestBody @Valid PlaylistDTO playlistDTO){
+    @DeleteMapping("/playlist/delete/{id}")
+    public String deletePlaylist(@PathVariable Integer id){
+        PlaylistDTO playlistDTO=new PlaylistDTO();
+        playlistDTO.setId(id);
         playlistService.deletePlaylist(playlistDTO);
         return "success!";
     }

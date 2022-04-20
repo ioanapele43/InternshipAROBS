@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,5 +39,11 @@ public class AlbumService {
     @Transactional
     public void deleteAlbum(AlbumDTO albumDTO){
         albumRepositoryJPA.delete(albumMapper.toEntity(albumDTO));
+    }
+    @Transactional
+    public List<Album> searchByTitle(String title){
+        List<Album> albums=new ArrayList<Album>();
+        albums=albumRepositoryJPA.getAlbumsByTitleContainingIgnoreCase(title);
+        return albums;
     }
 }
