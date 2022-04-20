@@ -34,7 +34,7 @@ public class Band  {
             joinColumns = @JoinColumn(name="band_id"),
             inverseJoinColumns = @JoinColumn(name="person_id")
     )
-    private Set<Artist> members;
+    private List<Artist> members;
 
    /* @OneToMany
     private List<Album> album=new ArrayList<Album>();*/

@@ -34,7 +34,7 @@ public class Artist {
     private Date activityEndDate;
 
     @ManyToMany(mappedBy = "members")
-    private Set<Band> bandMembers;
+    private List<Band> bandMember;
 
 
 

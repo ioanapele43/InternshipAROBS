@@ -1,11 +1,13 @@
 package com.example.musify.controller;
 
+import com.example.musify.dto.SearchDTO;
 import com.example.musify.model.Album;
 import com.example.musify.model.Artist;
 import com.example.musify.model.Band;
 import com.example.musify.service.AlbumService;
 import com.example.musify.service.ArtistService;
 import com.example.musify.service.BandService;
+import com.example.musify.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +27,9 @@ public class SearchController {
     private AlbumService albumService;
     @Autowired
     private BandService bandService;
+    @Autowired
+    private SearchService searchService;
+
     @GetMapping("/search/artists/firstname")
     public ResponseEntity<Optional<List<Artist>>> searchByFirstName(@RequestParam String input){
         Optional<List<Artist>> artists= artistService.searchByFirstName(input);
@@ -41,6 +46,11 @@ public class SearchController {
     @GetMapping("/search/bands/bandname")
     public List<Band> searchByBandName(@RequestParam String input){
         return bandService.searchByBandname(input);
+    }
+    @GetMapping("/searchAll")
+    public ResponseEntity<SearchDTO> searchAll(String input){
+        SearchDTO searchDTO=searchService.searchAll(input);
+        return new ResponseEntity<>(searchDTO,HttpStatus.OK);
     }
 
 }
