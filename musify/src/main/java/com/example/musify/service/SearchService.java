@@ -32,40 +32,25 @@ public class SearchService {
 
     @Transactional
     public Optional<List<Artist>> searchByName(String name){
-        List<Artist> aux=artistRepositoryJPA.findAll().stream()
-                                .filter(artist -> (artist.getLastname().toLowerCase().contains(name.toLowerCase()) || artist.getFirstname().toLowerCase().contains(name.toLowerCase())))
-                                .collect(Collectors.toList());
+        List<Artist> aux=artistRepositoryJPA.findArtistByFirstnameOrLastname("%"+name+"%");
         return Optional.of(aux);
     }
     @Transactional
     public Optional<List<Band>> searchByBandname(String bandname){
-        List<Band> aux=bandRepositoryJPA.findAll()
-                            .stream()
-                            .filter(band->band.getBandname().toLowerCase().contains(bandname.toLowerCase()))
-                            .collect(Collectors.toList());
+        List<Band> aux=bandRepositoryJPA.findBandByBandname("%"+bandname+"%");
         return Optional.of(aux);
     }
     @Transactional
     public Optional<List<Album>> searchByTitle(String title){
-        List<Album> aux=albumRepositoryJPA.findAll()
-                                .stream()
-                                .filter(album->album.getTitle().toLowerCase().contains(title.toLowerCase()))
-                                .collect(Collectors.toList());
+        List<Album> aux=albumRepositoryJPA.findAlbumByTitle("%"+title+"%");
         return Optional.of(aux);
     }
     @Transactional
     public SearchDTO searchAll(String input){
         SearchDTO searchDTO=new SearchDTO();
-        searchDTO.setAlbums(albumRepositoryJPA.findAll().stream()
-                .filter(album->album.getTitle().toLowerCase().contains(input.toLowerCase()))
-                .collect(Collectors.toList()));
-        searchDTO.setArtists(artistRepositoryJPA.findAll().stream()
-                .filter(artist -> (artist.getLastname().toLowerCase().contains(input.toLowerCase()) || artist.getFirstname().toLowerCase().contains(input.toLowerCase())))
-                .collect(Collectors.toList()));
-        searchDTO.setBands(bandRepositoryJPA.findAll()
-                .stream()
-                .filter(band->band.getBandname().toLowerCase().contains(input.toLowerCase()))
-                .collect(Collectors.toList()));
+        searchDTO.setAlbums(albumRepositoryJPA.findAlbumByTitle("%"+input+"%"));
+        searchDTO.setArtists(artistRepositoryJPA.findArtistByFirstnameOrLastname("%"+input+"%"));
+        searchDTO.setBands(bandRepositoryJPA.findBandByBandname("%"+input+"%"));
         return  searchDTO;
     }
 

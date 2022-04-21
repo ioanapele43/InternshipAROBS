@@ -10,7 +10,6 @@ import com.example.musify.service.BandService;
 import com.example.musify.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,22 +29,17 @@ public class SearchController {
     @Autowired
     private SearchService searchService;
 
-    @GetMapping("/search/artists/firstname")
-    public ResponseEntity<Optional<List<Artist>>> searchByFirstName(@RequestParam String input){
-        Optional<List<Artist>> artists= artistService.searchByFirstName(input);
-        return new ResponseEntity<>(artists, HttpStatus.OK);
-    }
-    @GetMapping("/search/artists/lastname")
-    public List<Artist> searchByLastName(@RequestParam String input){
-        return artistService.searchByLastName(input);
+    @GetMapping("/search/artists")
+    public Optional<List<Artist>> searchByLastName(@RequestParam String input){
+        return searchService.searchByName(input);
     }
     @GetMapping("/search/albums/title")
-    public List<Album> searchByTitle(@RequestParam String input){
-        return albumService.searchByTitle(input);
+    public Optional<List<Album>> searchByTitle(@RequestParam String input){
+        return searchService.searchByTitle(input);
     }
     @GetMapping("/search/bands/bandname")
-    public List<Band> searchByBandName(@RequestParam String input){
-        return bandService.searchByBandname(input);
+    public Optional<List<Band>> searchByBandName(@RequestParam String input){
+        return searchService.searchByBandname(input);
     }
     @GetMapping("/searchAll")
     public ResponseEntity<SearchDTO> searchAll(String input){

@@ -40,10 +40,5 @@ public class BandService {
     public void deleteBand(BandDTO bandDTO){
         bandRepositoryJPA.delete(bandMapper.toEntity(bandDTO));
     }
-    @Transactional
-    public List<Band> searchByBandname(String bandname){
-        List<Band> bands=new ArrayList<Band>();
-        bands=bandRepositoryJPA.getBandsByBandnameContainingIgnoreCase(bandname);
-        return bands;
-    }
+
 }

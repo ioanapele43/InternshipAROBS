@@ -40,10 +40,5 @@ public class AlbumService {
     public void deleteAlbum(AlbumDTO albumDTO){
         albumRepositoryJPA.delete(albumMapper.toEntity(albumDTO));
     }
-    @Transactional
-    public List<Album> searchByTitle(String title){
-        List<Album> albums=new ArrayList<Album>();
-        albums=albumRepositoryJPA.getAlbumsByTitleContainingIgnoreCase(title);
-        return albums;
-    }
+
 }
