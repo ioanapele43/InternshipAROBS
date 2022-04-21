@@ -58,7 +58,7 @@ public class UserControllerJdbc {
     public String getUserById(@RequestParam int id) {
         userRepository = new UserRepository(dataSource);
         List<User> users = userRepository.getUserById(id);
-       // User u=userRepository.getUserById(id);
+        // User u=userRepository.getUserById(id);
         AtomicReference<String> s = new AtomicReference<>("");
         users.forEach(u -> {
             System.out.println(u.getFirstName() + " " + u.getLastName() + " " + u.getEmail() + " " + u.getPassword() + " " + u.getCountry() + " " + u.getRole());
@@ -68,10 +68,10 @@ public class UserControllerJdbc {
     }
 
     @PostMapping("/insertUser")
-    public String insertUser(@RequestParam int id, @RequestParam String firstname,@RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
+    public String insertUser(@RequestParam int id, @RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
         userRepository = new UserRepository(dataSource);
         try {
-            userRepository.insertUser(new User(id,firstname, lastname, email, password, country, role));
+            userRepository.insertUser(new User(id, firstname, lastname, email, password, country, role));
         } catch (Exception e) {
             System.out.println("exista deja");
         }
@@ -86,10 +86,10 @@ public class UserControllerJdbc {
     }
 
     @PutMapping("/updateUser")
-    public String updateUser(@RequestParam int id,@RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
+    public String updateUser(@RequestParam int id, @RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
         userRepository = new UserRepository(dataSource);
         try {
-            userRepository.updateUser(new User(id,firstname, lastname, email, password, country, role));
+            userRepository.updateUser(new User(id, firstname, lastname, email, password, country, role));
         } catch (Exception e) {
         }
         List<User> users = userRepository.getALlUSers();
@@ -103,10 +103,10 @@ public class UserControllerJdbc {
     }
 
     @DeleteMapping("/deleteUser")
-    public String deleteUser(@RequestParam int id,@RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
+    public String deleteUser(@RequestParam int id, @RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String country, @RequestParam String role) {
         userRepository = new UserRepository(dataSource);
         try {
-            userRepository.deleteUser(new User(id,firstname, lastname, email, password, country, role));
+            userRepository.deleteUser(new User(id, firstname, lastname, email, password, country, role));
         } catch (Exception e) {
         }
         List<User> users = userRepository.getALlUSers();
@@ -118,18 +118,19 @@ public class UserControllerJdbc {
         return s.get();
         //localhost:8080/deleteUser?firstname=bb&lastname=bb&email=bb&password=1234&country=romania&role=regular
     }
+
     @GetMapping("/{id}")
-    public UserViewDTO getUser(@PathVariable int id){
-        try{
+    public UserViewDTO getUser(@PathVariable int id) {
+        try {
             return userService.getUser(id);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return null;
         }
 
     }
+
     @PostMapping("/saveu")
-    public UserViewDTO saveUSer(@RequestBody UserDTO userDTO)  {
+    public UserViewDTO saveUSer(@RequestBody UserDTO userDTO) {
         return userService.saveUser(userDTO);
     }
 
@@ -137,20 +138,23 @@ public class UserControllerJdbc {
     public UserDTO getUserDto(@RequestParam int id) {
         return userService.getUserDto(id);
     }
+
     @PostMapping("/Login")
-    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password){
-        String token= userService.login(email, password);
+    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
+        String token = userService.login(email, password);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
+
     /*public UserViewDTO login(@RequestParam String email, @RequestParam String password){
         return userService.login(email, password);
     }*/
     @PostMapping("/Register")
-    public UserViewDTO registerUser(@RequestBody @Valid  UserDTO userDTO)  {
+    public UserViewDTO registerUser(@RequestBody @Valid UserDTO userDTO) {
         return userService.register(userDTO);
     }
+
     @GetMapping("/JustAdmin")
-    public String justAdmin(){
+    public String justAdmin() {
         return userService.justAdmin();
     }
     /*@PostMapping("/logout")

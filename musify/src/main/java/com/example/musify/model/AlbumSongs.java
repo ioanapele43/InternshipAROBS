@@ -13,10 +13,10 @@ import javax.persistence.*;
 public class AlbumSongs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name="order_number")
+    @Column(name = "order_number")
     private Integer orderNumber;
 
     @ManyToOne

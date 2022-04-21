@@ -8,7 +8,8 @@ import javax.sql.DataSource;
 @Repository
 public class PlaylistRepository {
     private JdbcTemplate jdbcTemplate;
-    public PlaylistRepository(DataSource dataSource){
-        this.jdbcTemplate=new JdbcTemplate(dataSource);
+
+    public PlaylistRepository(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 }

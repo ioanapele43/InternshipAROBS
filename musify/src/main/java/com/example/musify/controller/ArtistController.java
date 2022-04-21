@@ -14,43 +14,46 @@ import java.util.Optional;
 
 @RestController
 public class ArtistController {
-    private final  ArtistService artistService;
-
+    private final ArtistService artistService;
 
     @Autowired
-    public ArtistController(ArtistService artistService){
-        this.artistService=artistService;
+    public ArtistController(ArtistService artistService) {
+        this.artistService = artistService;
     }
 
     @GetMapping("/artists")
-    public ResponseEntity<List<Artist>> getAllArtist(){
-        List<Artist> artists=artistService.getArtists();
+    public ResponseEntity<List<Artist>> getAllArtist() {
+        List<Artist> artists = artistService.getArtists();
         return new ResponseEntity<>(artists, HttpStatus.OK);
     }
+
     @GetMapping("/artists/{id}")
-    public ResponseEntity<Optional<Artist>> getArtistByID(@PathVariable Integer id){
-        Optional<Artist> artist=artistService.getArtistById(id);
+    public ResponseEntity<Optional<Artist>> getArtistByID(@PathVariable Integer id) {
+        Optional<Artist> artist = artistService.getArtistById(id);
         return new ResponseEntity<Optional<Artist>>(artist, HttpStatus.OK);
     }
+
     @GetMapping("/artist/{firstName}")
-    public ResponseEntity<Optional<Artist>> getArtistByFirstNameLike(@PathVariable String firstName){
-        Optional<Artist> artists=artistService.getArtistContaining(firstName);
-        return new ResponseEntity< Optional<Artist>>(artists,HttpStatus.OK);
+    public ResponseEntity<Optional<Artist>> getArtistByFirstNameLike(@PathVariable String firstName) {
+        Optional<Artist> artists = artistService.getArtistContaining(firstName);
+        return new ResponseEntity<Optional<Artist>>(artists, HttpStatus.OK);
     }
 
     @PostMapping("/artist/save")
-    public String saveArtist(@RequestBody ArtistDTO artistDTO){
+    public String saveArtist(@RequestBody ArtistDTO artistDTO) {
         artistService.saveArtist(artistDTO);
         return "Success!";
     }
+
     @PutMapping("/artist/update")
-    public String updateArtist(@RequestBody ArtistDTO artistDTO){
+    public String updateArtist(@RequestBody ArtistDTO artistDTO) {
         artistService.updateArtist(artistDTO);
         return "Success!";
     }
+
     @DeleteMapping("/artist/delete/{id}")
-    public String deleteArtist(@PathVariable Integer id){
-        ArtistDTO artistDTO=new ArtistDTO();
+    public String deleteArtist(@PathVariable Integer id) {
+        ArtistDTO artistDTO = new ArtistDTO();
         artistDTO.setId(id);
         artistService.deleteArtist(artistDTO);
         return "Success!";

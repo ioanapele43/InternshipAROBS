@@ -22,22 +22,27 @@ public class BandService {
     private BandRepositoryJPA bandRepositoryJPA;
     @Autowired
     private BandMapper bandMapper;
-    public List<Band> getAllBands(){
+
+    public List<Band> getAllBands() {
         return bandRepositoryJPA.findAll();
     }
-    public Band getBandById(Integer id){
+
+    public Band getBandById(Integer id) {
         return bandRepositoryJPA.getBandById(id);
     }
+
     @Transactional
-    public void createBand(BandDTO bandDTO){
+    public void createBand(BandDTO bandDTO) {
         bandRepositoryJPA.save(bandMapper.toEntity(bandDTO));
     }
+
     @Transactional
-    public void updateBand(BandDTO bandDTO){
+    public void updateBand(BandDTO bandDTO) {
         bandRepositoryJPA.save(bandMapper.toEntity(bandDTO));
     }
+
     @Transactional
-    public void deleteBand(BandDTO bandDTO){
+    public void deleteBand(BandDTO bandDTO) {
         bandRepositoryJPA.delete(bandMapper.toEntity(bandDTO));
     }
 

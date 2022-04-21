@@ -22,34 +22,38 @@ public class SongController {
     private SongService songService;
     @Autowired
     private DataSource dataSource;
+
     @GetMapping("/songs")
-    public ResponseEntity<List<Song>> getAllPlaylists(){
-        List<Song> song=songService.getAllSongs();
+    public ResponseEntity<List<Song>> getAllPlaylists() {
+        List<Song> song = songService.getAllSongs();
         return new ResponseEntity<>(song, HttpStatus.OK);
     }
+
     @GetMapping("/song/{id}")
-    public ResponseEntity<Song> getPlaylistById(Integer id){
-        Song song=songService.getSongById(id);
-        return new ResponseEntity<>(song,HttpStatus.OK);
+    public ResponseEntity<Song> getPlaylistById(Integer id) {
+        Song song = songService.getSongById(id);
+        return new ResponseEntity<>(song, HttpStatus.OK);
     }
+
     @PostMapping("/song/create")
-    public String createSong(@RequestBody @Valid SongDTO songDTO){
+    public String createSong(@RequestBody @Valid SongDTO songDTO) {
         songService.createSong(songDTO);
         return "success!";
     }
+
     @PutMapping("/song/update")
-    public String updateSong(@RequestBody @Valid SongDTO songDTO){
+    public String updateSong(@RequestBody @Valid SongDTO songDTO) {
         songService.updateSong(songDTO);
         return "success!";
     }
+
     @DeleteMapping("/song/delete/{id}")
-    public String deleteSong(@PathVariable Integer id){
-        SongDTO songDTO=new SongDTO();
+    public String deleteSong(@PathVariable Integer id) {
+        SongDTO songDTO = new SongDTO();
         songDTO.setId(id);
         songService.deleteSong(songDTO);
         return "success!";
     }
-
 
 
 }

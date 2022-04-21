@@ -13,26 +13,26 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name="band")
-public class Band  {
+@Table(name = "band")
+public class Band {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
-    @Column(name="band_name")
+    @Column(name = "band_name")
     private String bandname;
-    @Column(name="location")
+    @Column(name = "location")
     private String location;
-    @Column(name="activity_start_date")
+    @Column(name = "activity_start_date")
     private Date activityStartDate;
-    @Column(name="activity_end_date")
+    @Column(name = "activity_end_date")
     private Date activityEndDate;
 
     @ManyToMany
     @JoinTable(
-            name="members",
-            joinColumns = @JoinColumn(name="band_id"),
-            inverseJoinColumns = @JoinColumn(name="person_id")
+            name = "members",
+            joinColumns = @JoinColumn(name = "band_id"),
+            inverseJoinColumns = @JoinColumn(name = "person_id")
     )
     private List<Artist> members;
 
@@ -50,8 +50,8 @@ public class Band  {
         this.id = idBand;
         this.bandname = bandname;
         this.location = location;
-        this.activityStartDate=startDate;
-        this.activityEndDate=endDate;
+        this.activityStartDate = startDate;
+        this.activityEndDate = endDate;
     }
 
 }

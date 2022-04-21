@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BandRepositoryJPA extends JpaRepository<Band,Integer> {
-   Band getBandById(Integer id);
-   //search for band
-   @Query("SELECT b FROM Band b WHERE b.bandname LIKE :name")
-   List<Band> findBandByBandname(@Param("name") String name);
+public interface BandRepositoryJPA extends JpaRepository<Band, Integer> {
+    Band getBandById(Integer id);
+
+    //search for band
+    @Query("SELECT b FROM Band b WHERE b.bandname LIKE :name")
+    List<Band> findBandByBandname(@Param("name") String name);
 }

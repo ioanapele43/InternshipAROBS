@@ -29,13 +29,14 @@ public class UserServiceJdbc {
         User user = userRepository.getUserById(id).get(0);
         return userMapper.toViewDto(user);
     }
+
     public UserDTO getUserDto(int id) {
-        User user=null;
-        if(userRepository.getUserById(id).size()>0) {
+        User user = null;
+        if (userRepository.getUserById(id).size() > 0) {
             user = userRepository.getUserById(id).get(0);
         }
 
-        UserDTO userDTO=userMapper.toDto(user);
+        UserDTO userDTO = userMapper.toDto(user);
         //String decodedPassword= new String(decoder.decode(userDTO.getPassword()));
         //userDTO.setPassword(decodedPassword);
         return userMapper.toDto(user);
@@ -44,11 +45,12 @@ public class UserServiceJdbc {
     public UserViewDTO saveUser(UserDTO userDTO) {
 
         User user = userMapper.toEntity(userDTO);
-       // Base64.Encoder encoder = null;
+        // Base64.Encoder encoder = null;
         //user.setPassword(encoder.encodeToString(user.getPassword().getBytes()));
         userRepository.insertUser(user);
         return userMapper.toViewDto(user);
     }
+
     /*public UserViewDTO login(String email, String password){
         User user=null;
         if(userRepository.getUserByEmailPassword(email,password).size()>0) {
@@ -56,29 +58,31 @@ public class UserServiceJdbc {
         }
         return userMapper.toViewDto(user);
     }*/
-    public String login(String email,String password){
-        User user=null;
-        if(userRepository.getUserByEmail(email).size()>0){
-            user=userRepository.getUserByEmail(email).get(0);
+    public String login(String email, String password) {
+        User user = null;
+        if (userRepository.getUserByEmail(email).size() > 0) {
+            user = userRepository.getUserByEmail(email).get(0);
         }
-        if(user==null || !password.equals(user.getPassword())){
+        if (user == null || !password.equals(user.getPassword())) {
             throw new UnauthorizedException("Email or password invalid");
         }
-        return JwtUtils.generateToken(user.getId(),user.getEmail(),user.getRole());
+        return JwtUtils.generateToken(user.getId(), user.getEmail(), user.getRole());
 
     }
-    public UserViewDTO register(UserDTO userDTO){
+
+    public UserViewDTO register(UserDTO userDTO) {
         return saveUser(userDTO);
     }
-    public void logout(String token){
+
+    public void logout(String token) {
         JwtUtils.invalidateToken(token);
     }
-    public String justAdmin(){
-        String role=JwtUtils.getCurrentUserRole();
-        if(role.equals("admin")){
+
+    public String justAdmin() {
+        String role = JwtUtils.getCurrentUserRole();
+        if (role.equals("admin")) {
             return "Welcome admin";
-        }
-        else{
+        } else {
             throw new UnauthorizedException("you're not admin");
         }
     }

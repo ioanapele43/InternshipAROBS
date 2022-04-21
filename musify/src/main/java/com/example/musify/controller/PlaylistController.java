@@ -21,29 +21,34 @@ public class PlaylistController {
     private PlaylistService playlistService;
     @Autowired
     private DataSource dataSource;
+
     @GetMapping("/playlists")
-    public ResponseEntity<List<Playlist>> getAllPlaylists(){
-        List<Playlist> playlist=playlistService.getAllPlaylists();
+    public ResponseEntity<List<Playlist>> getAllPlaylists() {
+        List<Playlist> playlist = playlistService.getAllPlaylists();
         return new ResponseEntity<>(playlist, HttpStatus.OK);
     }
+
     @GetMapping("/playlist/{id}")
-    public ResponseEntity<Playlist> getPlaylistById(Integer id){
-        Playlist playlist=playlistService.getPlaylistbyId(id);
-        return new ResponseEntity<>(playlist,HttpStatus.OK);
+    public ResponseEntity<Playlist> getPlaylistById(Integer id) {
+        Playlist playlist = playlistService.getPlaylistbyId(id);
+        return new ResponseEntity<>(playlist, HttpStatus.OK);
     }
+
     @PostMapping("/playlist/create")
-    public String createPlaylist(@RequestBody @Valid PlaylistDTO playlistDTO){
+    public String createPlaylist(@RequestBody @Valid PlaylistDTO playlistDTO) {
         playlistService.createPlaylist(playlistDTO);
         return "success!";
     }
+
     @PutMapping("/playlist/update")
-    public String updatePlaylist(@RequestBody @Valid PlaylistDTO playlistDTO){
+    public String updatePlaylist(@RequestBody @Valid PlaylistDTO playlistDTO) {
         playlistService.updatePlaylist(playlistDTO);
         return "success!";
     }
+
     @DeleteMapping("/playlist/delete/{id}")
-    public String deletePlaylist(@PathVariable Integer id){
-        PlaylistDTO playlistDTO=new PlaylistDTO();
+    public String deletePlaylist(@PathVariable Integer id) {
+        PlaylistDTO playlistDTO = new PlaylistDTO();
         playlistDTO.setId(id);
         playlistService.deletePlaylist(playlistDTO);
         return "success!";

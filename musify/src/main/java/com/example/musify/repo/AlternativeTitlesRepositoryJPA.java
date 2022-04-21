@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface AlternativeTitlesRepositoryJPA extends JpaRepository<Song,Integer> {
+public interface AlternativeTitlesRepositoryJPA extends JpaRepository<Song, Integer> {
     Optional<Song> findById(Integer id);
 }

@@ -15,43 +15,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 @Service
 public class SearchService {
 
-    private final  ArtistRepositoryJPA artistRepositoryJPA;
-
+    private final ArtistRepositoryJPA artistRepositoryJPA;
     private final BandRepositoryJPA bandRepositoryJPA;
-
     private final AlbumRepositoryJPA albumRepositoryJPA;
 
     public SearchService(ArtistRepositoryJPA artistRepositoryJPA, BandRepositoryJPA bandRepositoryJPA, AlbumRepositoryJPA albumRepositoryJPA) {
-        this.artistRepositoryJPA=artistRepositoryJPA;
-        this.bandRepositoryJPA=bandRepositoryJPA;
-        this.albumRepositoryJPA=albumRepositoryJPA;
+        this.artistRepositoryJPA = artistRepositoryJPA;
+        this.bandRepositoryJPA = bandRepositoryJPA;
+        this.albumRepositoryJPA = albumRepositoryJPA;
     }
 
     @Transactional
-    public Optional<List<Artist>> searchByName(String name){
-        List<Artist> aux=artistRepositoryJPA.findArtistByFirstnameOrLastname("%"+name+"%");
+    public Optional<List<Artist>> searchByName(String name) {
+        List<Artist> aux = artistRepositoryJPA.findArtistByFirstnameOrLastname("%" + name + "%");
         return Optional.of(aux);
     }
+
     @Transactional
-    public Optional<List<Band>> searchByBandname(String bandname){
-        List<Band> aux=bandRepositoryJPA.findBandByBandname("%"+bandname+"%");
+    public Optional<List<Band>> searchByBandname(String bandname) {
+        List<Band> aux = bandRepositoryJPA.findBandByBandname("%" + bandname + "%");
         return Optional.of(aux);
     }
+
     @Transactional
-    public Optional<List<Album>> searchByTitle(String title){
-        List<Album> aux=albumRepositoryJPA.findAlbumByTitle("%"+title+"%");
+    public Optional<List<Album>> searchByTitle(String title) {
+        List<Album> aux = albumRepositoryJPA.findAlbumByTitle("%" + title + "%");
         return Optional.of(aux);
     }
+
     @Transactional
-    public SearchDTO searchAll(String input){
-        SearchDTO searchDTO=new SearchDTO();
-        searchDTO.setAlbums(albumRepositoryJPA.findAlbumByTitle("%"+input+"%"));
-        searchDTO.setArtists(artistRepositoryJPA.findArtistByFirstnameOrLastname("%"+input+"%"));
-        searchDTO.setBands(bandRepositoryJPA.findBandByBandname("%"+input+"%"));
-        return  searchDTO;
+    public SearchDTO searchAll(String input) {
+        SearchDTO searchDTO = new SearchDTO();
+        searchDTO.setAlbums(albumRepositoryJPA.findAlbumByTitle("%" + input + "%"));
+        searchDTO.setArtists(artistRepositoryJPA.findArtistByFirstnameOrLastname("%" + input + "%"));
+        searchDTO.setBands(bandRepositoryJPA.findBandByBandname("%" + input + "%"));
+        return searchDTO;
     }
 
 }

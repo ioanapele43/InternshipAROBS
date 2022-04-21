@@ -20,7 +20,7 @@ public class AlbumDTO {
     @NotBlank(message = "Title cannot be blank!")
     private String title;
     @NotBlank(message = "Description cannot be blank!")
-    private  String description;
+    private String description;
     @NotBlank(message = "Genre cannot be blank!")
     private String genre;
     @NotBlank(message = "Release Date cannot be blank!")

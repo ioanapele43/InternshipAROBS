@@ -12,7 +12,7 @@ import java.util.*;
 public class JwtUtils {
     private static String signatureSecret = "myMusifyApp2022";
     private static String issuer = "musify";
-    private static List<String> blacklistTokens=new ArrayList<String>();
+    private static List<String> blacklistTokens = new ArrayList<String>();
 
     public static String generateToken(int id, String email, String role) {
         Algorithm algorithm = Algorithm.HMAC256(signatureSecret);
@@ -54,13 +54,16 @@ public class JwtUtils {
 
         return userInfo;
     }
-    public static void invalidateToken(String jwtToken){
+
+    public static void invalidateToken(String jwtToken) {
         //add to blacklist
         blacklistTokens.add(jwtToken);
     }
-    public static boolean isBlackListed(String token){
+
+    public static boolean isBlackListed(String token) {
         return blacklistTokens.contains(token);
     }
+
     public static Integer getCurrentUserId() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

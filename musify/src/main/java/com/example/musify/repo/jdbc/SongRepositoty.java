@@ -8,8 +8,9 @@ import javax.sql.DataSource;
 @Repository
 public class SongRepositoty {
     private JdbcTemplate jdbcTemplate;
-    public SongRepositoty(DataSource dataSource){
-        this.jdbcTemplate=new JdbcTemplate(dataSource);
+
+    public SongRepositoty(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
 }

@@ -11,37 +11,37 @@ import java.util.*;
 @Setter
 @Getter
 @Entity
-@Table(name="albums")
+@Table(name = "albums")
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
-    @Column(name="title")
+    @Column(name = "title")
     private String title;
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
-    @Column(name="genre")
+    @Column(name = "genre")
     private String genre;
-    @Column(name="release_date")
+    @Column(name = "release_date")
     private Date releaseDate;
-    @Column(name="label")
+    @Column(name = "label")
     private String label;
 
-   @ManyToOne
-    private Artist artist ;
+    @ManyToOne
+    private Artist artist;
 
     @ManyToOne
     private Band band;
 
-   /* @ManyToMany
-    @JoinTable(
-            name="album_songs",
-            joinColumns = @JoinColumn(name="album_id"),
-            inverseJoinColumns = @JoinColumn(name="song_id")
-    )
-    private List<Song> songs=new ArrayList<Song>();
-*/
+    /* @ManyToMany
+     @JoinTable(
+             name="album_songs",
+             joinColumns = @JoinColumn(name="album_id"),
+             inverseJoinColumns = @JoinColumn(name="song_id")
+     )
+     private List<Song> songs=new ArrayList<Song>();
+ */
     @OneToMany(mappedBy = "album")
     private List<AlbumSongs> albumSongs;
 
@@ -54,5 +54,22 @@ public class Album {
 
     }
 
-
+    @Override
+    public String toString() {
+        List<String> albumSongsString = new ArrayList<String>();
+        albumSongs.forEach(a -> {
+            albumSongsString.add(a.getSong().getTitle());
+        });
+        return "Album{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", genre='" + genre + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", label='" + label + '\'' +
+                ", artist=" + artist.getFirstname() +
+                ", band=" + band.getBandname() +
+                ", albumSongs=" + albumSongsString +
+                '}';
+    }
 }

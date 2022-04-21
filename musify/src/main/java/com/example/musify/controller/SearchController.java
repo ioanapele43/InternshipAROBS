@@ -30,21 +30,24 @@ public class SearchController {
     private SearchService searchService;
 
     @GetMapping("/search/artists")
-    public Optional<List<Artist>> searchByLastName(@RequestParam String input){
+    public Optional<List<Artist>> searchByLastName(@RequestParam String input) {
         return searchService.searchByName(input);
     }
+
     @GetMapping("/search/albums/title")
-    public Optional<List<Album>> searchByTitle(@RequestParam String input){
+    public Optional<List<Album>> searchByTitle(@RequestParam String input) {
         return searchService.searchByTitle(input);
     }
+
     @GetMapping("/search/bands/bandname")
-    public Optional<List<Band>> searchByBandName(@RequestParam String input){
+    public Optional<List<Band>> searchByBandName(@RequestParam String input) {
         return searchService.searchByBandname(input);
     }
+
     @GetMapping("/searchAll")
-    public ResponseEntity<SearchDTO> searchAll(String input){
-        SearchDTO searchDTO=searchService.searchAll(input);
-        return new ResponseEntity<>(searchDTO,HttpStatus.OK);
+    public ResponseEntity<SearchDTO> searchAll(String input) {
+        SearchDTO searchDTO = searchService.searchAll(input);
+        return new ResponseEntity<>(searchDTO, HttpStatus.OK);
     }
 
 }

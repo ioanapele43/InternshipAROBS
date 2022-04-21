@@ -14,29 +14,33 @@ import java.util.Optional;
 
 @Service
 public class PlaylistService {
-   @Autowired
+    @Autowired
     private DataSource dataSource;
-   @Autowired
+    @Autowired
     private PlaylistRepositoryJPA playlistRepositoryJPA;
-   @Autowired
+    @Autowired
     private PlaylistMapper playlistMapper;
 
-   public List<Playlist> getAllPlaylists(){
-       return playlistRepositoryJPA.findAll();
-   }
-   public Playlist getPlaylistbyId(Integer id){
-       return  playlistRepositoryJPA.getPlaylistById(id);
-   }
-   @Transactional
-    public void createPlaylist(PlaylistDTO playlistDTO){
-       playlistRepositoryJPA.save(playlistMapper.toEntity(playlistDTO));
-   }
+    public List<Playlist> getAllPlaylists() {
+        return playlistRepositoryJPA.findAll();
+    }
+
+    public Playlist getPlaylistbyId(Integer id) {
+        return playlistRepositoryJPA.getPlaylistById(id);
+    }
+
     @Transactional
-    public void updatePlaylist(PlaylistDTO playlistDTO){
+    public void createPlaylist(PlaylistDTO playlistDTO) {
         playlistRepositoryJPA.save(playlistMapper.toEntity(playlistDTO));
     }
+
     @Transactional
-    public void deletePlaylist(PlaylistDTO playlistDTO){
+    public void updatePlaylist(PlaylistDTO playlistDTO) {
+        playlistRepositoryJPA.save(playlistMapper.toEntity(playlistDTO));
+    }
+
+    @Transactional
+    public void deletePlaylist(PlaylistDTO playlistDTO) {
         playlistRepositoryJPA.delete(playlistMapper.toEntity(playlistDTO));
     }
 

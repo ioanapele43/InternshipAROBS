@@ -26,22 +26,25 @@ public class BandController {
 
     @GetMapping("/bands")
     public ResponseEntity<List<Band>> getAllBands() {
-        List<Band> bands=bandService.getAllBands();
+        List<Band> bands = bandService.getAllBands();
         return new ResponseEntity<>(bands, HttpStatus.OK);
     }
+
     @PostMapping("/band/create")
-    public String createBand(@RequestBody @Valid BandDTO bandDTO){
+    public String createBand(@RequestBody @Valid BandDTO bandDTO) {
         bandService.createBand(bandDTO);
         return "Success!";
     }
+
     @PutMapping("/band/update")
-    public String updateBand(@RequestBody @Valid BandDTO bandDTO){
+    public String updateBand(@RequestBody @Valid BandDTO bandDTO) {
         bandService.updateBand(bandDTO);
         return "Success!";
     }
+
     @DeleteMapping("/band/delete/{id}")
-    public String deleteBand(@PathVariable Integer id){
-        BandDTO bandDTO=new BandDTO();
+    public String deleteBand(@PathVariable Integer id) {
+        BandDTO bandDTO = new BandDTO();
         bandDTO.setId(id);
         bandService.deleteBand(bandDTO);
         return "Success!";

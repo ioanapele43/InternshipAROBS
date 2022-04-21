@@ -20,22 +20,27 @@ public class SongService {
     private SongRepositoryJPA songRepositoryJPA;
     @Autowired
     private SongMapper songMapper;
-    public List<Song> getAllSongs(){
+
+    public List<Song> getAllSongs() {
         return songRepositoryJPA.findAll();
     }
-    public Song getSongById(Integer id){
+
+    public Song getSongById(Integer id) {
         return songRepositoryJPA.getSongById(id);
     }
+
     @Transactional
-    public void createSong(SongDTO songDTO){
+    public void createSong(SongDTO songDTO) {
         songRepositoryJPA.save(songMapper.toEntity(songDTO));
     }
+
     @Transactional
-    public void updateSong(SongDTO songDTO){
+    public void updateSong(SongDTO songDTO) {
         songRepositoryJPA.save(songMapper.toEntity(songDTO));
     }
+
     @Transactional
-    public void deleteSong(SongDTO songDTO){
+    public void deleteSong(SongDTO songDTO) {
         songRepositoryJPA.delete(songMapper.toEntity(songDTO));
     }
 

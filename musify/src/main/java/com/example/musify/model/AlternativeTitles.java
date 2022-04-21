@@ -9,12 +9,12 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name="alternative_titles")
+@Table(name = "alternative_titles")
 public class AlternativeTitles {
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
-    @Column(name="alternative_title")
+    @Column(name = "alternative_title")
     private String alternativeTitle;
     @ManyToOne
     private Song song;

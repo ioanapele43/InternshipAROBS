@@ -22,22 +22,26 @@ public class AlbumService {
     @Autowired
     private AlbumMapper albumMapper;
 
-    public List<Album> getAllAlbums(){
+    public List<Album> getAllAlbums() {
         return albumRepositoryJPA.findAll();
     }
-    public Album getAlbumById(Integer id){
+
+    public Album getAlbumById(Integer id) {
         return albumRepositoryJPA.getAlbumById(id);
     }
+
     @Transactional
-    public void createAlbum(AlbumDTO albumDTO){
+    public void createAlbum(AlbumDTO albumDTO) {
         albumRepositoryJPA.save(albumMapper.toEntity(albumDTO));
     }
+
     @Transactional
-    public void updateAlbum(AlbumDTO albumDTO){
+    public void updateAlbum(AlbumDTO albumDTO) {
         albumRepositoryJPA.save(albumMapper.toEntity(albumDTO));
     }
+
     @Transactional
-    public void deleteAlbum(AlbumDTO albumDTO){
+    public void deleteAlbum(AlbumDTO albumDTO) {
         albumRepositoryJPA.delete(albumMapper.toEntity(albumDTO));
     }
 

@@ -37,7 +37,7 @@ public class UserRepository {
     }
 
     public List<User> getUserById(int id) {
-       // User u=null;
+        // User u=null;
         // return jdbcTemplate.queryForObject("Select * from users where idusers=?;", new Object[]{id},User.class);
         return jdbcTemplate.query("Select * from users where id=?;", new Object[]{id},
                 (rs, rowNum) ->
@@ -51,10 +51,11 @@ public class UserRepository {
                         ));
 
     }
+
     public List<User> getUserByEmailPassword(String email, String password) {
         // User u=null;
         // return jdbcTemplate.queryForObject("Select * from users where idusers=?;", new Object[]{id},User.class);
-        return jdbcTemplate.query("Select * from users where email=? and password=?;", new Object[]{email,password},
+        return jdbcTemplate.query("Select * from users where email=? and password=?;", new Object[]{email, password},
                 (rs, rowNum) ->
                         new User(rs.getInt("id"),
                                 rs.getString("first_name"),
@@ -66,6 +67,7 @@ public class UserRepository {
                         ));
 
     }
+
     public List<User> getUserByEmail(String email) {
         // User u=null;
         // return jdbcTemplate.queryForObject("Select * from users where idusers=?;", new Object[]{id},User.class);
@@ -87,7 +89,7 @@ public class UserRepository {
     }
 
     public void updateUser(User user) {
-        jdbcTemplate.update("update users set first_name=?, last_name=?,password=?,country=?,role=?,email=? where id=?;", user.getFirstName(), user.getLastName(), user.getPassword(), user.getCountry(), user.getRole(), user.getEmail(),user.getId());
+        jdbcTemplate.update("update users set first_name=?, last_name=?,password=?,country=?,role=?,email=? where id=?;", user.getFirstName(), user.getLastName(), user.getPassword(), user.getCountry(), user.getRole(), user.getEmail(), user.getId());
     }
 
     public void deleteUser(User user) {

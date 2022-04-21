@@ -13,28 +13,28 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="songs")
+@Table(name = "songs")
 public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
-    @Column(name="title")
+    @Column(name = "title")
     private String title;
-    @Column(name="duration")
+    @Column(name = "duration")
     private Time duration;
-    @Column(name="creation_date")
+    @Column(name = "creation_date")
     private Date creationDate;
 
 
     @OneToMany(mappedBy = "song")
     private List<AlternativeTitles> alternativeTitles;
 
-   /* @ManyToMany(mappedBy = "songs")
-    private List<Album> album;
-    */
-   @OneToMany(mappedBy = "song")
-   private List<AlbumSongs> albumSongs;
+    /* @ManyToMany(mappedBy = "songs")
+     private List<Album> album;
+     */
+    @OneToMany(mappedBy = "song")
+    private List<AlbumSongs> albumSongs;
     @OneToMany(mappedBy = "song")
     private List<PlaylistSongs> playlistSongs;
 

@@ -4,8 +4,9 @@ import com.example.musify.dto.BandDTO;
 import com.example.musify.model.Band;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel="spring")
+@Mapper(componentModel = "spring")
 public interface BandMapper {
     BandDTO toDto(Band band);
+
     Band toEntity(BandDTO bandDTO);
 }

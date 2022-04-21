@@ -22,31 +22,40 @@ public class ArtistService {
     private final ArtistRepositoryJPA artistRepository;
     @Autowired
     private ArtistMapper artistMapper;
+
     @Autowired
-    public ArtistService(ArtistRepositoryJPA artistRepository){
-        this.artistRepository=artistRepository;
+    public ArtistService(ArtistRepositoryJPA artistRepository) {
+        this.artistRepository = artistRepository;
     }
 
-    public List<Artist> getArtists(){
+    public List<Artist> getArtists() {
         return artistRepository.findAll();
     }
-    public Optional<Artist> getArtistById(int id){return artistRepository.findById(id);};
 
-    public Optional<Artist> getArtistContaining(String firstName){
+    public Optional<Artist> getArtistById(int id) {
+        return artistRepository.findById(id);
+    }
 
-        Optional<Artist> artist=artistRepository.findByFirstname(firstName);
+    ;
+
+    public Optional<Artist> getArtistContaining(String firstName) {
+
+        Optional<Artist> artist = artistRepository.findByFirstname(firstName);
         return artist;
     }
+
     @Transactional
-    public void saveArtist(ArtistDTO artist){
+    public void saveArtist(ArtistDTO artist) {
         artistRepository.save(artistMapper.toEntity(artist));
     }
+
     @Transactional
-    public void updateArtist(ArtistDTO artist){
+    public void updateArtist(ArtistDTO artist) {
         artistRepository.save(artistMapper.toEntity(artist));
     }
+
     @Transactional
-    public void deleteArtist(ArtistDTO artist){
+    public void deleteArtist(ArtistDTO artist) {
         artistRepository.delete(artistMapper.toEntity(artist));
     }
 

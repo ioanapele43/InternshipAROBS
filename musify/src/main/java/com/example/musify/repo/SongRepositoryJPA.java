@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface SongRepositoryJPA extends JpaRepository<Song,Integer> {
+public interface SongRepositoryJPA extends JpaRepository<Song, Integer> {
     Song getSongById(Integer id);
 }

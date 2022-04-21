@@ -21,29 +21,34 @@ public class AlbumController {
     private AlbumService albumService;
     @Autowired
     private DataSource dataSource;
+
     @GetMapping("/albums")
-    public ResponseEntity<List<Album>> getAllAlbums(){
-        List<Album> albums=albumService.getAllAlbums();
+    public ResponseEntity<List<Album>> getAllAlbums() {
+        List<Album> albums = albumService.getAllAlbums();
         return new ResponseEntity<>(albums, HttpStatus.OK);
     }
+
     @GetMapping("/album/{id}")
-    public ResponseEntity<Album> getAlbumById(Integer id){
-        Album album=albumService.getAlbumById(id);
-        return new ResponseEntity<>(album,HttpStatus.OK);
+    public ResponseEntity<Album> getAlbumById(Integer id) {
+        Album album = albumService.getAlbumById(id);
+        return new ResponseEntity<>(album, HttpStatus.OK);
     }
+
     @PostMapping("/album/create")
-    public String createAlbum(@RequestBody @Valid AlbumDTO albumDTO){
+    public String createAlbum(@RequestBody @Valid AlbumDTO albumDTO) {
         albumService.createAlbum(albumDTO);
         return "success!";
     }
+
     @PutMapping("/album/update")
-    public String updateAlbum(@RequestBody @Valid AlbumDTO albumDTO){
+    public String updateAlbum(@RequestBody @Valid AlbumDTO albumDTO) {
         albumService.updateAlbum(albumDTO);
         return "success!";
     }
+
     @DeleteMapping("/album/delete/{id}")
-    public String deleteAlbum(@PathVariable Integer id){
-        AlbumDTO albumDTO=new AlbumDTO();
+    public String deleteAlbum(@PathVariable Integer id) {
+        AlbumDTO albumDTO = new AlbumDTO();
         albumDTO.setId(id);
         albumService.deleteAlbum(albumDTO);
         return "success!";

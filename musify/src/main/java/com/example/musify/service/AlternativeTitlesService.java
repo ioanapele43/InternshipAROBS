@@ -21,22 +21,26 @@ public class AlternativeTitlesService {
     @Autowired
     private AlternativeTitlesMapper alternativeTitlesMapper;
 
-    public List<Song> getAllAternativeTitles(){
+    public List<Song> getAllAternativeTitles() {
         return alternativeTitlesRepositoryJPA.findAll();
     }
-    public Optional<Song> getAlternativeTitleById(Integer id){
+
+    public Optional<Song> getAlternativeTitleById(Integer id) {
         return alternativeTitlesRepositoryJPA.findById(id);
     }
+
     @Transactional
-    public void createAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO){
+    public void createAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO) {
         alternativeTitlesRepositoryJPA.save(alternativeTitlesMapper.toEntity(alternativeTitlesDTO));
     }
+
     @Transactional
-    public void updateAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO){
+    public void updateAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO) {
         alternativeTitlesRepositoryJPA.save(alternativeTitlesMapper.toEntity(alternativeTitlesDTO));
     }
+
     @Transactional
-    public void deleteAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO){
+    public void deleteAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO) {
         alternativeTitlesRepositoryJPA.delete(alternativeTitlesMapper.toEntity(alternativeTitlesDTO));
     }
 

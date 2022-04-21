@@ -12,21 +12,24 @@ public class ApiError {
     private LocalDateTime timestamp;
     private HttpStatus errorCode;
     private List<String> errorMessages;
-    public ApiError(){
+
+    public ApiError() {
 
     }
-    public ApiError(HttpStatus errorCode, String errorMessage){
-        this.timestamp=LocalDateTime.now();
-        this.errorCode=errorCode;
-        if(isNull(this.errorMessages)){
-            this.errorMessages=new ArrayList<>();
+
+    public ApiError(HttpStatus errorCode, String errorMessage) {
+        this.timestamp = LocalDateTime.now();
+        this.errorCode = errorCode;
+        if (isNull(this.errorMessages)) {
+            this.errorMessages = new ArrayList<>();
         }
         this.errorMessages.add(errorMessage);
     }
-    public ApiError(HttpStatus errorCode, List<String> errorMessage){
-        this.timestamp=LocalDateTime.now();
-        this.errorCode=errorCode;
-        this.errorMessages=errorMessage;
+
+    public ApiError(HttpStatus errorCode, List<String> errorMessage) {
+        this.timestamp = LocalDateTime.now();
+        this.errorCode = errorCode;
+        this.errorMessages = errorMessage;
     }
 
     public LocalDateTime getTimestamp() {

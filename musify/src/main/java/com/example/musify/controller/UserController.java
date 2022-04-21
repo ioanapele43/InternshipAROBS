@@ -23,53 +23,59 @@ public class UserController {
     private DataSource dataSource;
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers(){
-        List<User> users=userService.getUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
     @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id){
-        User user=userService.getUserById(id);
-        return new ResponseEntity<>(user,HttpStatus.OK);
+    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+        User user = userService.getUserById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
     @PostMapping("/register")
-    public String register(@RequestBody @Valid UserDTO userDTO){
+    public String register(@RequestBody @Valid UserDTO userDTO) {
 
         userService.register(userDTO);
         return "Success!";
     }
+
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password){
-        String token= userService.login(email, password);
-        return new ResponseEntity<>(token,HttpStatus.OK);
+    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
+        String token = userService.login(email, password);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
+
     @PutMapping("/user/update")
-    public String updateUser(@RequestBody UserDTO userDTO){
+    public String updateUser(@RequestBody UserDTO userDTO) {
         userService.updateUser(userDTO);
         return "updated with success!";
     }
+
     @PutMapping("/user/setActive/{id}")
-    public String setUserActive(@PathVariable Integer id ){
+    public String setUserActive(@PathVariable Integer id) {
         userService.setActive(id);
         return "success!";
     }
+
     @PutMapping("/user/setInactive/{id}")
-    public String setUserInactive(@PathVariable Integer id ){
+    public String setUserInactive(@PathVariable Integer id) {
         userService.setInactive(id);
         return "success!";
     }
+
     @PutMapping("/user/inactivate_account")
-    public String inactivate(){
+    public String inactivate() {
         userService.inactivateUser();
         return "success!";
     }
+
     @PutMapping("/user/activate_account")
-    public String activate(){
+    public String activate() {
         userService.activateUser();
         return "success!";
     }
-
-
 
 
 }

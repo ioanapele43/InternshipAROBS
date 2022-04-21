@@ -5,8 +5,9 @@ import com.example.musify.model.AlternativeTitles;
 import com.example.musify.model.Song;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel="spring")
+@Mapper(componentModel = "spring")
 public interface AlternativeTitlesMapper {
     AlternativeTitlesDTO toDto(AlternativeTitles alternativeTitles);
+
     Song toEntity(AlternativeTitlesDTO alternativeTitlesDTO);
 }

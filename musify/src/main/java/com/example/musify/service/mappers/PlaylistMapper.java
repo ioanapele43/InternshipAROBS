@@ -4,9 +4,10 @@ import com.example.musify.dto.PlaylistDTO;
 import com.example.musify.model.Playlist;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel="spring")
+@Mapper(componentModel = "spring")
 public interface PlaylistMapper {
     PlaylistDTO toDto(Playlist playlist);
+
     Playlist toEntity(PlaylistDTO playlistDTO);
 
 }

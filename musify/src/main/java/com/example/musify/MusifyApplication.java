@@ -16,27 +16,30 @@ import javax.sql.DataSource;
 //@ComponentScan("com.example.musify")
 public class MusifyApplication {
 
-	public static void main(String[] args) {SpringApplication.run(MusifyApplication.class, args);
-	}
-	@Bean
-	public JdbcTemplate jdbcTemplate(DataSource dataSource){
-		return new JdbcTemplate(dataSource);
-	}
-	@Bean
-	public OpenAPI customOpenAPI() {
-		final String securitySchemeName = "Bearer Authentication";
-		return new OpenAPI()
-				.addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
-				.components(
-						new Components()
-								.addSecuritySchemes(securitySchemeName,
-										new SecurityScheme()
-												.name(securitySchemeName)
-												.type(SecurityScheme.Type.HTTP)
-												.scheme("bearer")
-												.bearerFormat("JWT")
-								)
-				);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MusifyApplication.class, args);
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        final String securitySchemeName = "Bearer Authentication";
+        return new OpenAPI()
+                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                .components(
+                        new Components()
+                                .addSecuritySchemes(securitySchemeName,
+                                        new SecurityScheme()
+                                                .name(securitySchemeName)
+                                                .type(SecurityScheme.Type.HTTP)
+                                                .scheme("bearer")
+                                                .bearerFormat("JWT")
+                                )
+                );
+    }
 
 }
