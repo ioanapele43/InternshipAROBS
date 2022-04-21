@@ -4,29 +4,24 @@ import com.example.musify.dto.ArtistDTO;
 import com.example.musify.model.Artist;
 import com.example.musify.repo.ArtistRepositoryJPA;
 import com.example.musify.service.mappers.ArtistMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 
 public class ArtistService {
-    @Autowired
-    private DataSource dataSource;
     private final ArtistRepositoryJPA artistRepository;
-    @Autowired
-    private ArtistMapper artistMapper;
+    private final ArtistMapper artistMapper;
 
-    @Autowired
-    public ArtistService(ArtistRepositoryJPA artistRepository) {
+    public ArtistService( ArtistRepositoryJPA artistRepository, ArtistMapper artistMapper) {
         this.artistRepository = artistRepository;
+        this.artistMapper = artistMapper;
     }
+
 
     public List<Artist> getArtists() {
         return artistRepository.findAll();

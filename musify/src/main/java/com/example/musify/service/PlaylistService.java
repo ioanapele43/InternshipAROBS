@@ -4,22 +4,21 @@ import com.example.musify.dto.PlaylistDTO;
 import com.example.musify.model.Playlist;
 import com.example.musify.repo.PlaylistRepositoryJPA;
 import com.example.musify.service.mappers.PlaylistMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PlaylistService {
-    @Autowired
-    private DataSource dataSource;
-    @Autowired
-    private PlaylistRepositoryJPA playlistRepositoryJPA;
-    @Autowired
-    private PlaylistMapper playlistMapper;
+    private final PlaylistRepositoryJPA playlistRepositoryJPA;
+    private final PlaylistMapper playlistMapper;
+
+    public PlaylistService( PlaylistRepositoryJPA playlistRepositoryJPA, PlaylistMapper playlistMapper) {
+        this.playlistRepositoryJPA = playlistRepositoryJPA;
+        this.playlistMapper = playlistMapper;
+    }
 
     public List<Playlist> getAllPlaylists() {
         return playlistRepositoryJPA.findAll();
