@@ -26,4 +26,5 @@ public interface ArtistRepositoryJPA extends JpaRepository<Artist, Integer> {
 
     @Query("SELECT a FROM Artist a WHERE a.firstname LIKE :name OR a.lastname LIKE :name")
     List<Artist> findArtistByFirstnameOrLastname(@Param("name") String name);
+
 }

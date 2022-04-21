@@ -30,21 +30,18 @@ public class SearchService {
     }
 
     @Transactional
-    public Optional<List<Artist>> searchByName(String name) {
-        List<Artist> aux = artistRepositoryJPA.findArtistByFirstnameOrLastname("%" + name + "%");
-        return Optional.of(aux);
+    public List<Artist> searchByName(String name) {
+        return artistRepositoryJPA.findArtistByFirstnameOrLastname("%" + name + "%");
     }
 
     @Transactional
-    public Optional<List<Band>> searchByBandname(String bandname) {
-        List<Band> aux = bandRepositoryJPA.findBandByBandname("%" + bandname + "%");
-        return Optional.of(aux);
+    public List<Band> searchByBandname(String bandname) {
+        return bandRepositoryJPA.findBandByBandname("%" + bandname + "%");
     }
 
     @Transactional
-    public Optional<List<Album>> searchByTitle(String title) {
-        List<Album> aux = albumRepositoryJPA.findAlbumByTitle("%" + title + "%");
-        return Optional.of(aux);
+    public List<Album> searchByTitle(String title) {
+        return albumRepositoryJPA.findAlbumByTitle("%" + title + "%");
     }
 
     @Transactional
