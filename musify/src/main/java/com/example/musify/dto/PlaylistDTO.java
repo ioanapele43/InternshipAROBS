@@ -16,10 +16,12 @@ import java.util.Date;
 public class PlaylistDTO {
     @NotNull
     private Integer id;
+    @NotBlank(message = "Name cannot be blank!")
+    private String name;
     @NotBlank(message = "Type cannot be blank!")
     private String type;
     @NotBlank(message = "Creation date cannot be blank!")
     private Date createdDate;
     @NotBlank(message = "Last update date cannot be blank!")
-    private Date lastUpdatedate;
+    private Date lastUpdateDate;
 }

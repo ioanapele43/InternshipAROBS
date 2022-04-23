@@ -19,12 +19,14 @@ public class Playlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
+    @Column(name="playlist_name")
+    private String name;
     @Column(name = "type")
     private String type;
     @Column(name = "created_date")
     private Date createdDate;
     @Column(name = "last_update_date")
-    private Date lastUpdatedate;
+    private Date lastUpdateDate;
 
     @ManyToOne
     private User owner;
@@ -43,10 +45,10 @@ public class Playlist {
     @OneToMany(mappedBy ="playlistId")
     private List<PlaylistSong> songs;*/
 
-    public Playlist(String type, Date createdDate, Date lastUpdatedate) {
+    public Playlist(String type, Date createdDate, Date lastUpdateDate) {
         this.type = type;
         this.createdDate = createdDate;
-        this.lastUpdatedate = lastUpdatedate;
+        this.lastUpdateDate = lastUpdateDate;
     }
 
 

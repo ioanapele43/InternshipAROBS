@@ -1,0 +1,21 @@
+package com.example.musify.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.sql.Date;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class AlbumViewDTO {
+    private String title;
+    private String description;
+    private String genre;
+    private Date releaseDate;
+    private String label;
+
+}
