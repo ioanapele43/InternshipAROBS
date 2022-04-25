@@ -41,13 +41,14 @@ public class SearchService {
 
     @Transactional
     public List<Album> searchByTitle(String title) {
-        return albumRepositoryJPA.findAlbumByTitle("%" + title + "%");
+        return albumRepositoryJPA.findAlbumByTitleContainingIgnoreCase(title);
+        //return albumRepositoryJPA.findAlbumByTitle("%" + title + "%");
     }
 
     @Transactional
     public SearchDTO searchAll(String input) {
         SearchDTO searchDTO = new SearchDTO();
-        searchDTO.setAlbums(albumRepositoryJPA.findAlbumByTitle("%" + input + "%"));
+        //searchDTO.setAlbums(albumRepositoryJPA.findAlbumByTitle("%" + input + "%"));
         searchDTO.setArtists(artistRepositoryJPA.findArtistByFirstnameOrLastname("%" + input + "%"));
         searchDTO.setBands(bandRepositoryJPA.findBandByBandname("%" + input + "%"));
         return searchDTO;

@@ -27,8 +27,8 @@ public class ArtistService {
         return artistRepository.findAll();
     }
 
-    public Optional<Artist> getArtistById(int id) {
-        return artistRepository.findById(id);
+    public Artist getArtistById(int id) {
+        return artistRepository.getArtistsById(id);
     }
 
     ;

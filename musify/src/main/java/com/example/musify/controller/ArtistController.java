@@ -28,9 +28,9 @@ public class ArtistController {
     }
 
     @GetMapping("/artists/{id}")
-    public ResponseEntity<Optional<Artist>> getArtistByID(@PathVariable Integer id) {
-        Optional<Artist> artist = artistService.getArtistById(id);
-        return new ResponseEntity<Optional<Artist>>(artist, HttpStatus.OK);
+    public ResponseEntity<Artist> getArtistByID(@PathVariable Integer id) {
+        Artist artist = artistService.getArtistById(id);
+        return new ResponseEntity<Artist>(artist, HttpStatus.OK);
     }
 
     @GetMapping("/artist/{firstName}")

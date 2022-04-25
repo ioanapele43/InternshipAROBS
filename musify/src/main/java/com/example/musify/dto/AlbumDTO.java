@@ -27,5 +27,7 @@ public class AlbumDTO {
     private Date releaseDate;
     @NotBlank(message = "Message cannot be blank!")
     private String label;
+    private Integer idArtist;
+    private Integer idBand;
 
 }

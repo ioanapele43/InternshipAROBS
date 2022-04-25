@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface ArtistRepositoryJPA extends JpaRepository<Artist, Integer> {
     Optional<Artist> findByFirstname(String firstname);
 
-    Optional<Artist> findById(Integer id);
+    Artist getArtistsById(Integer id);
 
     //search for artist by firstname or lastname
     @Query("SELECT a FROM Artist a WHERE a.firstname LIKE :name ")

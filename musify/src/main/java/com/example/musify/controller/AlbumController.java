@@ -1,7 +1,11 @@
 package com.example.musify.controller;
 
 import com.example.musify.dto.AlbumDTO;
+import com.example.musify.dto.AlbumViewDTO;
+import com.example.musify.dto.SongDTO;
+import com.example.musify.exception.DataNotFoundException;
 import com.example.musify.model.Album;
+import com.example.musify.model.Song;
 import com.example.musify.repo.AlbumRepositoryJPA;
 import com.example.musify.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +26,10 @@ public class AlbumController {
     @Autowired
     private DataSource dataSource;
 
+
     @GetMapping("/albums")
-    public ResponseEntity<List<Album>> getAllAlbums() {
-        List<Album> albums = albumService.getAllAlbums();
+    public ResponseEntity<List<AlbumViewDTO>> getAllAlbums() {
+        List<AlbumViewDTO> albums = albumService.getAllAlbums();
         return new ResponseEntity<>(albums, HttpStatus.OK);
     }
 
@@ -36,8 +41,14 @@ public class AlbumController {
 
     @PostMapping("/album/create")
     public String createAlbum(@RequestBody @Valid AlbumDTO albumDTO) {
-        albumService.createAlbum(albumDTO);
-        return "success!";
+        try {
+            albumService.createAlbum(albumDTO);
+            return "success!";
+        }
+        catch(DataNotFoundException e){
+            return e.getLocalizedMessage();
+        }
+
     }
 
     @PutMapping("/album/update")
@@ -52,5 +63,15 @@ public class AlbumController {
         albumDTO.setId(id);
         albumService.deleteAlbum(albumDTO);
         return "success!";
+    }
+    @GetMapping("/album/get_songs/{id}")
+    public ResponseEntity<List<SongDTO>> getAlbumSongs(@PathVariable Integer id){
+        List<SongDTO> songs=albumService.getAlbumSongs(id);
+        return new ResponseEntity<>(songs, HttpStatus.OK);
+    }
+    @PostMapping("/album/add_song/{idAlbum}/{idSong}")
+    public String addSongToAlbum(@PathVariable Integer idAlbum,@PathVariable Integer idSong){
+        albumService.addSongToAlbum(idAlbum,idSong);
+        return "Success!";
     }
 }
