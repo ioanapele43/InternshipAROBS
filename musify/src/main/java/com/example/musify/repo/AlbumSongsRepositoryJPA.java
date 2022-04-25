@@ -9,5 +9,6 @@ import java.util.List;
 public interface AlbumSongsRepositoryJPA extends JpaRepository<AlbumSongs,Integer> {
     AlbumSongs getAlbumSongsById(Integer id);
     List<AlbumSongs> getAlbumSongsByAlbum_Id(Integer id);
+    AlbumSongs getAlbumSongsByAlbum_IdAndSong_id(Integer idAlbum,Integer idSong);
 
 }
