@@ -1,5 +1,8 @@
 package com.example.musify.controller;
 
+import com.example.musify.dto.AlbumViewDTO;
+import com.example.musify.dto.ArtistViewDTO;
+import com.example.musify.dto.BandViewDTO;
 import com.example.musify.dto.SearchDTO;
 import com.example.musify.model.Album;
 import com.example.musify.model.Artist;
@@ -30,17 +33,17 @@ public class SearchController {
     private SearchService searchService;
 
     @GetMapping("/search/artists")
-    public List<Artist> searchByLastName(@RequestParam String input) {
+    public List<ArtistViewDTO> searchByLastName(@RequestParam String input) {
         return searchService.searchByName(input);
     }
 
     @GetMapping("/search/albums/title")
-    public List<Album> searchByTitle(@RequestParam String input) {
+    public List<AlbumViewDTO> searchByTitle(@RequestParam String input) {
         return searchService.searchByTitle(input);
     }
 
     @GetMapping("/search/bands/bandname")
-    public List<Band> searchByBandName(@RequestParam String input) {
+    public List<BandViewDTO> searchByBandName(@RequestParam String input) {
         return searchService.searchByBandname(input);
     }
 

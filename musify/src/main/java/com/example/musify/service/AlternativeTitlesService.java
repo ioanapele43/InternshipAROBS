@@ -17,21 +17,19 @@ import java.util.stream.Collectors;
 public class AlternativeTitlesService {
     private final AlternativeTitlesRepositoryJPA alternativeTitlesRepositoryJPA;
     private final AlternativeTitlesMapper alternativeTitlesMapper;
-    private final SongMapper songMapper;
 
 
-    public AlternativeTitlesService(AlternativeTitlesRepositoryJPA alternativeTitlesRepositoryJPA, AlternativeTitlesMapper alternativeTitlesMapper, SongMapper songMapper) {
+    public AlternativeTitlesService(AlternativeTitlesRepositoryJPA alternativeTitlesRepositoryJPA, AlternativeTitlesMapper alternativeTitlesMapper) {
         this.alternativeTitlesRepositoryJPA = alternativeTitlesRepositoryJPA;
         this.alternativeTitlesMapper = alternativeTitlesMapper;
-        this.songMapper = songMapper;
     }
 
-    public List<SongViewDTO> getAllAternativeTitles() {
-        return alternativeTitlesRepositoryJPA.findAll().stream().map(s->songMapper.toViewDto(s)).collect(Collectors.toList());
+    public List<AlternativeTitlesDTO> getAllAternativeTitles() {
+        return alternativeTitlesRepositoryJPA.findAll().stream().map(a -> alternativeTitlesMapper.toDto(a)).collect(Collectors.toList());
     }
 
-    public SongViewDTO getAlternativeTitleById(Integer id) {
-        return songMapper.toViewDto(alternativeTitlesRepositoryJPA.findById(id));
+    public AlternativeTitlesDTO getAlternativeTitleById(Integer id) {
+        return alternativeTitlesMapper.toDto(alternativeTitlesRepositoryJPA.getAlternativeTitlesById(id));
     }
 
     @Transactional

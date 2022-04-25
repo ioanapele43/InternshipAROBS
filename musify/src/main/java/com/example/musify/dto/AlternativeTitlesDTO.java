@@ -1,6 +1,6 @@
 package com.example.musify.dto;
 
-import com.example.musify.model.Song;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

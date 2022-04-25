@@ -9,5 +9,5 @@ import org.mapstruct.Mapper;
 public interface AlternativeTitlesMapper {
     AlternativeTitlesDTO toDto(AlternativeTitles alternativeTitles);
 
-    Song toEntity(AlternativeTitlesDTO alternativeTitlesDTO);
+    AlternativeTitles toEntity(AlternativeTitlesDTO alternativeTitlesDTO);
 }

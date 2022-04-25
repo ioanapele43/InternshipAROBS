@@ -1,6 +1,7 @@
 package com.example.musify.controller;
 
 import com.example.musify.dto.PlaylistDTO;
+import com.example.musify.dto.PlaylistViewDTO;
 import com.example.musify.model.Playlist;
 import com.example.musify.repo.jdbc.PlaylistRepository;
 import com.example.musify.service.PlaylistService;
@@ -23,14 +24,14 @@ public class PlaylistController {
     private DataSource dataSource;
 
     @GetMapping("/playlists")
-    public ResponseEntity<List<Playlist>> getAllPlaylists() {
-        List<Playlist> playlist = playlistService.getAllPlaylists();
+    public ResponseEntity<List<PlaylistViewDTO>> getAllPlaylists() {
+        List<PlaylistViewDTO> playlist = playlistService.getAllPlaylists();
         return new ResponseEntity<>(playlist, HttpStatus.OK);
     }
 
     @GetMapping("/playlist/{id}")
-    public ResponseEntity<Playlist> getPlaylistById(Integer id) {
-        Playlist playlist = playlistService.getPlaylistbyId(id);
+    public ResponseEntity<PlaylistViewDTO> getPlaylistById(Integer id) {
+        PlaylistViewDTO playlist = playlistService.getPlaylistbyId(id);
         return new ResponseEntity<>(playlist, HttpStatus.OK);
     }
 

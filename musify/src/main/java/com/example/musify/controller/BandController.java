@@ -1,6 +1,7 @@
 package com.example.musify.controller;
 
 import com.example.musify.dto.BandDTO;
+import com.example.musify.dto.BandViewDTO;
 import com.example.musify.model.Album;
 import com.example.musify.model.Band;
 import com.example.musify.repo.BandRepositoryJPA;
@@ -25,8 +26,8 @@ public class BandController {
 
 
     @GetMapping("/bands")
-    public ResponseEntity<List<Band>> getAllBands() {
-        List<Band> bands = bandService.getAllBands();
+    public ResponseEntity<List<BandViewDTO>> getAllBands() {
+        List<BandViewDTO> bands = bandService.getAllBands();
         return new ResponseEntity<>(bands, HttpStatus.OK);
     }
 

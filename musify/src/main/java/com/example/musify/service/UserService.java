@@ -1,6 +1,7 @@
 package com.example.musify.service;
 
 import com.example.musify.dto.UserDTO;
+import com.example.musify.dto.UserViewDTO;
 import com.example.musify.exception.UnauthorizedException;
 import com.example.musify.model.User;
 import com.example.musify.repo.UserRepositoryJPA;
@@ -12,27 +13,28 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
     private final UserRepositoryJPA userRepositoryJPA;
     private final UserMapper userMapper;
 
-    public UserService( UserRepositoryJPA userRepositoryJPA, UserMapper userMapper) {
+    public UserService(UserRepositoryJPA userRepositoryJPA, UserMapper userMapper) {
         this.userRepositoryJPA = userRepositoryJPA;
         this.userMapper = userMapper;
     }
 
-    public List<User> getUsers() {
-        return userRepositoryJPA.findAll();
+    public List<UserViewDTO> getUsers() {
+        return userRepositoryJPA.findAll().stream().map(u -> userMapper.toViewDto(u)).collect(Collectors.toList());
     }
 
-    public User getUserById(Integer id) {
-        return userRepositoryJPA.getUserById(id);
+    public UserViewDTO getUserById(Integer id) {
+        return userMapper.toViewDto(userRepositoryJPA.getUserById(id));
     }
 
-    public User getUserByEmailAndPassword(String email, String password) {
-        return userRepositoryJPA.findByEmailAndPassword(email, password);
+    public UserViewDTO getUserByEmailAndPassword(String email, String password) {
+        return userMapper.toViewDto(userRepositoryJPA.findByEmailAndPassword(email, password));
     }
 
     @Transactional
@@ -50,13 +52,13 @@ public class UserService {
 
     @Transactional
     public void setInactive(Integer id) {
-        User user = getUserById(id);
+        User user = userRepositoryJPA.getUserById(id);
         user.setStatus("inactive");
     }
 
     @Transactional
     public void setActive(Integer id) {
-        User user = getUserById(id);
+        User user = userRepositoryJPA.getUserById(id);
         user.setStatus("active");
     }
 

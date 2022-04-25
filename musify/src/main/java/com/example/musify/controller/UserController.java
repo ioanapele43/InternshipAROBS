@@ -1,6 +1,7 @@
 package com.example.musify.controller;
 
 import com.example.musify.dto.UserDTO;
+import com.example.musify.dto.UserViewDTO;
 import com.example.musify.model.User;
 import com.example.musify.repo.UserRepositoryJPA;
 import com.example.musify.service.UserService;
@@ -23,14 +24,14 @@ public class UserController {
     private DataSource dataSource;
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getUsers();
+    public ResponseEntity<List<UserViewDTO>> getAllUsers() {
+        List<UserViewDTO> users = userService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
-        User user = userService.getUserById(id);
+    public ResponseEntity<UserViewDTO> getUserById(@PathVariable Integer id) {
+        UserViewDTO user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
