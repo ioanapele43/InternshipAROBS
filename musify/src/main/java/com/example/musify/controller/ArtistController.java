@@ -1,8 +1,11 @@
 package com.example.musify.controller;
 
 import com.example.musify.dto.ArtistDTO;
+import com.example.musify.dto.ArtistViewDTO;
+import com.example.musify.exception.DataNotFoundException;
 import com.example.musify.model.Artist;
 import com.example.musify.service.ArtistService;
+import com.example.musify.service.mappers.ArtistMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class ArtistController {
@@ -22,21 +26,15 @@ public class ArtistController {
     }
 
     @GetMapping("/artists")
-    public ResponseEntity<List<Artist>> getAllArtist() {
-        List<Artist> artists = artistService.getArtists();
+    public ResponseEntity<List<ArtistViewDTO>> getAllArtist() {
+        List<ArtistViewDTO> artists = artistService.getArtists();
         return new ResponseEntity<>(artists, HttpStatus.OK);
     }
 
     @GetMapping("/artists/{id}")
-    public ResponseEntity<Artist> getArtistByID(@PathVariable Integer id) {
-        Artist artist = artistService.getArtistById(id);
-        return new ResponseEntity<Artist>(artist, HttpStatus.OK);
-    }
-
-    @GetMapping("/artist/{firstName}")
-    public ResponseEntity<Optional<Artist>> getArtistByFirstNameLike(@PathVariable String firstName) {
-        Optional<Artist> artists = artistService.getArtistContaining(firstName);
-        return new ResponseEntity<Optional<Artist>>(artists, HttpStatus.OK);
+    public ResponseEntity<ArtistViewDTO> getArtistByID(@PathVariable Integer id) {
+        ArtistViewDTO artist = artistService.getArtistById(id);
+        return new ResponseEntity<>(artist, HttpStatus.OK);
     }
 
     @PostMapping("/artist/save")
@@ -47,20 +45,24 @@ public class ArtistController {
 
     @PutMapping("/artist/update")
     public String updateArtist(@RequestBody ArtistDTO artistDTO) {
-        artistService.updateArtist(artistDTO);
-        return "Success!";
+        try {
+            artistService.updateArtist(artistDTO);
+            return "Success!";
+        } catch (DataNotFoundException e) {
+            return e.getLocalizedMessage();
+        }
     }
 
     @DeleteMapping("/artist/delete/{id}")
     public String deleteArtist(@PathVariable Integer id) {
-        ArtistDTO artistDTO = new ArtistDTO();
-        artistDTO.setId(id);
-        artistService.deleteArtist(artistDTO);
-        return "Success!";
+        try {
+            ArtistDTO artistDTO = new ArtistDTO();
+            artistDTO.setId(id);
+            artistService.deleteArtist(artistDTO);
+            return "Success!";
+        } catch (DataNotFoundException e) {
+            return e.getLocalizedMessage();
+        }
+
     }
-    /*@GetMapping("/artist/search")
-    public Optional<Artist> searchForAnArtist(@RequestParam String name){
-        Optional<Artist> artist=artistService.searchArtist(name);
-        return artist;
-    }*/
 }
