@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface AlternativeTitlesRepositoryJPA extends JpaRepository<AlternativeTitles, Integer> {
     AlternativeTitles getAlternativeTitlesById(Integer id);
     List<AlternativeTitles> getAlternativeTitlesBySongId(Integer id);
+    
 }
