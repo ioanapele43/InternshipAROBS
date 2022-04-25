@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface AlbumRepositoryJPA extends JpaRepository<Album, Integer> {
     Album getAlbumById(Integer id);
     List<Album> getAlbumsByArtist_Id(Integer id);
+    List<Album> getAlbumsByBand_Id(Integer id);
 
     //search for album
    // @Query("SELECT a FROM Album a WHERE a.title LIKE :name ")
