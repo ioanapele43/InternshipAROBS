@@ -15,8 +15,8 @@ import java.util.List;
 @Getter
 @Setter
 public class SearchDTO {
-    private List<Artist> artists;
-    private List<Band> bands;
-    private List<Album> albums;
+    private List<ArtistViewDTO> artists;
+    private List<BandViewDTO> bands;
+    private List<AlbumViewDTO> albums;
 
 }

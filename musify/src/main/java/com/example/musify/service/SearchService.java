@@ -39,7 +39,8 @@ public class SearchService {
 
     @Transactional
     public List<ArtistViewDTO> searchByName(String name) {
-        return artistRepositoryJPA.findArtistByFirstnameOrLastname("%" + name + "%").stream().map(a -> artistMapper.toViewDto(a)).collect(Collectors.toList());
+       // return artistRepositoryJPA.findArtistByFirstnameOrLastname("%" + name + "%").stream().map(a -> artistMapper.toViewDto(a)).collect(Collectors.toList());
+        return artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name,name).stream().map(a -> artistMapper.toViewDto(a)).collect(Collectors.toList());
     }
 
     @Transactional
@@ -56,9 +57,9 @@ public class SearchService {
     @Transactional
     public SearchDTO searchAll(String input) {
         SearchDTO searchDTO = new SearchDTO();
-        searchDTO.setAlbums(albumRepositoryJPA.findAlbumByTitleContainingIgnoreCase(input));
-        searchDTO.setArtists(artistRepositoryJPA.findArtistByFirstnameOrLastname("%" + input + "%"));
-        searchDTO.setBands(bandRepositoryJPA.findBandByBandname("%" + input + "%"));
+        searchDTO.setAlbums(albumRepositoryJPA.findAlbumByTitleContainingIgnoreCase(input).stream().map(a->albumMapper.toViewDto(a)).collect(Collectors.toList()));
+        searchDTO.setArtists(artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(input,input).stream().map(a->artistMapper.toViewDto(a)).collect(Collectors.toList()));
+        searchDTO.setBands(bandRepositoryJPA.findBandByBandname("%" + input + "%").stream().map(b->bandMapper.toViewDto(b)).collect(Collectors.toList()));
         return searchDTO;
     }
 

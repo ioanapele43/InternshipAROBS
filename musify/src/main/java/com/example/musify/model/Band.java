@@ -43,8 +43,8 @@ public class Band {
     /*@OneToMany(mappedBy = "artistId")
     private List<SongArtist> songArtist;*/
 
-    /*@OneToMany(mappedBy = "artistId")
-    private List<AlbumArtist> albumArtist;*/
+    @OneToMany(mappedBy = "band")
+    private List<Album> albums;
 
     public Band(Integer idBand, String bandname, String location, Date startDate, Date endDate) {
         this.id = idBand;

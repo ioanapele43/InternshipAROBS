@@ -10,7 +10,7 @@ import java.util.*;
 @NoArgsConstructor
 @Setter
 @Getter
-@Entity
+@Entity(name = "albums")
 @Table(name = "albums")
 public class Album {
     @Id
@@ -34,14 +34,7 @@ public class Album {
     @ManyToOne
     private Band band;
 
-    /* @ManyToMany
-     @JoinTable(
-             name="album_songs",
-             joinColumns = @JoinColumn(name="album_id"),
-             inverseJoinColumns = @JoinColumn(name="song_id")
-     )
-     private List<Song> songs=new ArrayList<Song>();
- */
+
     @OneToMany(mappedBy = "album")
     private List<AlbumSongs> albumSongs;
 

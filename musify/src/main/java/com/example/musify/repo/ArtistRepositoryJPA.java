@@ -18,7 +18,7 @@ public interface ArtistRepositoryJPA extends JpaRepository<Artist, Integer> {
     Artist getArtistsById(Integer id);
 
     //search for artist by firstname or lastname
-    @Query("SELECT a FROM Artist a WHERE a.firstname LIKE :name ")
+   /* @Query("SELECT a FROM Artist a WHERE a.firstname LIKE :name ")
     List<Artist> findArtistByFirstname(@Param("name") String name);
 
     @Query("SELECT a FROM Artist a WHERE  a.lastname LIKE :name")
@@ -26,5 +26,8 @@ public interface ArtistRepositoryJPA extends JpaRepository<Artist, Integer> {
 
     @Query("SELECT a FROM Artist a WHERE a.firstname LIKE :name OR a.lastname LIKE :name")
     List<Artist> findArtistByFirstnameOrLastname(@Param("name") String name);
-
+*/
+    List<Artist> getArtistsByFirstnameContainingIgnoreCase(String name);
+    List<Artist> getArtistsByLastnameContainingIgnoreCase(String name);
+    List<Artist> getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(String firstname, String lastname);
 }

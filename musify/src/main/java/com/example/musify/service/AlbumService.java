@@ -132,7 +132,6 @@ public class AlbumService {
 
     @Transactional
     public void changeSongOrderNumber(Integer idAlbum, Integer idSong, Integer newOrderNumber) {
-
         if (songRepositoryJPA.getSongById(idSong) == null)
             throw new DataNotFoundException("The song you entered doesn't exist");
         if (albumRepositoryJPA.getAlbumById(idAlbum) == null)

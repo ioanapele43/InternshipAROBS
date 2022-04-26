@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
+@Entity(name = "songs")
 @Table(name = "songs")
 public class Song {
     @Id
@@ -30,9 +30,7 @@ public class Song {
     @OneToMany(mappedBy = "song")
     private List<AlternativeTitles> alternativeTitles;
 
-    /* @ManyToMany(mappedBy = "songs")
-     private List<Album> album;
-     */
+
     @OneToMany(mappedBy = "song")
     private List<AlbumSongs> albumSongs;
     @OneToMany(mappedBy = "song")

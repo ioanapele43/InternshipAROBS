@@ -37,13 +37,8 @@ public class Artist {
     private List<Band> bandMember;
 
 
-
-
-   /* @OneToMany(mappedBy = "artistId")
-    private List<SongArtist> songArtist;
-
-    @OneToMany(mappedBy = "artistId")
-    private List<AlbumArtist> albumArtist;*/
+    @OneToMany(mappedBy = "artist")
+    private List<Album> albums;
 
     public Artist(String firstname, String lastname, String stagename, Date birthday, Date startDate, Date endDate) {
         this.firstname = firstname;
