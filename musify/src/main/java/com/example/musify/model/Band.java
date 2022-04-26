@@ -53,5 +53,8 @@ public class Band {
         this.activityStartDate = startDate;
         this.activityEndDate = endDate;
     }
+    public void addMember(Artist artist){
+        members.add(artist);
+    }
 
 }

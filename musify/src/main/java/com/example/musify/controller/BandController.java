@@ -1,5 +1,6 @@
 package com.example.musify.controller;
 
+import com.example.musify.dto.ArtistViewDTO;
 import com.example.musify.dto.BandDTO;
 import com.example.musify.dto.BandViewDTO;
 import com.example.musify.model.Album;
@@ -49,6 +50,16 @@ public class BandController {
         bandDTO.setId(id);
         bandService.deleteBand(bandDTO);
         return "Success!";
+    }
+    @PostMapping("/band/add_member/{idBand}/{idArtist}")
+    public String addBandMember(@PathVariable Integer idBand,@PathVariable Integer idArtist){
+        bandService.addBandMember(idBand,idArtist);
+        return "success";
+    }
+    @GetMapping("/band/members/{id}")
+    public ResponseEntity<List<ArtistViewDTO>> getBandMembers(@PathVariable Integer id){
+       List<ArtistViewDTO> artistViewDTOS= bandService.getBandMembers(id);
+       return new ResponseEntity<>(artistViewDTOS,HttpStatus.OK);
     }
 
 
