@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody @Valid UserDTO userDTO) {
+    public String register( @RequestBody @Valid UserDTO userDTO) {
         userService.register(userDTO);
         return "Success!";
     }

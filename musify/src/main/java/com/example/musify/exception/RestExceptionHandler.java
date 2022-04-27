@@ -39,8 +39,25 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("Not found : ", e);
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
-
-    /*@Override
+    @ExceptionHandler(AlreadyExistingDataException.class)
+    protected ResponseEntity<Object> handleAlreadyExistingDataException(AlreadyExistingDataException e){
+        ApiError apiError = new ApiError(BAD_REQUEST, e.getMessage());
+        log.error("ALREADY EXISTS:" +e.getMessage());
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
+    }
+    @ExceptionHandler(DataNotFoundException.class)
+    protected ResponseEntity<Object> handleDataNotFoundException(DataNotFoundException e){
+        ApiError apiError = new ApiError(BAD_REQUEST, e.getMessage());
+        log.error("DATA NOT FOUND: "+e.getMessage());
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
+    }
+    @ExceptionHandler(UnauthorizedException.class)
+    protected ResponseEntity<Object> handleUnauthorizedException(UnauthorizedException e){
+        ApiError apiError = new ApiError(BAD_REQUEST, e.getMessage());
+        log.error("UNAUTHORIZED: "+e.getMessage());
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
+    }
+    @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errorMessages = ex.getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -49,14 +66,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("Argument not valid: ", ex);
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
-*/
+
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ApiError apiError = new ApiError(INTERNAL_SERVER_ERROR, "Generic Server Error");
         log.error("Generic Error: " + ex);
         return new ResponseEntity<>(apiError, INTERNAL_SERVER_ERROR);
     }
-    @Override
+    /*@Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = new ArrayList<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
@@ -67,5 +84,5 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
+    }*/
 }
