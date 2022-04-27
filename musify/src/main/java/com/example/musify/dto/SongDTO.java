@@ -15,8 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class SongDTO {
-    @NotNull
-    private Integer id;
+
     @NotBlank(message = "Title cannot be blank!")
     private String title;
     @NotBlank(message = "Duration cannot be blank!")

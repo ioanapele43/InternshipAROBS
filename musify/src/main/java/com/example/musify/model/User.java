@@ -60,6 +60,11 @@ public class User {
     public String composeFullName() {
         return firstName + " " + lastName;
     }
-
+    public void addPlaylistCreated(Playlist playlist){
+        playlistsCreated.add(playlist);
+    }
+    public void addFollowedPlaylist(Playlist playlist){
+        playlistsFollowed.add(playlist);
+    }
 
 }

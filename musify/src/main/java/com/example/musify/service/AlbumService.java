@@ -26,9 +26,10 @@ public class AlbumService {
     private final SongRepositoryJPA songRepositoryJPA;
     private final AlbumMapper albumMapper;
     private final SongMapper songMapper;
+    private final ValidationsService validationsService;
 
 
-    public AlbumService(AlbumRepositoryJPA albumRepositoryJPA, ArtistRepositoryJPA artistRepositoryJPA, BandRepositoryJPA bandRepositoryJPA, AlbumSongsRepositoryJPA albumSongsRepositoryJPA, SongRepositoryJPA songRepositoryJPA, AlbumMapper albumMapper, SongMapper songMapper) {
+    public AlbumService(AlbumRepositoryJPA albumRepositoryJPA, ArtistRepositoryJPA artistRepositoryJPA, BandRepositoryJPA bandRepositoryJPA, AlbumSongsRepositoryJPA albumSongsRepositoryJPA, SongRepositoryJPA songRepositoryJPA, AlbumMapper albumMapper, SongMapper songMapper, ValidationsService validationsService) {
         this.albumRepositoryJPA = albumRepositoryJPA;
         this.artistRepositoryJPA = artistRepositoryJPA;
         this.bandRepositoryJPA = bandRepositoryJPA;
@@ -37,6 +38,7 @@ public class AlbumService {
         this.albumMapper = albumMapper;
 
         this.songMapper = songMapper;
+        this.validationsService = validationsService;
     }
 
     public List<AlbumViewDTO> getAllAlbums() {
@@ -57,8 +59,9 @@ public class AlbumService {
                 .collect(Collectors.toList());
     }
 
-    public Album getAlbumById(Integer id) {
-        return albumRepositoryJPA.getAlbumById(id);
+    public AlbumViewDTO getAlbumById(Integer id) {
+        validationsService.checkIfAnAlbumExists(id);
+        return albumMapper.toViewDto(albumRepositoryJPA.getAlbumById(id));
     }
 
     @Transactional
@@ -69,14 +72,12 @@ public class AlbumService {
         if (albumDTO.getIdBand() == 0 && albumDTO.getIdArtist() == 0)
             throw new WrongInputException("an album should have at least one owner, artist or band");
         if (albumDTO.getIdArtist() != 0) {
-            if (artistRepositoryJPA.getArtistsById(albumDTO.getIdArtist()) == null)
-                throw new DataNotFoundException("the artist you entered doesn't exists");
+            validationsService.checkIfAnArtistExists(albumDTO.getIdArtist());
             album.setArtist(artistRepositoryJPA.getArtistsById(albumDTO.getIdArtist()));
         }
 
         if (albumDTO.getIdBand() != 0) {
-            if (bandRepositoryJPA.getBandById(albumDTO.getIdBand()) == null)
-                throw new DataNotFoundException("the band you entered doesn't exists");
+            validationsService.checkIfABandExists(albumDTO.getIdBand());
             album.setBand(bandRepositoryJPA.getById(albumDTO.getIdBand()));
         }
 
@@ -84,21 +85,20 @@ public class AlbumService {
     }
 
     @Transactional
-    public void updateAlbum(AlbumDTO albumDTO) {
-        if (albumRepositoryJPA.getAlbumById(albumDTO.getId()) == null)
+    public void updateAlbum(Integer id, AlbumDTO albumDTO) {
+        if (albumRepositoryJPA.getAlbumById(id) == null)
             throw new DataNotFoundException("the album you want to update doesn't exist");
         Album album = albumMapper.toEntity(albumDTO);
+        album.setId(id);
         if (albumDTO.getIdBand() != 0 && albumDTO.getIdArtist() != 0)
             throw new DataNotFoundException("an album cannot have multiple owners, just an artist or a band");
         if (albumDTO.getIdArtist() != 0) {
-            if (artistRepositoryJPA.getArtistsById(albumDTO.getIdArtist()) == null)
-                throw new DataNotFoundException("the artist you entered doesn't exists");
+            validationsService.checkIfAnArtistExists(albumDTO.getIdArtist());
             album.setArtist(artistRepositoryJPA.getArtistsById(albumDTO.getIdArtist()));
         }
 
         if (albumDTO.getIdBand() != 0) {
-            if (bandRepositoryJPA.getBandById(albumDTO.getIdBand()) == null)
-                throw new DataNotFoundException("the band you entered doesn't exists");
+            validationsService.checkIfABandExists(albumDTO.getIdBand());
             album.setBand(bandRepositoryJPA.getById(albumDTO.getIdBand()));
         }
 
@@ -106,24 +106,25 @@ public class AlbumService {
     }
 
     @Transactional
-    public void deleteAlbum(AlbumDTO albumDTO) {
-        albumRepositoryJPA.delete(albumMapper.toEntity(albumDTO));
+    public void deleteAlbum(Integer id) {
+        validationsService.checkIfAnAlbumExists(id);
+        albumRepositoryJPA.delete(albumRepositoryJPA.getAlbumById(id));
     }
 
     @Transactional
     public List<SongDTO> getAlbumSongs(Integer id) {
+        validationsService.checkIfAnAlbumExists(id);
         return albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(id).stream().map(as -> songMapper.toDto(as.getSong())).collect(Collectors.toList());
     }
 
     @Transactional
     public void addSongToAlbum(Integer idAlbum, Integer idSong) {
         AlbumSongs albumSong = new AlbumSongs();
-        if (songRepositoryJPA.getSongById(idSong) == null)
-            throw new DataNotFoundException("The song you entered doesn't exist");
-        if (albumRepositoryJPA.getAlbumById(idAlbum) == null)
-            throw new DataNotFoundException("the album you entered doesn't exist");
-        if (albumSongsRepositoryJPA.getAlbumSongsByAlbum_IdAndSong_id(idAlbum, idSong) != null)
-            throw new AlreadyExistingDataException("this song is already in the album");
+
+        validationsService.checkIfASongExists(idSong);
+        validationsService.checkIfAnAlbumExists(idAlbum);
+        validationsService.checkIfASongIsNOTInAnAlbum(idAlbum,idSong);
+
         albumSong.setSong(songRepositoryJPA.getSongById(idSong));
         albumSong.setAlbum(albumRepositoryJPA.getAlbumById(idAlbum));
         albumSong.setOrderNumber(albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(idAlbum).size() + 1);
@@ -132,12 +133,11 @@ public class AlbumService {
 
     @Transactional
     public void changeSongOrderNumber(Integer idAlbum, Integer idSong, Integer newOrderNumber) {
-        if (songRepositoryJPA.getSongById(idSong) == null)
-            throw new DataNotFoundException("The song you entered doesn't exist");
-        if (albumRepositoryJPA.getAlbumById(idAlbum) == null)
-            throw new DataNotFoundException("The album you entered doesn't exist");
-        if (albumSongsRepositoryJPA.getAlbumSongsByAlbum_IdAndSong_id(idAlbum, idSong) == null)
-            throw new DataNotFoundException("The data you want to modify doesn't exist");
+
+        validationsService.checkIfASongExists(idSong);
+        validationsService.checkIfAnAlbumExists(idAlbum);
+        validationsService.checkIfASongIsInAnAlbum(idAlbum,idSong);
+
         Integer oldOrderNumber = albumSongsRepositoryJPA.getAlbumSongsByAlbum_IdAndSong_id(idAlbum, idSong).getOrderNumber();
         List<AlbumSongs> albumSongs = albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(idAlbum);
         if (albumSongs.size() < newOrderNumber)

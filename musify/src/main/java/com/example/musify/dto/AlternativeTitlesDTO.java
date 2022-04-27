@@ -14,9 +14,9 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class AlternativeTitlesDTO {
-    @NotNull
     private Integer id;
     @NotBlank(message = "Alternative title cannot be blank!")
     private String alternativeTitle;
+    private Integer idSong;
 
 }

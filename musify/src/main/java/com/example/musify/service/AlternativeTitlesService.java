@@ -1,27 +1,29 @@
 package com.example.musify.service;
 
 import com.example.musify.dto.AlternativeTitlesDTO;
-import com.example.musify.dto.SongViewDTO;
-import com.example.musify.model.Song;
+import com.example.musify.model.AlternativeTitles;
 import com.example.musify.repo.AlternativeTitlesRepositoryJPA;
+import com.example.musify.repo.SongRepositoryJPA;
 import com.example.musify.service.mappers.AlternativeTitlesMapper;
-import com.example.musify.service.mappers.SongMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class AlternativeTitlesService {
     private final AlternativeTitlesRepositoryJPA alternativeTitlesRepositoryJPA;
     private final AlternativeTitlesMapper alternativeTitlesMapper;
+    private final SongRepositoryJPA songRepositoryJPA;
+    private final ValidationsService validationsService;
 
 
-    public AlternativeTitlesService(AlternativeTitlesRepositoryJPA alternativeTitlesRepositoryJPA, AlternativeTitlesMapper alternativeTitlesMapper) {
+    public AlternativeTitlesService(AlternativeTitlesRepositoryJPA alternativeTitlesRepositoryJPA, AlternativeTitlesMapper alternativeTitlesMapper, SongRepositoryJPA songRepositoryJPA, ValidationsService validationsService) {
         this.alternativeTitlesRepositoryJPA = alternativeTitlesRepositoryJPA;
         this.alternativeTitlesMapper = alternativeTitlesMapper;
+        this.songRepositoryJPA = songRepositoryJPA;
+        this.validationsService = validationsService;
     }
 
     public List<AlternativeTitlesDTO> getAllAternativeTitles() {
@@ -34,7 +36,9 @@ public class AlternativeTitlesService {
 
     @Transactional
     public void createAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO) {
-        alternativeTitlesRepositoryJPA.save(alternativeTitlesMapper.toEntity(alternativeTitlesDTO));
+        AlternativeTitles alternativeTitle=alternativeTitlesMapper.toEntity(alternativeTitlesDTO);
+        alternativeTitle.setSong(songRepositoryJPA.getSongById(alternativeTitlesDTO.getIdSong()));
+        alternativeTitlesRepositoryJPA.save(alternativeTitle);
     }
 
     @Transactional
@@ -45,6 +49,10 @@ public class AlternativeTitlesService {
     @Transactional
     public void deleteAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO) {
         alternativeTitlesRepositoryJPA.delete(alternativeTitlesMapper.toEntity(alternativeTitlesDTO));
+    }
+    @Transactional
+    public List<String> getAlternativeTitlesForSong(Integer idSong){
+       return alternativeTitlesRepositoryJPA.getAlternativeTitlesBySong_Id(idSong).stream().map(alternativeTitle->alternativeTitle.getAlternativeTitle()).collect(Collectors.toList());
     }
 
 }

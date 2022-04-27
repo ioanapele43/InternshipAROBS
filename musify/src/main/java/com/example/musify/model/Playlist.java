@@ -37,7 +37,7 @@ public class Playlist {
             joinColumns = {@JoinColumn(name = "playlist_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
-    private Set<User> usersWhoFollows;
+    private List<User> usersWhoFollows=new ArrayList<User>();
 /*
     @OneToMany
     private List<Song> songs=new ArrayList<Song>();
@@ -49,6 +49,9 @@ public class Playlist {
         this.type = type;
         this.createdDate = createdDate;
         this.lastUpdateDate = lastUpdateDate;
+    }
+    public void addFollower(User user){
+        usersWhoFollows.add(user);
     }
 
 

@@ -15,8 +15,6 @@ import java.util.Date;
 @Setter
 
 public class AlbumDTO {
-    @NotNull
-    private Integer id;
     @NotBlank(message = "Title cannot be blank!")
     private String title;
     @NotBlank(message = "Description cannot be blank!")

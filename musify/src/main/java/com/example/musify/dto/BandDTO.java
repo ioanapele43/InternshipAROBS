@@ -14,8 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class BandDTO {
-    @NotNull
-    private Integer id;
+
     @NotBlank(message = "Band name cannot be blank!")
     private String bandname;
     @NotBlank(message = "Location cannot be blank!")

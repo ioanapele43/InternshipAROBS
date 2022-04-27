@@ -11,8 +11,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class UserDTO {
-    @NotNull
-    private int id;
+
     @NotBlank(message = "First Name cannot be blank!")
     private String firstName;
     @NotBlank(message = "Last Name cannot be blank!")

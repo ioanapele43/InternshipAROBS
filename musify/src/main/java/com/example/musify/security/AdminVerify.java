@@ -2,10 +2,9 @@ package com.example.musify.security;
 
 import com.example.musify.exception.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 
-public class AdminVerification {
+public class AdminVerify {
     @Autowired
     private JwtUtils jwtUtils;
     public static void checkIfTheUserLoggedIsAdmin(){

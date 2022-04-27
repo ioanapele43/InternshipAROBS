@@ -2,15 +2,11 @@ package com.example.musify.controller;
 
 import com.example.musify.dto.UserDTO;
 import com.example.musify.dto.UserViewDTO;
-import com.example.musify.model.User;
-import com.example.musify.repo.UserRepositoryJPA;
-import com.example.musify.security.AdminVerification;
+import com.example.musify.security.AdminVerify;
 import com.example.musify.service.UserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.codec.Hex;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
@@ -26,14 +22,14 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<List<UserViewDTO>> getAllUsers() {
-        AdminVerification.checkIfTheUserLoggedIsAdmin();
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         List<UserViewDTO> users = userService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<UserViewDTO> getUserById(@PathVariable Integer id) {
-        AdminVerification.checkIfTheUserLoggedIsAdmin();
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         UserViewDTO user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -59,13 +55,14 @@ public class UserController {
 
     @PutMapping("/user/setActive/{id}")
     public String setUserActive(@PathVariable Integer id) {
-        AdminVerification.checkIfTheUserLoggedIsAdmin();
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         userService.setActive(id);
         return "success!";
     }
 
     @PutMapping("/user/setInactive/{id}")
     public String setUserInactive(@PathVariable Integer id) {
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         userService.setInactive(id);
         return "success!";
     }

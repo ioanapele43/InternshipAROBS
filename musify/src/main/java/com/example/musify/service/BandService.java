@@ -41,13 +41,15 @@ public class BandService {
     }
 
     @Transactional
-    public void updateBand(BandDTO bandDTO) {
-        bandRepositoryJPA.save(bandMapper.toEntity(bandDTO));
+    public void updateBand(Integer id,BandDTO bandDTO) {
+        Band band=bandMapper.toEntity(bandDTO);
+        band.setId(id);
+        bandRepositoryJPA.save(band);
     }
 
     @Transactional
-    public void deleteBand(BandDTO bandDTO) {
-        bandRepositoryJPA.delete(bandMapper.toEntity(bandDTO));
+    public void deleteBand(Integer id) {
+        bandRepositoryJPA.delete(bandRepositoryJPA.getBandById(id));
     }
     @Transactional
     public void addBandMember(Integer idBand,Integer idArtist){

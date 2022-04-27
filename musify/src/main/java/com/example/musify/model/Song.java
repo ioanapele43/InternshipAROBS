@@ -41,5 +41,8 @@ public class Song {
         this.duration = duration;
         this.creationDate = creationDate;
     }
+    public void addAlternativeTitle(AlternativeTitles alternativeTitle){
+        alternativeTitles.add(alternativeTitle);
+    }
 
 }

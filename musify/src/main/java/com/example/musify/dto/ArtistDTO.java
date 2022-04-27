@@ -13,8 +13,7 @@ import java.util.Date;
 @Setter
 
 public class ArtistDTO {
-    @NotNull
-    private Integer id;
+
     @NotBlank(message = "First name cannot be blank!")
     private String firstname;
     @NotBlank(message = "Last name cannot be blank!")

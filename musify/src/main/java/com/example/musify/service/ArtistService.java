@@ -41,17 +41,19 @@ public class ArtistService {
     }
 
     @Transactional
-    public void updateArtist(ArtistDTO artist) {
-        if (artistRepository.getArtistsById(artist.getId()) == null)
-            throw new DataNotFoundException("the data you want to update doesn't exist");
-        artistRepository.save(artistMapper.toEntity(artist));
+    public void updateArtist(Integer id,ArtistDTO artistDTO) {
+        if (artistRepository.getArtistsById(id) == null)
+            throw new DataNotFoundException("the data you want to update does not exist");
+        Artist artist=artistMapper.toEntity(artistDTO);
+        artist.setId(id);
+        artistRepository.save(artist);
     }
 
     @Transactional
-    public void deleteArtist(ArtistDTO artist) {
-        if (artistRepository.getArtistsById(artist.getId()) == null)
-            throw new DataNotFoundException("the data you want to update doesn't exist");
-        artistRepository.delete(artistMapper.toEntity(artist));
+    public void deleteArtist(Integer id) {
+        if (artistRepository.getArtistsById(id) == null)
+            throw new DataNotFoundException("the data you want to delete does not exist");
+        artistRepository.delete(artistRepository.getArtistsById(id));
     }
 
 

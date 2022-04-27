@@ -1,10 +1,12 @@
 package com.example.musify.controller;
 
 
+import com.example.musify.dto.AlternativeTitlesDTO;
 import com.example.musify.dto.SongDTO;
 import com.example.musify.dto.SongViewDTO;
-import com.example.musify.model.Song;
 import com.example.musify.repo.jdbc.SongRepositoty;
+import com.example.musify.security.AdminVerify;
+import com.example.musify.service.AlternativeTitlesService;
 import com.example.musify.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,8 @@ public class SongController {
     private SongService songService;
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private AlternativeTitlesService alternativeTitlesService;
 
     @GetMapping("/songs")
     public ResponseEntity<List<SongViewDTO>> getAllPlaylists() {
@@ -38,21 +42,34 @@ public class SongController {
 
     @PostMapping("/song/create")
     public String createSong(@RequestBody @Valid SongDTO songDTO) {
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         songService.createSong(songDTO);
         return "success!";
     }
 
     @PutMapping("/song/update")
     public String updateSong(@RequestBody @Valid SongDTO songDTO) {
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         songService.updateSong(songDTO);
         return "success!";
     }
 
     @DeleteMapping("/song/delete/{id}")
     public String deleteSong(@PathVariable Integer id) {
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         SongDTO songDTO = new SongDTO();
         songDTO.setId(id);
         songService.deleteSong(songDTO);
+        return "success!";
+    }
+    @GetMapping("/song/getAlternativeTitle/{id}")
+    public List<String> getAlternativeTitlesForASong(@PathVariable Integer id){
+        return alternativeTitlesService.getAlternativeTitlesForSong(id);
+    }
+    @PostMapping("/song/addAlternativeTitle")
+    public String addAlternativeTitle(@RequestBody @Valid AlternativeTitlesDTO alternativeTitle){
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
+        alternativeTitlesService.createAlternativeTitle(alternativeTitle);
         return "success!";
     }
 

@@ -8,4 +8,5 @@ import java.util.List;
 public interface PlaylistSongsRepositoryJPA extends JpaRepository<PlaylistSongs,Integer> {
     PlaylistSongs getPlaylistSongsById(Integer id);
     List<PlaylistSongs> getPlaylistSongsByPlaylist_Id(Integer id);
+    PlaylistSongs getPlaylistSongsByPlaylist_IdAndSong_Id(Integer idPlaylist,Integer idSong);
 }

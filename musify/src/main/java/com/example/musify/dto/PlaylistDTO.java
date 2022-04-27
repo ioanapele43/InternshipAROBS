@@ -14,8 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class PlaylistDTO {
-    @NotNull
-    private Integer id;
+
     @NotBlank(message = "Name cannot be blank!")
     private String name;
     @NotBlank(message = "Type cannot be blank!")

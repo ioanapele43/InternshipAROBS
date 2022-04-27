@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Table(name = "alternative_titles")
 public class AlternativeTitles {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
     @Column(name = "alternative_title")

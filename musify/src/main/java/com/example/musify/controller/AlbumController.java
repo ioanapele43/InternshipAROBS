@@ -6,7 +6,7 @@ import com.example.musify.dto.SongDTO;
 import com.example.musify.exception.AlreadyExistingDataException;
 import com.example.musify.exception.DataNotFoundException;
 import com.example.musify.exception.WrongInputException;
-import com.example.musify.model.Album;
+import com.example.musify.security.AdminVerify;
 import com.example.musify.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,13 +33,14 @@ public class AlbumController {
     }
 
     @GetMapping("/album/{id}")
-    public ResponseEntity<Album> getAlbumById(Integer id) {
-        Album album = albumService.getAlbumById(id);
+    public ResponseEntity<AlbumViewDTO> getAlbumById(Integer id) {
+        AlbumViewDTO album = albumService.getAlbumById(id);
         return new ResponseEntity<>(album, HttpStatus.OK);
     }
 
     @PostMapping("/album/create")
     public String createAlbum(@RequestBody @Valid AlbumDTO albumDTO) {
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         try {
             albumService.createAlbum(albumDTO);
             return "success!";
@@ -49,32 +50,33 @@ public class AlbumController {
 
     }
 
-    @PutMapping("/album/update")
-    public String updateAlbum(@RequestBody @Valid AlbumDTO albumDTO) {
+    @PutMapping("/album/{id}/update")
+    public String updateAlbum(@PathVariable Integer id,@RequestBody @Valid AlbumDTO albumDTO) {
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         try {
-            albumService.updateAlbum(albumDTO);
+            albumService.updateAlbum(id,albumDTO);
             return "success!";
         } catch (DataNotFoundException e) {
             return e.getLocalizedMessage();
         }
     }
 
-    @DeleteMapping("/album/delete/{id}")
+    @DeleteMapping("/album/{id}/delete")
     public String deleteAlbum(@PathVariable Integer id) {
-        AlbumDTO albumDTO = new AlbumDTO();
-        albumDTO.setId(id);
-        albumService.deleteAlbum(albumDTO);
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
+        albumService.deleteAlbum(id);
         return "success!";
     }
 
-    @GetMapping("/album/get_songs/{id}")
+    @GetMapping("/album/{id}/get_songs")
     public ResponseEntity<List<SongDTO>> getAlbumSongs(@PathVariable Integer id) {
         List<SongDTO> songs = albumService.getAlbumSongs(id);
         return new ResponseEntity<>(songs, HttpStatus.OK);
     }
 
-    @PostMapping("/album/add_song/{idAlbum}/{idSong}")
+    @PostMapping("/album/{idAlbum}/add_song/{idSong}")
     public String addSongToAlbum(@PathVariable Integer idAlbum, @PathVariable Integer idSong) {
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         try {
             albumService.addSongToAlbum(idAlbum, idSong);
             return "success!";
@@ -84,8 +86,9 @@ public class AlbumController {
 
     }
 
-    @PutMapping("/album/change_songs_order/{idAlbum}/{idSong}/{newOrderNumber}")
+    @PutMapping("/album/{idAlbum}/change_songs_order/{idSong}/{newOrderNumber}")
     public String changeSongsOrder(@PathVariable Integer idAlbum, @PathVariable Integer idSong, @PathVariable Integer newOrderNumber) {
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         try {
             albumService.changeSongOrderNumber(idAlbum, idSong, newOrderNumber);
             return "success!";
@@ -94,15 +97,15 @@ public class AlbumController {
         }
     }
 
-    @GetMapping("/album/from_artist/{id}")
-    public ResponseEntity<List<AlbumViewDTO>> getAlbumsByArtist(@PathVariable Integer id) {
-        List<AlbumViewDTO> albums = albumService.getAllAlbumsByArtist(id);
+    @GetMapping("/albums/from_artist/{idArtist}")
+    public ResponseEntity<List<AlbumViewDTO>> getAlbumsByArtist(@PathVariable Integer idArtist) {
+        List<AlbumViewDTO> albums = albumService.getAllAlbumsByArtist(idArtist);
         return new ResponseEntity<>(albums, HttpStatus.OK);
     }
 
-    @GetMapping("/album/from_band/{id}")
-    public ResponseEntity<List<AlbumViewDTO>> getAlbumsByBand(@PathVariable Integer id) {
-        List<AlbumViewDTO> albums = albumService.getAllAlbumsByBand(id);
+    @GetMapping("/albums/from_band/{idBand}")
+    public ResponseEntity<List<AlbumViewDTO>> getAlbumsByBand(@PathVariable Integer idBand) {
+        List<AlbumViewDTO> albums = albumService.getAllAlbumsByBand(idBand);
         return new ResponseEntity<>(albums, HttpStatus.OK);
     }
 }
