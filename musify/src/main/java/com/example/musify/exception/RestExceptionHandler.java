@@ -25,7 +25,6 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private final Logger log = (Logger) LoggerFactory.getLogger(RestExceptionHandler.class);
-
     @ExceptionHandler(IllegalArgumentException.class)
     protected ResponseEntity<Object> handleIllegal(IllegalArgumentException i) {
 
