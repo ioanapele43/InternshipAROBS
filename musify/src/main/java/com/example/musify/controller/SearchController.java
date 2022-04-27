@@ -37,12 +37,12 @@ public class SearchController {
         return searchService.searchByName(input);
     }
 
-    @GetMapping("/search/albums/title")
+    @GetMapping("/search/albums/by_title")
     public List<AlbumViewDTO> searchByTitle(@RequestParam String input) {
         return searchService.searchByTitle(input);
     }
 
-    @GetMapping("/search/bands/bandname")
+    @GetMapping("/search/bands/by_bandname")
     public List<BandViewDTO> searchByBandName(@RequestParam String input) {
         return searchService.searchByBandname(input);
     }

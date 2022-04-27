@@ -7,7 +7,6 @@ import com.example.musify.repo.SongRepositoryJPA;
 import com.example.musify.service.mappers.SongMapper;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,10 +15,12 @@ import java.util.stream.Collectors;
 public class SongService {
     private final SongRepositoryJPA songRepositoryJPA;
     private final SongMapper songMapper;
+    private final ValidationsService validationsService;
 
-    public SongService(SongRepositoryJPA songRepositoryJPA, SongMapper songMapper) {
+    public SongService(SongRepositoryJPA songRepositoryJPA, SongMapper songMapper, ValidationsService validationsService) {
         this.songRepositoryJPA = songRepositoryJPA;
         this.songMapper = songMapper;
+        this.validationsService = validationsService;
     }
 
     public List<SongViewDTO> getAllSongs() {
@@ -27,6 +28,7 @@ public class SongService {
     }
 
     public SongViewDTO getSongById(Integer id) {
+        validationsService.checkIfASongExists(id);
         return songMapper.toViewDto(songRepositoryJPA.getSongById(id));
     }
 
@@ -36,13 +38,17 @@ public class SongService {
     }
 
     @Transactional
-    public void updateSong(SongDTO songDTO) {
-        songRepositoryJPA.save(songMapper.toEntity(songDTO));
+    public void updateSong(Integer id,SongDTO songDTO) {
+        validationsService.checkIfASongExists(id);
+        Song song=songMapper.toEntity(songDTO);
+        song.setId(id);
+        songRepositoryJPA.save(song);
     }
 
     @Transactional
-    public void deleteSong(SongDTO songDTO) {
-        songRepositoryJPA.delete(songMapper.toEntity(songDTO));
+    public void deleteSong(Integer id) {
+        validationsService.checkIfASongExists(id);
+        songRepositoryJPA.delete(songRepositoryJPA.getSongById(id));
     }
 
 }

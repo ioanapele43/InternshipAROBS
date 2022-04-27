@@ -56,6 +56,10 @@ public class ValidationsService {
         if(playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_IdAndSong_Id(idPlaylist,idSong)==null)
             throw new DataNotFoundException("the song is not in the playlist");
     }
+    public void checkIfASongIsNOTInAPlaylist(Integer idPlaylist, Integer idSong){
+        if(playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_IdAndSong_Id(idPlaylist,idSong)!=null)
+            throw new DataNotFoundException("the song is already in the playlist");
+    }
     public void checkIfASongExists(Integer id){
         if(songRepositoryJPA.getSongById(id)==null)
             throw new DataNotFoundException("the song you entered does not exist");

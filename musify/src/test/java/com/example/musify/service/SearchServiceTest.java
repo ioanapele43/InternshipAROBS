@@ -1,6 +1,5 @@
 package com.example.musify.service;
 
-import com.example.musify.model.Band;
 import com.example.musify.repo.AlbumRepositoryJPA;
 import com.example.musify.repo.ArtistRepositoryJPA;
 import com.example.musify.repo.BandRepositoryJPA;
@@ -8,19 +7,11 @@ import com.example.musify.service.mappers.AlbumMapper;
 import com.example.musify.service.mappers.ArtistMapper;
 import com.example.musify.service.mappers.BandMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SearchServiceTest {
@@ -36,11 +27,13 @@ class SearchServiceTest {
     BandMapper bandMapper;
     @Mock
     AlbumMapper albumMapper;
+    @Mock
+            ValidationsService validationsService;
     SearchService searchService;
 
     @BeforeEach
     public void init(){
-        searchService=new SearchService(artistRepositoryJPA,bandRepositoryJPA,albumRepositoryJPA, artistMapper, bandMapper, albumMapper);
+        searchService=new SearchService(artistRepositoryJPA,bandRepositoryJPA,albumRepositoryJPA, artistMapper, bandMapper, albumMapper, validationsService);
     }
     /*@Test
     @DisplayName("Album-NULL")

@@ -3,6 +3,7 @@ package com.example.musify.controller;
 import com.example.musify.dto.UserDTO;
 import com.example.musify.dto.UserViewDTO;
 import com.example.musify.security.AdminVerify;
+import com.example.musify.security.JwtUtils;
 import com.example.musify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,6 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(@RequestBody @Valid UserDTO userDTO) {
-
         userService.register(userDTO);
         return "Success!";
     }
@@ -46,10 +46,15 @@ public class UserController {
         String token = userService.login(email, password);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
-
-    @PutMapping("/user/update")
-    public String updateUser(@RequestBody @Valid UserDTO userDTO) {
-        userService.updateUser(userDTO);
+    @PutMapping("/user/update/my_account")
+    public String updateMyUser(@PathVariable Integer id,@RequestBody @Valid UserDTO userDTO) {
+        userService.updateUser(JwtUtils.getCurrentUserId(),userDTO);
+        return "updated with success!";
+    }
+    @PutMapping("/user/update/{id}")
+    public String updateUser(@PathVariable Integer id,@RequestBody @Valid UserDTO userDTO) {
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
+        userService.updateUser(id,userDTO);
         return "updated with success!";
     }
 
@@ -67,13 +72,13 @@ public class UserController {
         return "success!";
     }
 
-    @PutMapping("/user/inactivate_account")
+    @PutMapping("/user/inactivate_my_account")
     public String inactivate() {
         userService.inactivateUser();
         return "success!";
     }
 
-    @PutMapping("/user/activate_account")
+    @PutMapping("/user/activate_my_account")
     public String activate() {
         userService.activateUser();
         return "success!";

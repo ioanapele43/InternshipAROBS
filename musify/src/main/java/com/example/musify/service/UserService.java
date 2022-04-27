@@ -10,7 +10,6 @@ import com.example.musify.service.mappers.UserMapper;
 import org.springframework.security.crypto.codec.Hex;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,10 +18,12 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepositoryJPA userRepositoryJPA;
     private final UserMapper userMapper;
+    private final ValidationsService validationsService;
 
-    public UserService(UserRepositoryJPA userRepositoryJPA, UserMapper userMapper) {
+    public UserService(UserRepositoryJPA userRepositoryJPA, UserMapper userMapper, ValidationsService validationsService) {
         this.userRepositoryJPA = userRepositoryJPA;
         this.userMapper = userMapper;
+        this.validationsService = validationsService;
     }
 
     public List<UserViewDTO> getUsers() {
@@ -30,6 +31,7 @@ public class UserService {
     }
 
     public UserViewDTO getUserById(Integer id) {
+        validationsService.checkIfAUserExists(id);
         return userMapper.toViewDto(userRepositoryJPA.getUserById(id));
     }
 
@@ -46,18 +48,23 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(UserDTO userDTO) {
-        userRepositoryJPA.save(userMapper.toEntity(userDTO));
+    public void updateUser(Integer id,UserDTO userDTO) {
+        validationsService.checkIfAUserExists(id);
+        User user=userMapper.toEntity(userDTO);
+        user.setId(id);
+        userRepositoryJPA.save(user);
     }
 
     @Transactional
     public void setInactive(Integer id) {
+        validationsService.checkIfAUserExists(id);
         User user = userRepositoryJPA.getUserById(id);
         user.setStatus("inactive");
     }
 
     @Transactional
     public void setActive(Integer id) {
+        validationsService.checkIfAUserExists(id);
         User user = userRepositoryJPA.getUserById(id);
         user.setStatus("active");
     }
@@ -79,14 +86,6 @@ public class UserService {
         JwtUtils.invalidateToken(token);
     }
 
-    public String justAdmin() {
-        String role = JwtUtils.getCurrentUserRole();
-        if (role.equals("admin")) {
-            return "Welcome admin";
-        } else {
-            throw new UnauthorizedException("you're not admin");
-        }
-    }
 
     public void inactivateUser() {
         Integer id = JwtUtils.getCurrentUserId();
@@ -102,7 +101,6 @@ public class UserService {
         userRepositoryJPA.save(user);
 
     }
-    //inactive an account
-    //activate an account
+
 
 }

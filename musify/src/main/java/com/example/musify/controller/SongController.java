@@ -28,6 +28,7 @@ public class SongController {
     @Autowired
     private AlternativeTitlesService alternativeTitlesService;
 
+
     @GetMapping("/songs")
     public ResponseEntity<List<SongViewDTO>> getAllPlaylists() {
         List<SongViewDTO> song = songService.getAllSongs();
@@ -47,22 +48,20 @@ public class SongController {
         return "success!";
     }
 
-    @PutMapping("/song/update")
-    public String updateSong(@RequestBody @Valid SongDTO songDTO) {
+    @PutMapping("/song/{id}/update")
+    public String updateSong(@PathVariable Integer id,@RequestBody @Valid SongDTO songDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        songService.updateSong(songDTO);
+        songService.updateSong(id,songDTO);
         return "success!";
     }
 
-    @DeleteMapping("/song/delete/{id}")
+    @DeleteMapping("/song/{id}/delete")
     public String deleteSong(@PathVariable Integer id) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        SongDTO songDTO = new SongDTO();
-        songDTO.setId(id);
-        songService.deleteSong(songDTO);
+        songService.deleteSong(id);
         return "success!";
     }
-    @GetMapping("/song/getAlternativeTitle/{id}")
+    @GetMapping("/song/{id}/getAlternativeTitles")
     public List<String> getAlternativeTitlesForASong(@PathVariable Integer id){
         return alternativeTitlesService.getAlternativeTitlesForSong(id);
     }

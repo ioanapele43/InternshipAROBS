@@ -4,8 +4,6 @@ import com.example.musify.dto.AlbumViewDTO;
 import com.example.musify.dto.ArtistViewDTO;
 import com.example.musify.dto.BandViewDTO;
 import com.example.musify.dto.SearchDTO;
-import com.example.musify.model.Album;
-import com.example.musify.model.Band;
 import com.example.musify.repo.AlbumRepositoryJPA;
 import com.example.musify.repo.ArtistRepositoryJPA;
 import com.example.musify.repo.BandRepositoryJPA;
@@ -27,14 +25,16 @@ public class SearchService {
     private final ArtistMapper artistMapper;
     private final BandMapper bandMapper;
     private final AlbumMapper albumMapper;
+    private final ValidationsService validationsService;
 
-    public SearchService(ArtistRepositoryJPA artistRepositoryJPA, BandRepositoryJPA bandRepositoryJPA, AlbumRepositoryJPA albumRepositoryJPA, ArtistMapper artistMapper, BandMapper bandMapper, AlbumMapper albumMapper) {
+    public SearchService(ArtistRepositoryJPA artistRepositoryJPA, BandRepositoryJPA bandRepositoryJPA, AlbumRepositoryJPA albumRepositoryJPA, ArtistMapper artistMapper, BandMapper bandMapper, AlbumMapper albumMapper, ValidationsService validationsService) {
         this.artistRepositoryJPA = artistRepositoryJPA;
         this.bandRepositoryJPA = bandRepositoryJPA;
         this.albumRepositoryJPA = albumRepositoryJPA;
         this.artistMapper = artistMapper;
         this.bandMapper = bandMapper;
         this.albumMapper = albumMapper;
+        this.validationsService = validationsService;
     }
 
     @Transactional
@@ -45,7 +45,7 @@ public class SearchService {
 
     @Transactional
     public List<BandViewDTO> searchByBandname(String bandname) {
-        return bandRepositoryJPA.findBandByBandname("%" + bandname + "%").stream().map(b -> bandMapper.toViewDto(b)).collect(Collectors.toList());
+        return bandRepositoryJPA.getBandByBandnameContainingIgnoreCase(bandname).stream().map(b -> bandMapper.toViewDto(b)).collect(Collectors.toList());
     }
 
     @Transactional
@@ -59,7 +59,7 @@ public class SearchService {
         SearchDTO searchDTO = new SearchDTO();
         searchDTO.setAlbums(albumRepositoryJPA.findAlbumByTitleContainingIgnoreCase(input).stream().map(a->albumMapper.toViewDto(a)).collect(Collectors.toList()));
         searchDTO.setArtists(artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(input,input).stream().map(a->artistMapper.toViewDto(a)).collect(Collectors.toList()));
-        searchDTO.setBands(bandRepositoryJPA.findBandByBandname("%" + input + "%").stream().map(b->bandMapper.toViewDto(b)).collect(Collectors.toList()));
+        searchDTO.setBands(bandRepositoryJPA.getBandByBandnameContainingIgnoreCase(input).stream().map(b->bandMapper.toViewDto(b)).collect(Collectors.toList()));
         return searchDTO;
     }
 

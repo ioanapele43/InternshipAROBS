@@ -15,6 +15,7 @@ public interface BandRepositoryJPA extends JpaRepository<Band, Integer> {
     Band getBandById(Integer id);
 
     //search for band
-    @Query("SELECT b FROM Band b WHERE b.bandname LIKE :name")
-    List<Band> findBandByBandname(@Param("name") String name);
+   /* @Query("SELECT b FROM Band b WHERE b.bandname LIKE :name")
+    List<Band> findBandByBandname(@Param("name") String name);*/
+    List<Band> getBandByBandnameContainingIgnoreCase(String name);
 }

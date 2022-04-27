@@ -8,10 +8,8 @@ import com.example.musify.repo.ArtistRepositoryJPA;
 import com.example.musify.service.mappers.ArtistMapper;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,10 +17,12 @@ import java.util.stream.Collectors;
 public class ArtistService {
     private final ArtistRepositoryJPA artistRepository;
     private final ArtistMapper artistMapper;
+    private final ValidationsService validationsService;
 
-    public ArtistService(ArtistRepositoryJPA artistRepository, ArtistMapper artistMapper) {
+    public ArtistService(ArtistRepositoryJPA artistRepository, ArtistMapper artistMapper, ValidationsService validationsService) {
         this.artistRepository = artistRepository;
         this.artistMapper = artistMapper;
+        this.validationsService = validationsService;
     }
 
 
@@ -31,6 +31,7 @@ public class ArtistService {
     }
 
     public ArtistViewDTO getArtistById(int id) {
+        validationsService.checkIfAnArtistExists(id);
         return artistMapper.toViewDto(artistRepository.getArtistsById(id));
     }
 
@@ -42,8 +43,7 @@ public class ArtistService {
 
     @Transactional
     public void updateArtist(Integer id,ArtistDTO artistDTO) {
-        if (artistRepository.getArtistsById(id) == null)
-            throw new DataNotFoundException("the data you want to update does not exist");
+        validationsService.checkIfAnArtistExists(id);
         Artist artist=artistMapper.toEntity(artistDTO);
         artist.setId(id);
         artistRepository.save(artist);
@@ -51,8 +51,7 @@ public class ArtistService {
 
     @Transactional
     public void deleteArtist(Integer id) {
-        if (artistRepository.getArtistsById(id) == null)
-            throw new DataNotFoundException("the data you want to delete does not exist");
+        validationsService.checkIfAnArtistExists(id);
         artistRepository.delete(artistRepository.getArtistsById(id));
     }
 
