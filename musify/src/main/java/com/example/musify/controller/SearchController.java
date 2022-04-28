@@ -21,30 +21,28 @@ import java.util.Optional;
 @RestController
 public class SearchController {
     @Autowired
-    private ArtistService artistService;
-    @Autowired
-    private AlbumService albumService;
-    @Autowired
-    private BandService bandService;
-    @Autowired
     private SearchService searchService;
 
-    @GetMapping("/search/artists")
-    public List<ArtistViewDTO> searchByLastName(@RequestParam String input) {
+    @GetMapping("/search/artists/by_name")
+    public List<ArtistViewDTO> searchArtistsByName(@RequestParam String input) {
         return searchService.searchByName(input);
     }
 
     @GetMapping("/search/albums/by_title")
-    public List<AlbumViewDTO> searchByTitle(@RequestParam String input) {
+    public List<AlbumViewDTO> searchAlbumByTitle(@RequestParam String input) {
         return searchService.searchByTitle(input);
     }
 
     @GetMapping("/search/bands/by_bandname")
-    public List<BandViewDTO> searchByBandName(@RequestParam String input) {
+    public List<BandViewDTO> searchBandByBandName(@RequestParam String input) {
         return searchService.searchByBandname(input);
     }
-    @GetMapping("/search/songs")
-    public List<SongViewDTO> searchTitleByTitle(@RequestParam String input){
+    @GetMapping("/search/songs/by_alternative_titles")
+    public List<SongViewDTO> searchSongByAlternativeTitle(String alternativeTitle){
+        return searchService.searchSongsByAlternativeTitle(alternativeTitle);
+    }
+    @GetMapping("/search/songs/by_title")
+    public List<SongViewDTO> searchSongsByTitle(@RequestParam String input){
         return searchService.searchSongByTitle(input);
     }
 

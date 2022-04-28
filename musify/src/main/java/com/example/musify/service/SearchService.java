@@ -64,8 +64,10 @@ public class SearchService {
         return songRepositoryJPA.getSongByTitleContainingIgnoreCase(title).stream().map(s->songMapper.toViewDto(s)).collect(Collectors.toList());
     }
     @Transactional
-    public Set<SongViewDTO> searchSongsByAlternativeTitle(String alternativeTitle){
-        return alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(alternativeTitle).stream().map(at->songMapper.toViewDto(at.getSong())).collect(Collectors.toSet());
+    public List<SongViewDTO> searchSongsByAlternativeTitle(String alternativeTitle){
+        List<Song> songs=alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(alternativeTitle).stream().map(at->at.getSong()).distinct().collect(Collectors.toList());
+        return songs.stream().distinct().map(s->songMapper.toViewDto(s)).collect(Collectors.toList());
+        //return alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(alternativeTitle).stream().map(at->songMapper.toViewDto(at.getSong())).collect(Collectors.toSet());
     }
 
     @Transactional
