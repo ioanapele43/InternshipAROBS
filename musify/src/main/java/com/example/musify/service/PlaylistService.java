@@ -2,6 +2,8 @@ package com.example.musify.service;
 
 import com.example.musify.dto.PlaylistDTO;
 import com.example.musify.dto.PlaylistViewDTO;
+import com.example.musify.exception.AlreadyExistingDataException;
+import com.example.musify.exception.PrivatePlaylistException;
 import com.example.musify.exception.WrongInputException;
 import com.example.musify.model.*;
 import com.example.musify.repo.*;
@@ -22,7 +24,6 @@ public class PlaylistService {
     private final UserRepositoryJPA userRepositoryJPA;
     private final PlaylistMapper playlistMapper;
     private final ValidationsService validationsService;
-
 
 
     public PlaylistService(PlaylistRepositoryJPA playlistRepositoryJPA, SongRepositoryJPA songRepositoryJPA, AlbumSongsRepositoryJPA albumSongsRepositoryJPA, PlaylistSongsRepositoryJPA playlistSongsRepositoryJPA, UserRepositoryJPA userRepositoryJPA, PlaylistMapper playlistMapper, ValidationsService validationsService) {
@@ -46,18 +47,18 @@ public class PlaylistService {
 
     @Transactional
     public void createPlaylist(PlaylistDTO playlistDTO) {
-        Playlist playlist=playlistMapper.toEntity(playlistDTO);
+        Playlist playlist = playlistMapper.toEntity(playlistDTO);
         playlist.setOwner(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()));
         playlist.addFollower(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()));
-        Playlist playlistsaved=playlistRepositoryJPA.save(playlist);
+        Playlist playlistsaved = playlistRepositoryJPA.save(playlist);
         //System.out.println(playlistsaved.getId());
         userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()).addPlaylistCreated(playlistsaved);
     }
 
     @Transactional
-    public void updatePlaylist(Integer id,PlaylistDTO playlistDTO) {
+    public void updatePlaylist(Integer id, PlaylistDTO playlistDTO) {
         validationsService.checkIfAPlaylistExists(id);
-        Playlist playlist=playlistMapper.toEntity(playlistDTO);
+        Playlist playlist = playlistMapper.toEntity(playlistDTO);
         playlist.setId(id);
         playlist.setOwner(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()));
         playlistRepositoryJPA.save(playlist);
@@ -68,44 +69,59 @@ public class PlaylistService {
         validationsService.checkIfAPlaylistExists(id);
         playlistRepositoryJPA.delete(playlistRepositoryJPA.getPlaylistById(id));
     }
+
     @Transactional
-    public void addSongToPlaylist(Integer idPlaylist, Integer idSong){
+    public void addSongToPlaylist(Integer idPlaylist, Integer idSong) {
         validationsService.checkIfAPlaylistExists(idPlaylist);
+        validationsService.checkIfAUserIsTheOwnerOfAPlaylist(idPlaylist);
         validationsService.checkIfASongExists(idSong);
         validationsService.checkIfASongIsNOTInAPlaylist(idPlaylist, idSong);
 
-        PlaylistSongs playlistSongs=new PlaylistSongs();
+        PlaylistSongs playlistSongs = new PlaylistSongs();
         playlistSongs.setPlaylist(playlistRepositoryJPA.getPlaylistById(idPlaylist));
         playlistSongs.setSong(songRepositoryJPA.getSongById(idSong));
-        playlistSongs.setOrderNumber(playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_Id(idPlaylist).size()+1);
+        playlistSongs.setOrderNumber(playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_Id(idPlaylist).size() + 1);
         playlistSongsRepositoryJPA.save(playlistSongs);
     }
+
     @Transactional
-    public List<PlaylistDTO> getPlaylistCreatedByTheCurrentUser(){
-        User user=userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
+    public List<PlaylistDTO> getPlaylistCreatedByTheCurrentUser() {
+        User user = userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
         return user.getPlaylistsCreated().stream().map(playlist -> playlistMapper.toDto(playlist)).collect(Collectors.toList());
     }
+
     @Transactional
-    public List<PlaylistDTO> getPlaylistFollowedByTheCurrentUser(){
-        User user=userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
+    public List<PlaylistDTO> getPlaylistFollowedByTheCurrentUser() {
+        User user = userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
         return user.getPlaylistsFollowed().stream().map(playlist -> playlistMapper.toDto(playlist)).collect(Collectors.toList());
     }
+
     @Transactional
-    public void followPlaylistByCurrentUser(Integer idPlaylist){
+    public void followPlaylistByCurrentUser(Integer idPlaylist) {
         validationsService.checkIfAPlaylistExists(idPlaylist);
+        validationsService.checkIfAUserCanAccessAPlaylist(idPlaylist);
         playlistRepositoryJPA.getPlaylistById(idPlaylist).addFollower(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()));
     }
+
     @Transactional
-    public void addAlbumSongsToPlaylist(Integer idPlaylist,Integer idAlbum){
-        List<Song> songs=albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(idAlbum).stream().map(as->as.getSong()).collect(Collectors.toList());
-        songs.forEach(song->addSongToPlaylist(idPlaylist, song.getId()));
+    public void addAlbumSongsToPlaylist(Integer idPlaylist, Integer idAlbum) {
+        validationsService.checkIfAPlaylistExists(idPlaylist);
+        validationsService.checkIfAnAlbumExists(idAlbum);
+        validationsService.checkIfAUserCanAccessAPlaylist(idPlaylist);
+        List<Song> songs = albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(idAlbum).stream().map(as -> as.getSong()).collect(Collectors.toList());
+        songs.forEach(song -> {
+            if(playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_IdAndSong_Id(idPlaylist,song.getId())==null){
+                addSongToPlaylist(idPlaylist, song.getId());
+            }
+        });
     }
+
     @Transactional
     public void changeSongOrderNumber(Integer idPlaylist, Integer idSong, Integer newOrderNumber) {
-
-        validationsService.checkIfASongExists(idSong);
         validationsService.checkIfAPlaylistExists(idPlaylist);
-        validationsService.checkIfASongIsInAPlaylist(idPlaylist,idSong);
+        validationsService.checkIfASongExists(idSong);
+        validationsService.checkIfASongIsInAPlaylist(idPlaylist, idSong);
+        validationsService.checkIfAUserIsTheOwnerOfAPlaylist(idPlaylist);
 
         Integer oldOrderNumber = playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_IdAndSong_Id(idPlaylist, idSong).getOrderNumber();
         List<PlaylistSongs> playlistSongs = playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_Id(idPlaylist);

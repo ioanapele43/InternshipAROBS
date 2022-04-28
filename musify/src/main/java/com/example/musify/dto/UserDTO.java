@@ -22,14 +22,14 @@ public class UserDTO {
     @Email(message = "Email should be valid")
     private String email;
     @NotBlank(message = "Password cannot be blank!")
-    @Size(min=5,max=15,message = "Password size invalid")
+    @Size(min = 5, max = 15, message = "Password size invalid")
     private String password;
     @NotBlank(message = "Country cannot be blank!")
     private String country;
-    @NotBlank(message = "Role cannot be blank!")
+   /* @NotBlank(message = "Role cannot be blank!")
     private String role;
     @NotBlank(message = "Status cannot be blank!")
-    private String status;
+    private String status;*/
 
 
 }

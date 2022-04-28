@@ -36,19 +36,25 @@ public class AlternativeTitlesService {
 
     @Transactional
     public void createAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO) {
+        validationsService.checkIfASongAlreadyHasAnAlternativeTitle(alternativeTitlesDTO.getIdSong(),alternativeTitlesDTO.getAlternativeTitle());
         AlternativeTitles alternativeTitle=alternativeTitlesMapper.toEntity(alternativeTitlesDTO);
         alternativeTitle.setSong(songRepositoryJPA.getSongById(alternativeTitlesDTO.getIdSong()));
         alternativeTitlesRepositoryJPA.save(alternativeTitle);
     }
 
     @Transactional
-    public void updateAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO) {
-        alternativeTitlesRepositoryJPA.save(alternativeTitlesMapper.toEntity(alternativeTitlesDTO));
+    public void updateAlternativeTitle(Integer id,AlternativeTitlesDTO alternativeTitlesDTO) {
+        validationsService.checkIfAnAlternativeTitleExists(id);
+        AlternativeTitles alternativeTitle=alternativeTitlesMapper.toEntity(alternativeTitlesDTO);
+        alternativeTitle.setId(id);
+        alternativeTitlesRepositoryJPA.save(alternativeTitle);
     }
 
     @Transactional
-    public void deleteAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO) {
-        alternativeTitlesRepositoryJPA.delete(alternativeTitlesMapper.toEntity(alternativeTitlesDTO));
+    public void deleteAlternativeTitle(Integer id) {
+        validationsService.checkIfAnAlternativeTitleExists(id);
+        AlternativeTitles alternativeTitle=alternativeTitlesRepositoryJPA.getAlternativeTitlesById(id);
+        alternativeTitlesRepositoryJPA.delete(alternativeTitle);
     }
     @Transactional
     public List<String> getAlternativeTitlesForSong(Integer idSong){

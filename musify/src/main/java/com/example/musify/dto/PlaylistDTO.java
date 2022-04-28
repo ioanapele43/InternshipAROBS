@@ -19,8 +19,6 @@ public class PlaylistDTO {
     private String name;
     @NotBlank(message = "Type cannot be blank!")
     private String type;
-    @NotBlank(message = "Creation date cannot be blank!")
     private Date createdDate;
-    @NotBlank(message = "Last update date cannot be blank!")
     private Date lastUpdateDate;
 }

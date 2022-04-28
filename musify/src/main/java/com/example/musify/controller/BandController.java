@@ -37,9 +37,9 @@ public class BandController {
     }
 
     @PutMapping("/band/{id}/update")
-    public String updateBand(@PathVariable Integer id,@RequestBody @Valid BandDTO bandDTO) {
+    public String updateBand(@PathVariable Integer id, @RequestBody @Valid BandDTO bandDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        bandService.updateBand(id,bandDTO);
+        bandService.updateBand(id, bandDTO);
         return "Success!";
     }
 
@@ -49,16 +49,18 @@ public class BandController {
         bandService.deleteBand(id);
         return "Success!";
     }
+
     @PostMapping("/band/{idBand}/add_member/{idArtist}")
-    public String addBandMember(@PathVariable Integer idBand,@PathVariable Integer idArtist){
+    public String addBandMember(@PathVariable Integer idBand, @PathVariable Integer idArtist) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        bandService.addBandMember(idBand,idArtist);
+        bandService.addBandMember(idBand, idArtist);
         return "success";
     }
+
     @GetMapping("/band/{id}/members")
-    public ResponseEntity<List<ArtistViewDTO>> getBandMembers(@PathVariable Integer id){
-       List<ArtistViewDTO> artistViewDTOS= bandService.getBandMembers(id);
-       return new ResponseEntity<>(artistViewDTOS,HttpStatus.OK);
+    public ResponseEntity<List<ArtistViewDTO>> getBandMembers(@PathVariable Integer id) {
+        List<ArtistViewDTO> artistViewDTOS = bandService.getBandMembers(id);
+        return new ResponseEntity<>(artistViewDTOS, HttpStatus.OK);
     }
 
 

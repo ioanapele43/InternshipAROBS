@@ -43,25 +43,16 @@ public class ArtistController {
     }
 
     @PutMapping("/artist/{id}/update")
-    public String updateArtist(@PathVariable Integer id,@RequestBody @Valid ArtistDTO artistDTO) {
+    public String updateArtist(@PathVariable Integer id, @RequestBody @Valid ArtistDTO artistDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        try {
-            artistService.updateArtist(id,artistDTO);
-            return "Success!";
-        } catch (DataNotFoundException e) {
-            return e.getLocalizedMessage();
-        }
+        artistService.updateArtist(id, artistDTO);
+        return "Success!";
     }
 
     @DeleteMapping("/artist/{id}/delete")
     public String deleteArtist(@PathVariable Integer id) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        try {
-            artistService.deleteArtist(id);
-            return "Success!";
-        } catch (DataNotFoundException e) {
-            return e.getLocalizedMessage();
-        }
-
+        artistService.deleteArtist(id);
+        return "Success!";
     }
 }

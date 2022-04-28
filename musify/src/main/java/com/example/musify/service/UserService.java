@@ -44,7 +44,13 @@ public class UserService {
         byte[] bytes = userDTO.getPassword().getBytes();
         String encoded = String.valueOf(Hex.encode(bytes));
         userDTO.setPassword(encoded);
-        userRepositoryJPA.save(userMapper.toEntity(userDTO));
+        User user=userMapper.toEntity(userDTO);
+        user.setStatus("active");
+        if(user.getEmail().endsWith("@arobs.com"))
+            user.setRole("admin");
+        else
+            user.setRole("user");
+        userRepositoryJPA.save(user);
     }
 
     @Transactional

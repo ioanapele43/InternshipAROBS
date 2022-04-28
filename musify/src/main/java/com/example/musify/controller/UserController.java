@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String register( @RequestBody @Valid UserDTO userDTO) {
+    public String register(@RequestBody @Valid UserDTO userDTO) {
         userService.register(userDTO);
         return "Success!";
     }
@@ -46,15 +46,17 @@ public class UserController {
         String token = userService.login(email, password);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
+
     @PutMapping("/user/update/my_account")
-    public String updateMyUser(@PathVariable Integer id,@RequestBody @Valid UserDTO userDTO) {
-        userService.updateUser(JwtUtils.getCurrentUserId(),userDTO);
+    public String updateMyUser( @RequestBody @Valid UserDTO userDTO) {
+        userService.updateUser(JwtUtils.getCurrentUserId(), userDTO);
         return "updated with success!";
     }
+
     @PutMapping("/user/update/{id}")
-    public String updateUser(@PathVariable Integer id,@RequestBody @Valid UserDTO userDTO) {
+    public String updateUser(@PathVariable Integer id, @RequestBody @Valid UserDTO userDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        userService.updateUser(id,userDTO);
+        userService.updateUser(id, userDTO);
         return "updated with success!";
     }
 

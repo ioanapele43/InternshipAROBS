@@ -4,6 +4,7 @@ import com.example.musify.dto.ArtistViewDTO;
 import com.example.musify.dto.BandDTO;
 import com.example.musify.dto.BandViewDTO;
 import com.example.musify.exception.AlreadyExistingDataException;
+import com.example.musify.exception.WrongInputException;
 import com.example.musify.model.Band;
 import com.example.musify.repo.ArtistRepositoryJPA;
 import com.example.musify.repo.BandRepositoryJPA;
@@ -41,12 +42,16 @@ public class BandService {
 
     @Transactional
     public void createBand(BandDTO bandDTO) {
+        if(bandDTO.getActivityEndDate().before(bandDTO.getActivityStartDate()))
+            throw new WrongInputException("the dates you entered are not in a correct order");
         bandRepositoryJPA.save(bandMapper.toEntity(bandDTO));
     }
 
     @Transactional
     public void updateBand(Integer id,BandDTO bandDTO) {
         validationsService.checkIfABandExists(id);
+        if(bandDTO.getActivityEndDate().before(bandDTO.getActivityStartDate()))
+            throw new WrongInputException("the dates you entered are not in a correct order");
         Band band=bandMapper.toEntity(bandDTO);
         band.setId(id);
         bandRepositoryJPA.save(band);

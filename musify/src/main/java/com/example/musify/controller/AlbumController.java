@@ -41,20 +41,15 @@ public class AlbumController {
     @PostMapping("/album/create")
     public String createAlbum(@RequestBody @Valid AlbumDTO albumDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        try {
-            albumService.createAlbum(albumDTO);
-            return "success!";
-        } catch (DataNotFoundException | WrongInputException e) {
-            return e.getLocalizedMessage();
-        }
-
+        albumService.createAlbum(albumDTO);
+        return "success!";
     }
 
     @PutMapping("/album/{id}/update")
-    public String updateAlbum(@PathVariable Integer id,@RequestBody @Valid AlbumDTO albumDTO) {
+    public String updateAlbum(@PathVariable Integer id, @RequestBody @Valid AlbumDTO albumDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         try {
-            albumService.updateAlbum(id,albumDTO);
+            albumService.updateAlbum(id, albumDTO);
             return "success!";
         } catch (DataNotFoundException e) {
             return e.getLocalizedMessage();
@@ -77,24 +72,15 @@ public class AlbumController {
     @PostMapping("/album/{idAlbum}/add_song/{idSong}")
     public String addSongToAlbum(@PathVariable Integer idAlbum, @PathVariable Integer idSong) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        try {
-            albumService.addSongToAlbum(idAlbum, idSong);
-            return "success!";
-        } catch (DataNotFoundException | AlreadyExistingDataException e) {
-            return e.getLocalizedMessage();
-        }
-
+        albumService.addSongToAlbum(idAlbum, idSong);
+        return "success!";
     }
 
     @PutMapping("/album/{idAlbum}/change_songs_order/{idSong}/{newOrderNumber}")
     public String changeSongsOrder(@PathVariable Integer idAlbum, @PathVariable Integer idSong, @PathVariable Integer newOrderNumber) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        try {
-            albumService.changeSongOrderNumber(idAlbum, idSong, newOrderNumber);
-            return "success!";
-        } catch (DataNotFoundException | WrongInputException e) {
-            return e.getLocalizedMessage();
-        }
+        albumService.changeSongOrderNumber(idAlbum, idSong, newOrderNumber);
+        return "success!";
     }
 
     @GetMapping("/albums/from_artist/{idArtist}")

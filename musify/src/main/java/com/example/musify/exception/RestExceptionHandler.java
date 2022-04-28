@@ -57,6 +57,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("UNAUTHORIZED: "+e.getMessage());
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
+    @ExceptionHandler(PrivatePlaylistException.class)
+    protected ResponseEntity<Object> handlePrivatePlaylistException(PrivatePlaylistException e){
+        ApiError apiError = new ApiError(BAD_REQUEST, e.getMessage());
+        log.error("UNAUTHORIZED: "+e.getMessage());
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
+    }
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errorMessages = ex.getAllErrors().stream()

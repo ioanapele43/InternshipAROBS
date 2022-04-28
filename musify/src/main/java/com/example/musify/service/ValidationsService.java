@@ -1,7 +1,9 @@
 package com.example.musify.service;
 
 import com.example.musify.exception.DataNotFoundException;
+import com.example.musify.exception.PrivatePlaylistException;
 import com.example.musify.repo.*;
+import com.example.musify.security.JwtUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -75,6 +77,14 @@ public class ValidationsService {
     public void checkIfASongAlreadyHasAnAlternativeTitle(Integer idSong, String title){
         if(alternativeTitlesRepositoryJPA.getAlternativeTitlesBySong_IdAndAlternativeTitle(idSong, title)!=null)
             throw new DataNotFoundException("the song already has this alternative title");
+    }
+    public void checkIfAUserIsTheOwnerOfAPlaylist(Integer idPlaylist){
+        if (playlistRepositoryJPA.getPlaylistById(idPlaylist).getOwner() != userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()))
+            throw new PrivatePlaylistException("this playlist is not yours!");
+    }
+    public void checkIfAUserCanAccessAPlaylist(Integer idPlaylist){
+        if (playlistRepositoryJPA.getPlaylistById(idPlaylist).getType().equals("private") && playlistRepositoryJPA.getPlaylistById(idPlaylist).getOwner() != userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()))
+            throw new PrivatePlaylistException("this playlist is private, you cannot access others private playlists!");
     }
 
 

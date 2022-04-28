@@ -15,9 +15,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-@RestController
+//@RestController
 public class UserControllerJdbc {
-    @Autowired
+   /* @Autowired
     private UserServiceJdbc userService;
     @Autowired
     private DataSource dataSource;
@@ -29,7 +29,7 @@ public class UserControllerJdbc {
          System.out.println("id : "+id);
          return userService.getMessage();
      }*/
-    @GetMapping("/u")
+    /*@GetMapping("/u")
     public String helloSpring() {
 
         return userService.getMessage();
@@ -143,12 +143,12 @@ public class UserControllerJdbc {
     public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
         String token = userService.login(email, password);
         return new ResponseEntity<>(token, HttpStatus.OK);
-    }
+    }*/
 
     /*public UserViewDTO login(@RequestParam String email, @RequestParam String password){
         return userService.login(email, password);
     }*/
-    @PostMapping("/Register")
+   /* @PostMapping("/Register")
     public UserViewDTO registerUser(@RequestBody @Valid UserDTO userDTO) {
         return userService.register(userDTO);
     }

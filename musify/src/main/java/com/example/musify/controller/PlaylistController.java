@@ -39,15 +39,15 @@ public class PlaylistController {
 
     @PostMapping("/playlist/create")
     public String createPlaylist(@RequestBody @Valid PlaylistDTO playlistDTO) {
-        AdminVerify.checkIfTheUserLoggedIsAdmin();
+       // AdminVerify.checkIfTheUserLoggedIsAdmin();
         playlistService.createPlaylist(playlistDTO);
         return "success!";
     }
 
     @PutMapping("/playlist/{id}/update")
-    public String updatePlaylist(@PathVariable Integer id,@RequestBody @Valid PlaylistDTO playlistDTO) {
+    public String updatePlaylist(@PathVariable Integer id, @RequestBody @Valid PlaylistDTO playlistDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        playlistService.updatePlaylist(id,playlistDTO);
+        playlistService.updatePlaylist(id, playlistDTO);
         return "success!";
     }
 
@@ -57,32 +57,38 @@ public class PlaylistController {
         playlistService.deletePlaylist(id);
         return "success!";
     }
+
     @PostMapping("/playlist/{idPlaylist}/addSong/{idSong}")
-    public String addSongToPlaylist(@PathVariable Integer idPlaylist,@PathVariable Integer idSong){
-        playlistService.addSongToPlaylist(idPlaylist,idSong);
+    public String addSongToPlaylist(@PathVariable Integer idPlaylist, @PathVariable Integer idSong) {
+        playlistService.addSongToPlaylist(idPlaylist, idSong);
         return "Success!";
     }
+
     @GetMapping("/playlists/get_created_playlist")
-    public List<PlaylistDTO> getPlaylistsCreated(){
+    public List<PlaylistDTO> getPlaylistsCreated() {
         return playlistService.getPlaylistCreatedByTheCurrentUser();
     }
+
     @GetMapping("/playlists/get_followed_playlist")
-    public List<PlaylistDTO> getPlaylistsFollowed(){
+    public List<PlaylistDTO> getPlaylistsFollowed() {
         return playlistService.getPlaylistFollowedByTheCurrentUser();
     }
+
     @PostMapping("/playlist/{id}/follow_playlist")
-    public String followPlaylist(@PathVariable Integer id){
+    public String followPlaylist(@PathVariable Integer id) {
         playlistService.followPlaylistByCurrentUser(id);
         return "Success!";
     }
+
     @PostMapping("/playlist/{idPlaylist}/add_aongs_from_album/{idAlbum}")
-    public String addSongFromAnAlbum(@PathVariable Integer idPlaylist,@PathVariable Integer idAlbum){
-        playlistService.addAlbumSongsToPlaylist(idPlaylist,idAlbum);
+    public String addSongFromAnAlbum(@PathVariable Integer idPlaylist, @PathVariable Integer idAlbum) {
+        playlistService.addAlbumSongsToPlaylist(idPlaylist, idAlbum);
         return "success!";
     }
+
     @PutMapping("/playlist/{idPlaylist}/change_songs_order/{idSong}/{newOrderNumber}")
     public String changeSongsOrder(@PathVariable Integer idPlaylist, @PathVariable Integer idSong, @PathVariable Integer newOrderNumber) {
-        AdminVerify.checkIfTheUserLoggedIsAdmin();
+        //AdminVerify.checkIfTheUserLoggedIsAdmin();
         playlistService.changeSongOrderNumber(idPlaylist, idSong, newOrderNumber);
         return "success!";
     }

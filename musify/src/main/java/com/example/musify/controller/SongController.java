@@ -49,9 +49,9 @@ public class SongController {
     }
 
     @PutMapping("/song/{id}/update")
-    public String updateSong(@PathVariable Integer id,@RequestBody @Valid SongDTO songDTO) {
+    public String updateSong(@PathVariable Integer id, @RequestBody @Valid SongDTO songDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        songService.updateSong(id,songDTO);
+        songService.updateSong(id, songDTO);
         return "success!";
     }
 
@@ -61,15 +61,22 @@ public class SongController {
         songService.deleteSong(id);
         return "success!";
     }
+
     @GetMapping("/song/{id}/getAlternativeTitles")
-    public List<String> getAlternativeTitlesForASong(@PathVariable Integer id){
+    public List<String> getAlternativeTitlesForASong(@PathVariable Integer id) {
         return alternativeTitlesService.getAlternativeTitlesForSong(id);
     }
+
     @PostMapping("/song/addAlternativeTitle")
-    public String addAlternativeTitle(@RequestBody @Valid AlternativeTitlesDTO alternativeTitle){
+    public String addAlternativeTitle(@RequestBody @Valid AlternativeTitlesDTO alternativeTitle) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         alternativeTitlesService.createAlternativeTitle(alternativeTitle);
         return "success!";
+    }
+
+    @GetMapping("songs/get_all_alternative_titles")
+    public List<AlternativeTitlesDTO> getAllAlternativeTitles() {
+        return alternativeTitlesService.getAllAternativeTitles();
     }
 
 
