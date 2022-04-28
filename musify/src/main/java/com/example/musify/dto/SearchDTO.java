@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,5 +19,7 @@ public class SearchDTO {
     private List<ArtistViewDTO> artists;
     private List<BandViewDTO> bands;
     private List<AlbumViewDTO> albums;
+    private List<SongViewDTO> songs;
+    private Set<SongViewDTO> songsByAlternativeTitle;
 
 }

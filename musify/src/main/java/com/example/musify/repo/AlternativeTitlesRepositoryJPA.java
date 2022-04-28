@@ -12,4 +12,5 @@ public interface AlternativeTitlesRepositoryJPA extends JpaRepository<Alternativ
     AlternativeTitles getAlternativeTitlesById(Integer id);
     List<AlternativeTitles> getAlternativeTitlesBySong_Id(Integer id);
     AlternativeTitles getAlternativeTitlesBySong_IdAndAlternativeTitle(Integer idSong,String alternativeTitle);
+    List<AlternativeTitles> getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(String input);
 }

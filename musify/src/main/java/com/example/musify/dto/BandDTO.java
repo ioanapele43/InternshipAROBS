@@ -19,9 +19,7 @@ public class BandDTO {
     private String bandname;
     @NotBlank(message = "Location cannot be blank!")
     private String location;
-    @NotBlank(message = "Activity start date cannot be blank!")
     private Date activityStartDate;
-    @NotBlank(message = "Activity end date cannot be blank!")
     private Date activityEndDate;
 
 }

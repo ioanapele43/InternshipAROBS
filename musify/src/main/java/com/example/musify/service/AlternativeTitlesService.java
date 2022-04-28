@@ -8,6 +8,7 @@ import com.example.musify.service.mappers.AlternativeTitlesMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,13 @@ public class AlternativeTitlesService {
     }
 
     public List<AlternativeTitlesDTO> getAllAternativeTitles() {
-        return alternativeTitlesRepositoryJPA.findAll().stream().map(a -> alternativeTitlesMapper.toDto(a)).collect(Collectors.toList());
+        List<AlternativeTitlesDTO> alternativeTitles=new ArrayList<AlternativeTitlesDTO>();
+         alternativeTitlesRepositoryJPA.findAll().forEach(alternativeTitle->{
+             AlternativeTitlesDTO at=alternativeTitlesMapper.toDto(alternativeTitle);
+             at.setIdSong(alternativeTitle.getSong().getId());
+             alternativeTitles.add(at);
+         });
+         return alternativeTitles;
     }
 
     public AlternativeTitlesDTO getAlternativeTitleById(Integer id) {

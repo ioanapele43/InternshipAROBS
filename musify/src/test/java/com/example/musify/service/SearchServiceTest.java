@@ -33,7 +33,7 @@ class SearchServiceTest {
 
     @BeforeEach
     public void init(){
-        searchService=new SearchService(artistRepositoryJPA,bandRepositoryJPA,albumRepositoryJPA, artistMapper, bandMapper, albumMapper, validationsService);
+        //searchService=new SearchService(artistRepositoryJPA,bandRepositoryJPA,albumRepositoryJPA, songRepositoryJPA, songMapper, artistMapper, bandMapper, albumMapper, validationsService);
     }
     /*@Test
     @DisplayName("Album-NULL")

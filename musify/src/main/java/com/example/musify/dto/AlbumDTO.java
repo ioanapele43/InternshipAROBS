@@ -21,7 +21,6 @@ public class AlbumDTO {
     private String description;
     @NotBlank(message = "Genre cannot be blank!")
     private String genre;
-    @NotBlank(message = "Release Date cannot be blank!")
     private Date releaseDate;
     @NotBlank(message = "Message cannot be blank!")
     private String label;

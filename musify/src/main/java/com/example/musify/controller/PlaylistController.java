@@ -27,6 +27,7 @@ public class PlaylistController {
 
     @GetMapping("/playlists")
     public ResponseEntity<List<PlaylistViewDTO>> getAllPlaylists() {
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         List<PlaylistViewDTO> playlist = playlistService.getAllPlaylists();
         return new ResponseEntity<>(playlist, HttpStatus.OK);
     }
@@ -64,12 +65,12 @@ public class PlaylistController {
         return "Success!";
     }
 
-    @GetMapping("/playlists/get_created_playlist")
+    @GetMapping("/playlists/get_created_playlists")
     public List<PlaylistDTO> getPlaylistsCreated() {
         return playlistService.getPlaylistCreatedByTheCurrentUser();
     }
 
-    @GetMapping("/playlists/get_followed_playlist")
+    @GetMapping("/playlists/get_followed_playlists")
     public List<PlaylistDTO> getPlaylistsFollowed() {
         return playlistService.getPlaylistFollowedByTheCurrentUser();
     }

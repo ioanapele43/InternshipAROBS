@@ -42,6 +42,7 @@ public class PlaylistService {
 
     public PlaylistViewDTO getPlaylistbyId(Integer id) {
         validationsService.checkIfAPlaylistExists(id);
+        validationsService.checkIfAUserCanAccessAPlaylist(id);
         return playlistMapper.toViewDto(playlistRepositoryJPA.getPlaylistById(id));
     }
 

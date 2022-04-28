@@ -19,8 +19,6 @@ public class SongDTO {
 
     @NotBlank(message = "Title cannot be blank!")
     private String title;
-    @NotBlank(message = "Duration cannot be blank!")
     private Time duration;
-    @NotBlank(message = "Creation Date cannot be blank!")
     private Date creationDate;
 }
