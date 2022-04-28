@@ -20,6 +20,6 @@ public class SearchDTO {
     private List<BandViewDTO> bands;
     private List<AlbumViewDTO> albums;
     private List<SongViewDTO> songs;
-    private Set<SongViewDTO> songsByAlternativeTitle;
+    private List<SongViewDTO> songsByAlternativeTitle;
 
 }

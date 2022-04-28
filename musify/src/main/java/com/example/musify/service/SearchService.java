@@ -1,6 +1,7 @@
 package com.example.musify.service;
 
 import com.example.musify.dto.*;
+import com.example.musify.model.Song;
 import com.example.musify.repo.*;
 import com.example.musify.service.mappers.AlbumMapper;
 import com.example.musify.service.mappers.ArtistMapper;
@@ -9,6 +10,8 @@ import com.example.musify.service.mappers.SongMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -72,11 +75,12 @@ public class SearchService {
         searchDTO.setArtists(artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(input,input).stream().map(a->artistMapper.toViewDto(a)).collect(Collectors.toList()));
         searchDTO.setBands(bandRepositoryJPA.getBandByBandnameContainingIgnoreCase(input).stream().map(b->bandMapper.toViewDto(b)).collect(Collectors.toList()));
         searchDTO.setSongs(songRepositoryJPA.getSongByTitleContainingIgnoreCase(input).stream().map(s->songMapper.toViewDto(s)).collect(Collectors.toList()));
-        searchDTO.setSongsByAlternativeTitle(alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(input).stream().map(at->songMapper.toViewDto(at.getSong())).collect(Collectors.toSet()));
+        //List<SongViewDTO> songs=alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(input).stream().map(at->songMapper.toViewDto(at.getSong())).distinct().collect(Collectors.toList());
+        List<Song> songs=alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(input).stream().map(at->at.getSong()).distinct().collect(Collectors.toList());
+       // searchDTO.setSongsByAlternativeTitle( new ArrayList<>(new HashSet<>(songs)));
+        searchDTO.setSongsByAlternativeTitle( songs.stream().distinct().map(s->songMapper.toViewDto(s)).collect(Collectors.toList()));
         // pentru a separa listele de piese gasite in urma cautarii in functie de titlu si cele gasite in functie de titlul alternativ le-am pus in liste diferite
-        // in lista gasita cu alternative title o sa am dublicate, sa le elimin sau sa las asa lista?
-        // sau as putea schimba ultima lista intr-o lista de alternative titles si atunci va returna doar structura aceea si o sa am si un id de la piesa?
-        return searchDTO;
+       return searchDTO;
     }
 
 }

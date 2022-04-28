@@ -16,4 +16,15 @@ public class SongViewDTO {
     private String title;
     private Time duration;
     private Date creationDate;
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj==this)
+            return true;
+        if(!(obj instanceof SongViewDTO))
+            return false;
+        SongViewDTO song=(SongViewDTO) obj;
+        return (this.title.equals(song.getTitle()) );
+    }
 }
