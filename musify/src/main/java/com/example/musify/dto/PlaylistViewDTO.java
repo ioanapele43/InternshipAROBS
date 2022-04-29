@@ -12,6 +12,7 @@ import java.sql.Date;
 @Getter
 @Setter
 public class PlaylistViewDTO {
+    private Integer id;
     private String name;
     private String type;
     private Date createdDate;

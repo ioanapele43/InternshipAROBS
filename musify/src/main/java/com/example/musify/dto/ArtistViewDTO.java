@@ -12,6 +12,7 @@ import java.sql.Date;
 @Getter
 @Setter
 public class ArtistViewDTO {
+    private Integer id;
     private String firstname;
     private String lastname;
     private String stagename;

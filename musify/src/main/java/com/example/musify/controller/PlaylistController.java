@@ -66,12 +66,12 @@ public class PlaylistController {
     }
 
     @GetMapping("/playlists/get_created_playlists")
-    public List<PlaylistDTO> getPlaylistsCreated() {
+    public List<PlaylistViewDTO> getPlaylistsCreated() {
         return playlistService.getPlaylistCreatedByTheCurrentUser();
     }
 
     @GetMapping("/playlists/get_followed_playlists")
-    public List<PlaylistDTO> getPlaylistsFollowed() {
+    public List<PlaylistViewDTO> getPlaylistsFollowed() {
         return playlistService.getPlaylistFollowedByTheCurrentUser();
     }
 

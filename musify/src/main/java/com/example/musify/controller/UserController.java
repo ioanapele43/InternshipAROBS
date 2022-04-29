@@ -1,6 +1,7 @@
 package com.example.musify.controller;
 
 import com.example.musify.dto.UserDTO;
+import com.example.musify.dto.UserUpdateDTO;
 import com.example.musify.dto.UserViewDTO;
 import com.example.musify.security.AdminVerify;
 import com.example.musify.security.JwtUtils;
@@ -48,13 +49,13 @@ public class UserController {
     }
 
     @PutMapping("/user/update/my_account")
-    public String updateMyUser( @RequestBody @Valid UserDTO userDTO) {
+    public String updateMyUser( @RequestBody @Valid UserUpdateDTO userDTO) {
         userService.updateUser(JwtUtils.getCurrentUserId(), userDTO);
         return "updated with success!";
     }
 
     @PutMapping("/user/update/{id}")
-    public String updateUser(@PathVariable Integer id, @RequestBody @Valid UserDTO userDTO) {
+    public String updateUser(@PathVariable Integer id, @RequestBody @Valid UserUpdateDTO userDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         userService.updateUser(id, userDTO);
         return "updated with success!";

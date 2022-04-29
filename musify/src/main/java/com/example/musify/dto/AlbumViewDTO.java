@@ -13,6 +13,7 @@ import java.sql.Date;
 @Getter
 @Setter
 public class AlbumViewDTO {
+    private Integer id;
     private String title;
     private String description;
     private String genre;

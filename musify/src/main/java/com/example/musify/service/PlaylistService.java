@@ -86,22 +86,23 @@ public class PlaylistService {
     }
 
     @Transactional
-    public List<PlaylistDTO> getPlaylistCreatedByTheCurrentUser() {
+    public List<PlaylistViewDTO> getPlaylistCreatedByTheCurrentUser() {
         User user = userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
-        return user.getPlaylistsCreated().stream().map(playlist -> playlistMapper.toDto(playlist)).collect(Collectors.toList());
+        return user.getPlaylistsCreated().stream().map(playlist -> playlistMapper.toViewDto(playlist)).collect(Collectors.toList());
     }
 
     @Transactional
-    public List<PlaylistDTO> getPlaylistFollowedByTheCurrentUser() {
+    public List<PlaylistViewDTO> getPlaylistFollowedByTheCurrentUser() {
         User user = userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
-        return user.getPlaylistsFollowed().stream().map(playlist -> playlistMapper.toDto(playlist)).collect(Collectors.toList());
+        return user.getPlaylistsFollowed().stream().map(playlist -> playlistMapper.toViewDto(playlist)).collect(Collectors.toList());
     }
 
     @Transactional
     public void followPlaylistByCurrentUser(Integer idPlaylist) {
         validationsService.checkIfAPlaylistExists(idPlaylist);
         validationsService.checkIfAUserCanAccessAPlaylist(idPlaylist);
-        playlistRepositoryJPA.getPlaylistById(idPlaylist).addFollower(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()));
+        if(!playlistRepositoryJPA.getPlaylistById(idPlaylist).getUsersWhoFollows().contains(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId())))
+            playlistRepositoryJPA.getPlaylistById(idPlaylist).addFollower(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()));
     }
 
     @Transactional

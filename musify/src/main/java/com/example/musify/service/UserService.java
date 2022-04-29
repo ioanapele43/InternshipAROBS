@@ -1,6 +1,7 @@
 package com.example.musify.service;
 
 import com.example.musify.dto.UserDTO;
+import com.example.musify.dto.UserUpdateDTO;
 import com.example.musify.dto.UserViewDTO;
 import com.example.musify.exception.UnauthorizedException;
 import com.example.musify.model.User;
@@ -54,10 +55,27 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(Integer id,UserDTO userDTO) {
+    public void updateUser(Integer id, UserUpdateDTO userDTO) {
         validationsService.checkIfAUserExists(id);
-        User user=userMapper.toEntity(userDTO);
-        user.setId(id);
+        User user=userRepositoryJPA.getUserById(id);
+        if(!userDTO.getFirstName().equals(""))
+            user.setFirstName(userDTO.getFirstName());
+        if(!userDTO.getLastName().equals(""))
+            user.setLastName(userDTO.getLastName());
+        if(!userDTO.getCountry().equals(""))
+            user.setCountry(userDTO.getCountry());
+        if(!userDTO.getStatus().equals(""))
+            user.setStatus(userDTO.getStatus());
+        if(!userDTO.getRole().equals("") )
+            if(JwtUtils.getCurrentUserRole().equals("admin"))
+                user.setRole(userDTO.getRole());
+            else
+                throw new UnauthorizedException("you can't change your role");
+        if(!userDTO.getPassword().equals("")){
+            byte[] bytes = userDTO.getPassword().getBytes();
+            String encoded = String.valueOf(Hex.encode(bytes));
+            user.setPassword(encoded);
+        }
         userRepositoryJPA.save(user);
     }
 

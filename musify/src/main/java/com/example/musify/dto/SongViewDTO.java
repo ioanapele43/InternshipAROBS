@@ -13,6 +13,7 @@ import java.sql.Time;
 @Getter
 @Setter
 public class SongViewDTO {
+    private Integer id;
     private String title;
     private Time duration;
     private Date creationDate;

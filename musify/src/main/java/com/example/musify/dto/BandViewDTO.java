@@ -12,6 +12,7 @@ import java.sql.Date;
 @Getter
 @Setter
 public class BandViewDTO {
+    private Integer id;
     private String bandname;
     private String location;
     private Date activityStartDate;
