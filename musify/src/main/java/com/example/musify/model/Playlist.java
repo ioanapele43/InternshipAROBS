@@ -53,6 +53,9 @@ public class Playlist {
     public void addFollower(User user){
         usersWhoFollows.add(user);
     }
+    public void removeFollower(User user){
+        usersWhoFollows.remove(user);
+    }
 
 
 }

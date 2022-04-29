@@ -104,7 +104,14 @@ public class PlaylistService {
         if(!playlistRepositoryJPA.getPlaylistById(idPlaylist).getUsersWhoFollows().contains(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId())))
             playlistRepositoryJPA.getPlaylistById(idPlaylist).addFollower(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()));
     }
-
+    @Transactional
+    public void unfollowPlaylistByCurrentUser(Integer idPlaylist) {
+        validationsService.checkIfAPlaylistExists(idPlaylist);
+        if(playlistRepositoryJPA.getPlaylistById(idPlaylist).getOwner()==userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()))
+            throw new WrongInputException("you can't unfollow a playlist you created");
+        if(playlistRepositoryJPA.getPlaylistById(idPlaylist).getUsersWhoFollows().contains(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId())))
+            playlistRepositoryJPA.getPlaylistById(idPlaylist).removeFollower(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()));
+    }
     @Transactional
     public void addAlbumSongsToPlaylist(Integer idPlaylist, Integer idAlbum) {
         validationsService.checkIfAPlaylistExists(idPlaylist);
@@ -141,5 +148,6 @@ public class PlaylistService {
         });
         albumSongsRepositoryJPA.getAlbumSongsByAlbum_IdAndSong_id(idPlaylist, idSong).setOrderNumber(newOrderNumber);
     }
+
 
 }

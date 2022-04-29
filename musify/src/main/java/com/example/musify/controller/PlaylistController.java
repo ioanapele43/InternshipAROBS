@@ -80,8 +80,13 @@ public class PlaylistController {
         playlistService.followPlaylistByCurrentUser(id);
         return "Success!";
     }
+    @PostMapping("/playlist/{id}/unfollow_playlist")
+    public String unfollowPlaylist(@PathVariable Integer id) {
+        playlistService.unfollowPlaylistByCurrentUser(id);
+        return "Success!";
+    }
 
-    @PostMapping("/playlist/{idPlaylist}/add_aongs_from_album/{idAlbum}")
+    @PostMapping("/playlist/{idPlaylist}/add_songs_from_album/{idAlbum}")
     public String addSongFromAnAlbum(@PathVariable Integer idPlaylist, @PathVariable Integer idAlbum) {
         playlistService.addAlbumSongsToPlaylist(idPlaylist, idAlbum);
         return "success!";
