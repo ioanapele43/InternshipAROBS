@@ -103,6 +103,8 @@ public class PlaylistService {
         validationsService.checkIfAUserCanAccessAPlaylist(idPlaylist);
         if(!playlistRepositoryJPA.getPlaylistById(idPlaylist).getUsersWhoFollows().contains(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId())))
             playlistRepositoryJPA.getPlaylistById(idPlaylist).addFollower(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()));
+        else
+            throw new WrongInputException("you already follow this playlist");
     }
     @Transactional
     public void unfollowPlaylistByCurrentUser(Integer idPlaylist) {
@@ -111,6 +113,8 @@ public class PlaylistService {
             throw new WrongInputException("you can't unfollow a playlist you created");
         if(playlistRepositoryJPA.getPlaylistById(idPlaylist).getUsersWhoFollows().contains(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId())))
             playlistRepositoryJPA.getPlaylistById(idPlaylist).removeFollower(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()));
+        else
+            throw new WrongInputException("you didn't follow this playlist!");
     }
     @Transactional
     public void addAlbumSongsToPlaylist(Integer idPlaylist, Integer idAlbum) {

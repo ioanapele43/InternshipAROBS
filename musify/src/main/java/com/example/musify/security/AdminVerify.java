@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class AdminVerify {
-    @Autowired
-    private JwtUtils jwtUtils;
     public static void checkIfTheUserLoggedIsAdmin(){
         String role = JwtUtils.getCurrentUserRole();
         if (!role.equals("admin"))
