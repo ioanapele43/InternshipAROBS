@@ -3,7 +3,7 @@ package com.example.musify.service;
 import com.example.musify.dto.AlbumDTO;
 import com.example.musify.dto.AlbumViewDTO;
 import com.example.musify.dto.SongDTO;
-import com.example.musify.exception.AlreadyExistingDataException;
+import com.example.musify.dto.SongViewDTO;
 import com.example.musify.exception.DataNotFoundException;
 import com.example.musify.exception.WrongInputException;
 import com.example.musify.model.Album;
@@ -65,7 +65,7 @@ public class AlbumService {
     }
 
     @Transactional
-    public void createAlbum(AlbumDTO albumDTO) throws DataNotFoundException {
+    public AlbumViewDTO createAlbum(AlbumDTO albumDTO) throws DataNotFoundException {
         Album album = albumMapper.toEntity(albumDTO);
         if (albumDTO.getIdBand() != 0 && albumDTO.getIdArtist() != 0)
             throw new DataNotFoundException("an album cannot have multiple owners, just an artist or a band");
@@ -81,11 +81,12 @@ public class AlbumService {
             album.setBand(bandRepositoryJPA.getById(albumDTO.getIdBand()));
         }
 
-        albumRepositoryJPA.save(album);
+        Album albumFromDatabase = albumRepositoryJPA.save(album);
+        return albumMapper.toViewDto(albumFromDatabase);
     }
 
     @Transactional
-    public void updateAlbum(Integer id, AlbumDTO albumDTO) {
+    public AlbumViewDTO updateAlbum(Integer id, AlbumDTO albumDTO) {
         if (albumRepositoryJPA.getAlbumById(id) == null)
             throw new DataNotFoundException("the album you want to update doesn't exist");
         Album album = albumMapper.toEntity(albumDTO);
@@ -102,7 +103,8 @@ public class AlbumService {
             album.setBand(bandRepositoryJPA.getById(albumDTO.getIdBand()));
         }
 
-        albumRepositoryJPA.save(album);
+        Album albumFromDatabase = albumRepositoryJPA.save(album);
+        return albumMapper.toViewDto(albumFromDatabase);
     }
 
     @Transactional
@@ -114,29 +116,36 @@ public class AlbumService {
     @Transactional
     public List<SongDTO> getAlbumSongs(Integer id) {
         validationsService.checkIfAnAlbumExists(id);
-        return albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(id).stream().map(as -> songMapper.toDto(as.getSong())).collect(Collectors.toList());
+        return albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(id)
+                .stream()
+                .map(as -> songMapper.toDto(as.getSong()))
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public void addSongToAlbum(Integer idAlbum, Integer idSong) {
+    public List<SongViewDTO> addSongToAlbum(Integer idAlbum, Integer idSong) {
         AlbumSongs albumSong = new AlbumSongs();
 
         validationsService.checkIfASongExists(idSong);
         validationsService.checkIfAnAlbumExists(idAlbum);
-        validationsService.checkIfASongIsNOTInAnAlbum(idAlbum,idSong);
+        validationsService.checkIfASongIsNOTInAnAlbum(idAlbum, idSong);
 
         albumSong.setSong(songRepositoryJPA.getSongById(idSong));
         albumSong.setAlbum(albumRepositoryJPA.getAlbumById(idAlbum));
         albumSong.setOrderNumber(albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(idAlbum).size() + 1);
         albumSongsRepositoryJPA.save(albumSong);
+        return albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(idAlbum)
+                .stream()
+                .map(as -> songMapper.toViewDto(as.getSong()))
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public void changeSongOrderNumber(Integer idAlbum, Integer idSong, Integer newOrderNumber) {
+    public List<SongViewDTO> changeSongOrderNumber(Integer idAlbum, Integer idSong, Integer newOrderNumber) {
 
         validationsService.checkIfASongExists(idSong);
         validationsService.checkIfAnAlbumExists(idAlbum);
-        validationsService.checkIfASongIsInAnAlbum(idAlbum,idSong);
+        validationsService.checkIfASongIsInAnAlbum(idAlbum, idSong);
 
         Integer oldOrderNumber = albumSongsRepositoryJPA.getAlbumSongsByAlbum_IdAndSong_id(idAlbum, idSong).getOrderNumber();
         List<AlbumSongs> albumSongs = albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(idAlbum);
@@ -153,5 +162,9 @@ public class AlbumService {
             }
         });
         albumSongsRepositoryJPA.getAlbumSongsByAlbum_IdAndSong_id(idAlbum, idSong).setOrderNumber(newOrderNumber);
+        return albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(idAlbum)
+                .stream()
+                .map(as -> songMapper.toViewDto(as.getSong()))
+                .collect(Collectors.toList());
     }
 }

@@ -19,7 +19,7 @@ public class Playlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(name="playlist_name")
+    @Column(name = "playlist_name")
     private String name;
     @Column(name = "type")
     private String type;
@@ -37,7 +37,8 @@ public class Playlist {
             joinColumns = {@JoinColumn(name = "playlist_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
-    private List<User> usersWhoFollows=new ArrayList<User>();
+    private List<User> usersWhoFollows = new ArrayList<User>();
+
 /*
     @OneToMany
     private List<Song> songs=new ArrayList<Song>();
@@ -50,10 +51,12 @@ public class Playlist {
         this.createdDate = createdDate;
         this.lastUpdateDate = lastUpdateDate;
     }
-    public void addFollower(User user){
+
+    public void addFollower(User user) {
         usersWhoFollows.add(user);
     }
-    public void removeFollower(User user){
+
+    public void removeFollower(User user) {
         usersWhoFollows.remove(user);
     }
 

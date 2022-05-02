@@ -2,14 +2,11 @@ package com.example.musify.controller;
 
 import com.example.musify.dto.PlaylistDTO;
 import com.example.musify.dto.PlaylistViewDTO;
-import com.example.musify.exception.DataNotFoundException;
-import com.example.musify.exception.WrongInputException;
+import com.example.musify.dto.SongViewDTO;
 import com.example.musify.repo.jdbc.PlaylistRepository;
 import com.example.musify.security.AdminVerify;
 import com.example.musify.service.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
@@ -26,43 +23,36 @@ public class PlaylistController {
     private DataSource dataSource;
 
     @GetMapping("/playlists")
-    public ResponseEntity<List<PlaylistViewDTO>> getAllPlaylists() {
+    public List<PlaylistViewDTO> getAllPlaylists() {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        List<PlaylistViewDTO> playlist = playlistService.getAllPlaylists();
-        return new ResponseEntity<>(playlist, HttpStatus.OK);
+        return playlistService.getAllPlaylists();
     }
 
     @GetMapping("/playlist/{id}")
-    public ResponseEntity<PlaylistViewDTO> getPlaylistById(Integer id) {
-        PlaylistViewDTO playlist = playlistService.getPlaylistbyId(id);
-        return new ResponseEntity<>(playlist, HttpStatus.OK);
+    public PlaylistViewDTO getPlaylistById(Integer id) {
+        return playlistService.getPlaylistbyId(id);
     }
 
     @PostMapping("/playlist/create")
-    public String createPlaylist(@RequestBody @Valid PlaylistDTO playlistDTO) {
-       // AdminVerify.checkIfTheUserLoggedIsAdmin();
-        playlistService.createPlaylist(playlistDTO);
-        return "success!";
+    public PlaylistViewDTO createPlaylist(@RequestBody @Valid PlaylistDTO playlistDTO) {
+        return playlistService.createPlaylist(playlistDTO);
     }
 
     @PutMapping("/playlist/{id}/update")
-    public String updatePlaylist(@PathVariable Integer id, @RequestBody @Valid PlaylistDTO playlistDTO) {
+    public PlaylistViewDTO updatePlaylist(@PathVariable Integer id, @RequestBody @Valid PlaylistDTO playlistDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        playlistService.updatePlaylist(id, playlistDTO);
-        return "success!";
+        return playlistService.updatePlaylist(id, playlistDTO);
     }
 
     @DeleteMapping("/playlist/{id}/delete")
-    public String deletePlaylist(@PathVariable Integer id) {
+    public void deletePlaylist(@PathVariable Integer id) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         playlistService.deletePlaylist(id);
-        return "success!";
     }
 
     @PostMapping("/playlist/{idPlaylist}/addSong/{idSong}")
-    public String addSongToPlaylist(@PathVariable Integer idPlaylist, @PathVariable Integer idSong) {
-        playlistService.addSongToPlaylist(idPlaylist, idSong);
-        return "Success!";
+    public List<SongViewDTO> addSongToPlaylist(@PathVariable Integer idPlaylist, @PathVariable Integer idSong) {
+        return playlistService.addSongToPlaylist(idPlaylist, idSong);
     }
 
     @GetMapping("/playlists/get_created_playlists")
@@ -76,26 +66,22 @@ public class PlaylistController {
     }
 
     @PostMapping("/playlist/{id}/follow_playlist")
-    public String followPlaylist(@PathVariable Integer id) {
-        playlistService.followPlaylistByCurrentUser(id);
-        return "Success!";
+    public List<PlaylistViewDTO> followPlaylist(@PathVariable Integer id) {
+        return playlistService.followPlaylistByCurrentUser(id);
     }
+
     @PostMapping("/playlist/{id}/unfollow_playlist")
-    public String unfollowPlaylist(@PathVariable Integer id) {
-        playlistService.unfollowPlaylistByCurrentUser(id);
-        return "Success!";
+    public List<PlaylistViewDTO> unfollowPlaylist(@PathVariable Integer id) {
+        return playlistService.unfollowPlaylistByCurrentUser(id);
     }
 
     @PostMapping("/playlist/{idPlaylist}/add_songs_from_album/{idAlbum}")
-    public String addSongFromAnAlbum(@PathVariable Integer idPlaylist, @PathVariable Integer idAlbum) {
-        playlistService.addAlbumSongsToPlaylist(idPlaylist, idAlbum);
-        return "success!";
+    public List<SongViewDTO> addSongFromAnAlbum(@PathVariable Integer idPlaylist, @PathVariable Integer idAlbum) {
+        return playlistService.addAlbumSongsToPlaylist(idPlaylist, idAlbum);
     }
 
     @PutMapping("/playlist/{idPlaylist}/change_songs_order/{idSong}/{newOrderNumber}")
-    public String changeSongsOrder(@PathVariable Integer idPlaylist, @PathVariable Integer idSong, @PathVariable Integer newOrderNumber) {
-        //AdminVerify.checkIfTheUserLoggedIsAdmin();
-        playlistService.changeSongOrderNumber(idPlaylist, idSong, newOrderNumber);
-        return "success!";
+    public List<SongViewDTO> changeSongsOrder(@PathVariable Integer idPlaylist, @PathVariable Integer idSong, @PathVariable Integer newOrderNumber) {
+        return playlistService.changeSongOrderNumber(idPlaylist, idSong, newOrderNumber);
     }
 }

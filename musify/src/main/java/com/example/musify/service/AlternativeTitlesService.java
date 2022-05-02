@@ -28,13 +28,13 @@ public class AlternativeTitlesService {
     }
 
     public List<AlternativeTitlesDTO> getAllAternativeTitles() {
-        List<AlternativeTitlesDTO> alternativeTitles=new ArrayList<AlternativeTitlesDTO>();
-         alternativeTitlesRepositoryJPA.findAll().forEach(alternativeTitle->{
-             AlternativeTitlesDTO at=alternativeTitlesMapper.toDto(alternativeTitle);
-             at.setIdSong(alternativeTitle.getSong().getId());
-             alternativeTitles.add(at);
-         });
-         return alternativeTitles;
+        List<AlternativeTitlesDTO> alternativeTitles = new ArrayList<AlternativeTitlesDTO>();
+        alternativeTitlesRepositoryJPA.findAll().forEach(alternativeTitle -> {
+            AlternativeTitlesDTO at = alternativeTitlesMapper.toDto(alternativeTitle);
+            at.setIdSong(alternativeTitle.getSong().getId());
+            alternativeTitles.add(at);
+        });
+        return alternativeTitles;
     }
 
     public AlternativeTitlesDTO getAlternativeTitleById(Integer id) {
@@ -42,30 +42,36 @@ public class AlternativeTitlesService {
     }
 
     @Transactional
-    public void createAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO) {
-        validationsService.checkIfASongAlreadyHasAnAlternativeTitle(alternativeTitlesDTO.getIdSong(),alternativeTitlesDTO.getAlternativeTitle());
-        AlternativeTitles alternativeTitle=alternativeTitlesMapper.toEntity(alternativeTitlesDTO);
+    public AlternativeTitlesDTO createAlternativeTitle(AlternativeTitlesDTO alternativeTitlesDTO) {
+        validationsService.checkIfASongAlreadyHasAnAlternativeTitle(alternativeTitlesDTO.getIdSong(), alternativeTitlesDTO.getAlternativeTitle());
+        AlternativeTitles alternativeTitle = alternativeTitlesMapper.toEntity(alternativeTitlesDTO);
         alternativeTitle.setSong(songRepositoryJPA.getSongById(alternativeTitlesDTO.getIdSong()));
-        alternativeTitlesRepositoryJPA.save(alternativeTitle);
+        AlternativeTitles alternativeTitleFromDatabase = alternativeTitlesRepositoryJPA.save(alternativeTitle);
+        return alternativeTitlesMapper.toDto(alternativeTitleFromDatabase);
     }
 
     @Transactional
-    public void updateAlternativeTitle(Integer id,AlternativeTitlesDTO alternativeTitlesDTO) {
+    public AlternativeTitlesDTO updateAlternativeTitle(Integer id, AlternativeTitlesDTO alternativeTitlesDTO) {
         validationsService.checkIfAnAlternativeTitleExists(id);
-        AlternativeTitles alternativeTitle=alternativeTitlesMapper.toEntity(alternativeTitlesDTO);
+        AlternativeTitles alternativeTitle = alternativeTitlesMapper.toEntity(alternativeTitlesDTO);
         alternativeTitle.setId(id);
-        alternativeTitlesRepositoryJPA.save(alternativeTitle);
+        AlternativeTitles alternativeTitleFromDatabase = alternativeTitlesRepositoryJPA.save(alternativeTitle);
+        return alternativeTitlesMapper.toDto(alternativeTitleFromDatabase);
     }
 
     @Transactional
     public void deleteAlternativeTitle(Integer id) {
         validationsService.checkIfAnAlternativeTitleExists(id);
-        AlternativeTitles alternativeTitle=alternativeTitlesRepositoryJPA.getAlternativeTitlesById(id);
+        AlternativeTitles alternativeTitle = alternativeTitlesRepositoryJPA.getAlternativeTitlesById(id);
         alternativeTitlesRepositoryJPA.delete(alternativeTitle);
     }
+
     @Transactional
-    public List<String> getAlternativeTitlesForSong(Integer idSong){
-       return alternativeTitlesRepositoryJPA.getAlternativeTitlesBySong_Id(idSong).stream().map(alternativeTitle->alternativeTitle.getAlternativeTitle()).collect(Collectors.toList());
+    public List<String> getAlternativeTitlesForSong(Integer idSong) {
+        return alternativeTitlesRepositoryJPA.getAlternativeTitlesBySong_Id(idSong)
+                .stream()
+                .map(alternativeTitle -> alternativeTitle.getAlternativeTitle())
+                .collect(Collectors.toList());
     }
 
 }

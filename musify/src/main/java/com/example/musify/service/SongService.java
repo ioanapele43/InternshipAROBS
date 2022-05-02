@@ -24,7 +24,10 @@ public class SongService {
     }
 
     public List<SongViewDTO> getAllSongs() {
-        return songRepositoryJPA.findAll().stream().map(s -> songMapper.toViewDto(s)).collect(Collectors.toList());
+        return songRepositoryJPA.findAll()
+                .stream()
+                .map(s -> songMapper.toViewDto(s))
+                .collect(Collectors.toList());
     }
 
     public SongViewDTO getSongById(Integer id) {
@@ -33,16 +36,18 @@ public class SongService {
     }
 
     @Transactional
-    public void createSong(SongDTO songDTO) {
-        songRepositoryJPA.save(songMapper.toEntity(songDTO));
+    public SongViewDTO createSong(SongDTO songDTO) {
+        Song songFromDatabase = songRepositoryJPA.save(songMapper.toEntity(songDTO));
+        return songMapper.toViewDto(songFromDatabase);
     }
 
     @Transactional
-    public void updateSong(Integer id,SongDTO songDTO) {
+    public SongViewDTO updateSong(Integer id, SongDTO songDTO) {
         validationsService.checkIfASongExists(id);
-        Song song=songMapper.toEntity(songDTO);
+        Song song = songMapper.toEntity(songDTO);
         song.setId(id);
-        songRepositoryJPA.save(song);
+        Song songFromDatabase = songRepositoryJPA.save(song);
+        return songMapper.toViewDto(songFromDatabase);
     }
 
     @Transactional

@@ -27,13 +27,13 @@ public class Song {
     private Date creationDate;
 
 
-    @OneToMany(mappedBy = "song")
+    @OneToMany(mappedBy = "song", orphanRemoval = true)
     private List<AlternativeTitles> alternativeTitles;
 
 
-    @OneToMany(mappedBy = "song")
+    @OneToMany(mappedBy = "song", orphanRemoval = true)
     private List<AlbumSongs> albumSongs;
-    @OneToMany(mappedBy = "song")
+    @OneToMany(mappedBy = "song", orphanRemoval = true)
     private List<PlaylistSongs> playlistSongs;
 
     public Song(String title, Time duration, Date creationDate) {
@@ -41,7 +41,8 @@ public class Song {
         this.duration = duration;
         this.creationDate = creationDate;
     }
-    public void addAlternativeTitle(AlternativeTitles alternativeTitle){
+
+    public void addAlternativeTitle(AlternativeTitles alternativeTitle) {
         alternativeTitles.add(alternativeTitle);
     }
 

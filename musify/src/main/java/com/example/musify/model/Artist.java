@@ -37,7 +37,7 @@ public class Artist {
     private List<Band> bandMember;
 
 
-    @OneToMany(mappedBy = "artist")
+    @OneToMany(mappedBy = "artist", orphanRemoval = true)
     private List<Album> albums;
 
     public Artist(String firstname, String lastname, String stagename, Date birthday, Date startDate, Date endDate) {
@@ -48,5 +48,6 @@ public class Artist {
         this.activityStartDate = startDate;
         this.activityEndDate = endDate;
     }
+
 
 }

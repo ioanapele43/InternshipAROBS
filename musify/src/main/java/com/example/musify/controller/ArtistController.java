@@ -2,7 +2,6 @@ package com.example.musify.controller;
 
 import com.example.musify.dto.ArtistDTO;
 import com.example.musify.dto.ArtistViewDTO;
-import com.example.musify.exception.DataNotFoundException;
 import com.example.musify.security.AdminVerify;
 import com.example.musify.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,35 +23,30 @@ public class ArtistController {
     }
 
     @GetMapping("/artists")
-    public ResponseEntity<List<ArtistViewDTO>> getAllArtist() {
-        List<ArtistViewDTO> artists = artistService.getArtists();
-        return new ResponseEntity<>(artists, HttpStatus.OK);
+    public List<ArtistViewDTO> getAllArtist() {
+        return artistService.getArtists();
     }
 
     @GetMapping("/artists/{id}")
-    public ResponseEntity<ArtistViewDTO> getArtistByID(@PathVariable Integer id) {
-        ArtistViewDTO artist = artistService.getArtistById(id);
-        return new ResponseEntity<>(artist, HttpStatus.OK);
+    public ArtistViewDTO getArtistByID(@PathVariable Integer id) {
+        return artistService.getArtistById(id);
     }
 
     @PostMapping("/artist/create")
-    public String saveArtist(@RequestBody @Valid ArtistDTO artistDTO) {
+    public ArtistViewDTO saveArtist(@RequestBody @Valid ArtistDTO artistDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        artistService.saveArtist(artistDTO);
-        return "Success!";
+        return artistService.saveArtist(artistDTO);
     }
 
     @PutMapping("/artist/{id}/update")
-    public String updateArtist(@PathVariable Integer id, @RequestBody @Valid ArtistDTO artistDTO) {
+    public ArtistViewDTO updateArtist(@PathVariable Integer id, @RequestBody @Valid ArtistDTO artistDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        artistService.updateArtist(id, artistDTO);
-        return "Success!";
+        return artistService.updateArtist(id, artistDTO);
     }
 
     @DeleteMapping("/artist/{id}/delete")
-    public String deleteArtist(@PathVariable Integer id) {
+    public void deleteArtist(@PathVariable Integer id) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         artistService.deleteArtist(id);
-        return "Success!";
     }
 }

@@ -35,7 +35,7 @@ public class Album {
     private Band band;
 
 
-    @OneToMany(mappedBy = "album")
+    @OneToMany(mappedBy = "album", orphanRemoval = true)
     private List<AlbumSongs> albumSongs;
 
     public Album(String title, String description, String genre, Date releaseDate, String label, List<Song> songs) {

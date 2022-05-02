@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface PlaylistMapper {
     PlaylistDTO toDto(Playlist playlist);
+
     PlaylistViewDTO toViewDto(Playlist playlist);
 
     Playlist toEntity(PlaylistDTO playlistDTO);

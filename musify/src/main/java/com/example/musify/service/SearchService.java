@@ -46,43 +46,72 @@ public class SearchService {
     @Transactional
     public List<ArtistViewDTO> searchByName(String name) {
        // return artistRepositoryJPA.findArtistByFirstnameOrLastname("%" + name + "%").stream().map(a -> artistMapper.toViewDto(a)).collect(Collectors.toList());
-        return artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name,name).stream().map(a -> artistMapper.toViewDto(a)).collect(Collectors.toList());
+        return artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name,name)
+                .stream()
+                .map(a -> artistMapper.toViewDto(a))
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public List<BandViewDTO> searchByBandname(String bandname) {
-        return bandRepositoryJPA.getBandByBandnameContainingIgnoreCase(bandname).stream().map(b -> bandMapper.toViewDto(b)).collect(Collectors.toList());
+        return bandRepositoryJPA.getBandByBandnameContainingIgnoreCase(bandname)
+                .stream()
+                .map(b -> bandMapper.toViewDto(b))
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public List<AlbumViewDTO> searchByTitle(String title) {
-        return albumRepositoryJPA.findAlbumByTitleContainingIgnoreCase(title).stream().map(a -> albumMapper.toViewDto(a)).collect(Collectors.toList());
-        //return albumRepositoryJPA.findAlbumByTitle("%" + title + "%");
+        return albumRepositoryJPA.findAlbumByTitleContainingIgnoreCase(title)
+                .stream()
+                .map(a -> albumMapper.toViewDto(a))
+                .collect(Collectors.toList());
     }
     @Transactional
     public List<SongViewDTO> searchSongByTitle(String title){
-        return songRepositoryJPA.getSongByTitleContainingIgnoreCase(title).stream().map(s->songMapper.toViewDto(s)).collect(Collectors.toList());
+        return songRepositoryJPA.getSongByTitleContainingIgnoreCase(title)
+                .stream()
+                .map(s->songMapper.toViewDto(s))
+                .collect(Collectors.toList());
     }
     @Transactional
     public List<SongViewDTO> searchSongsByAlternativeTitle(String alternativeTitle){
         List<Song> songs=alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(alternativeTitle).stream().map(at->at.getSong()).distinct().collect(Collectors.toList());
-        return songs.stream().distinct().map(s->songMapper.toViewDto(s)).collect(Collectors.toList());
-        //return alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(alternativeTitle).stream().map(at->songMapper.toViewDto(at.getSong())).collect(Collectors.toSet());
-    }
+        return songs.stream()
+                .distinct()
+                .map(s->songMapper.toViewDto(s))
+                .collect(Collectors.toList());
+       }
 
     @Transactional
     public SearchDTO searchAll(String input) {
         SearchDTO searchDTO = new SearchDTO();
-        searchDTO.setAlbums(albumRepositoryJPA.findAlbumByTitleContainingIgnoreCase(input).stream().map(a->albumMapper.toViewDto(a)).collect(Collectors.toList()));
-        searchDTO.setArtists(artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(input,input).stream().map(a->artistMapper.toViewDto(a)).collect(Collectors.toList()));
-        searchDTO.setBands(bandRepositoryJPA.getBandByBandnameContainingIgnoreCase(input).stream().map(b->bandMapper.toViewDto(b)).collect(Collectors.toList()));
-        searchDTO.setSongs(songRepositoryJPA.getSongByTitleContainingIgnoreCase(input).stream().map(s->songMapper.toViewDto(s)).collect(Collectors.toList()));
-        //List<SongViewDTO> songs=alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(input).stream().map(at->songMapper.toViewDto(at.getSong())).distinct().collect(Collectors.toList());
-        List<Song> songs=alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(input).stream().map(at->at.getSong()).distinct().collect(Collectors.toList());
-       // searchDTO.setSongsByAlternativeTitle( new ArrayList<>(new HashSet<>(songs)));
-        searchDTO.setSongsByAlternativeTitle( songs.stream().distinct().map(s->songMapper.toViewDto(s)).collect(Collectors.toList()));
-        // pentru a separa listele de piese gasite in urma cautarii in functie de titlu si cele gasite in functie de titlul alternativ le-am pus in liste diferite
-       return searchDTO;
+        searchDTO.setAlbums(albumRepositoryJPA.findAlbumByTitleContainingIgnoreCase(input)
+                                                .stream()
+                                                .map(a->albumMapper.toViewDto(a))
+                                                .collect(Collectors.toList()));
+        searchDTO.setArtists(artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(input,input)
+                                                .stream()
+                                                .map(a->artistMapper.toViewDto(a))
+                                                .collect(Collectors.toList()));
+        searchDTO.setBands(bandRepositoryJPA.getBandByBandnameContainingIgnoreCase(input)
+                                            .stream()
+                                            .map(b->bandMapper.toViewDto(b))
+                                            .collect(Collectors.toList()));
+        searchDTO.setSongs(songRepositoryJPA.getSongByTitleContainingIgnoreCase(input)
+                                            .stream()
+                                            .map(s->songMapper.toViewDto(s))
+                                            .collect(Collectors.toList()));
+        List<Song> songs=alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(input)
+                                                        .stream()
+                                                        .map(at->at.getSong())
+                                                        .distinct()
+                                                        .collect(Collectors.toList());
+        searchDTO.setSongsByAlternativeTitle( songs.stream()
+                                                    .distinct()
+                                                    .map(s->songMapper.toViewDto(s))
+                                                    .collect(Collectors.toList()));
+        return searchDTO;
     }
 
 }

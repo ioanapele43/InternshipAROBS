@@ -9,6 +9,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface SongMapper {
     SongDTO toDto(Song song);
+
     SongViewDTO toViewDto(Song song);
 
     Song toEntity(SongDTO songDTO);

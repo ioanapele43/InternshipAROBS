@@ -37,12 +37,14 @@ public class SearchController {
     public List<BandViewDTO> searchBandByBandName(@RequestParam String input) {
         return searchService.searchByBandname(input);
     }
+
     @GetMapping("/search/songs/by_alternative_titles")
-    public List<SongViewDTO> searchSongByAlternativeTitle(String alternativeTitle){
+    public List<SongViewDTO> searchSongByAlternativeTitle(String alternativeTitle) {
         return searchService.searchSongsByAlternativeTitle(alternativeTitle);
     }
+
     @GetMapping("/search/songs/by_title")
-    public List<SongViewDTO> searchSongsByTitle(@RequestParam String input){
+    public List<SongViewDTO> searchSongsByTitle(@RequestParam String input) {
         return searchService.searchSongByTitle(input);
     }
 

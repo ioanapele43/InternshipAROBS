@@ -23,6 +23,7 @@ public class BandService {
     private final ArtistRepositoryJPA artistRepositoryJPA;
     private final ArtistMapper artistMapper;
     private final ValidationsService validationsService;
+
     public BandService(BandRepositoryJPA bandRepositoryJPA, BandMapper bandMapper, ArtistRepositoryJPA artistRepositoryJPA, ArtistMapper artistMapper, ValidationsService validationsService) {
         this.bandRepositoryJPA = bandRepositoryJPA;
         this.bandMapper = bandMapper;
@@ -32,7 +33,10 @@ public class BandService {
     }
 
     public List<BandViewDTO> getAllBands() {
-        return bandRepositoryJPA.findAll().stream().map(b -> bandMapper.toViewDto(b)).collect(Collectors.toList());
+        return bandRepositoryJPA.findAll()
+                .stream()
+                .map(b -> bandMapper.toViewDto(b))
+                .collect(Collectors.toList());
     }
 
     public BandViewDTO getBandById(Integer id) {
@@ -41,20 +45,22 @@ public class BandService {
     }
 
     @Transactional
-    public void createBand(BandDTO bandDTO) {
-        if(bandDTO.getActivityEndDate().before(bandDTO.getActivityStartDate()))
+    public BandViewDTO createBand(BandDTO bandDTO) {
+        if (bandDTO.getActivityEndDate().before(bandDTO.getActivityStartDate()))
             throw new WrongInputException("the dates you entered are not in a correct order");
-        bandRepositoryJPA.save(bandMapper.toEntity(bandDTO));
+        Band bandFromDatabese = bandRepositoryJPA.save(bandMapper.toEntity(bandDTO));
+        return bandMapper.toViewDto(bandFromDatabese);
     }
 
     @Transactional
-    public void updateBand(Integer id,BandDTO bandDTO) {
+    public BandViewDTO updateBand(Integer id, BandDTO bandDTO) {
         validationsService.checkIfABandExists(id);
-        if(bandDTO.getActivityEndDate().before(bandDTO.getActivityStartDate()))
+        if (bandDTO.getActivityEndDate().before(bandDTO.getActivityStartDate()))
             throw new WrongInputException("the dates you entered are not in a correct order");
-        Band band=bandMapper.toEntity(bandDTO);
+        Band band = bandMapper.toEntity(bandDTO);
         band.setId(id);
-        bandRepositoryJPA.save(band);
+        Band bandFromDatabese = bandRepositoryJPA.save(band);
+        return bandMapper.toViewDto(bandFromDatabese);
     }
 
     @Transactional
@@ -62,19 +68,28 @@ public class BandService {
         validationsService.checkIfABandExists(id);
         bandRepositoryJPA.delete(bandRepositoryJPA.getBandById(id));
     }
+
     @Transactional
-    public void addBandMember(Integer idBand,Integer idArtist){
+    public List<ArtistViewDTO> addBandMember(Integer idBand, Integer idArtist) {
         validationsService.checkIfABandExists(idBand);
         validationsService.checkIfAnArtistExists(idArtist);
 
-        Band band=bandRepositoryJPA.getBandById(idBand);
-        if(band.getMembers().contains(artistRepositoryJPA.getArtistsById(idArtist)))
+        Band band = bandRepositoryJPA.getBandById(idBand);
+        if (band.getMembers().contains(artistRepositoryJPA.getArtistsById(idArtist)))
             throw new AlreadyExistingDataException("the member is already added");
         band.addMember(artistRepositoryJPA.getArtistsById(idArtist));
+        return band.getMembers()
+                .stream()
+                .map(member -> artistMapper.toViewDto(member))
+                .collect(Collectors.toList());
     }
+
     @Transactional
-    public List<ArtistViewDTO> getBandMembers(Integer id){
-        return bandRepositoryJPA.getBandById(id).getMembers().stream().map(member->artistMapper.toViewDto(member)).collect(Collectors.toList());
+    public List<ArtistViewDTO> getBandMembers(Integer id) {
+        return bandRepositoryJPA.getBandById(id).getMembers()
+                .stream()
+                .map(member -> artistMapper.toViewDto(member))
+                .collect(Collectors.toList());
     }
 
 }

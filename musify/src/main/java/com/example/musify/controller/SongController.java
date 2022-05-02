@@ -9,8 +9,6 @@ import com.example.musify.security.AdminVerify;
 import com.example.musify.service.AlternativeTitlesService;
 import com.example.musify.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
@@ -30,36 +28,31 @@ public class SongController {
 
 
     @GetMapping("/songs")
-    public ResponseEntity<List<SongViewDTO>> getAllPlaylists() {
-        List<SongViewDTO> song = songService.getAllSongs();
-        return new ResponseEntity<>(song, HttpStatus.OK);
+    public List<SongViewDTO> getAllPlaylists() {
+        return songService.getAllSongs();
     }
 
     @GetMapping("/song/{id}")
-    public ResponseEntity<SongViewDTO> getPlaylistById(Integer id) {
-        SongViewDTO song = songService.getSongById(id);
-        return new ResponseEntity<>(song, HttpStatus.OK);
+    public SongViewDTO getPlaylistById(Integer id) {
+        return songService.getSongById(id);
     }
 
     @PostMapping("/song/create")
-    public String createSong(@RequestBody @Valid SongDTO songDTO) {
+    public SongViewDTO createSong(@RequestBody @Valid SongDTO songDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        songService.createSong(songDTO);
-        return "success!";
+        return songService.createSong(songDTO);
     }
 
     @PutMapping("/song/{id}/update")
-    public String updateSong(@PathVariable Integer id, @RequestBody @Valid SongDTO songDTO) {
+    public SongViewDTO updateSong(@PathVariable Integer id, @RequestBody @Valid SongDTO songDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        songService.updateSong(id, songDTO);
-        return "success!";
+        return songService.updateSong(id, songDTO);
     }
 
     @DeleteMapping("/song/{id}/delete")
-    public String deleteSong(@PathVariable Integer id) {
+    public void deleteSong(@PathVariable Integer id) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         songService.deleteSong(id);
-        return "success!";
     }
 
     @GetMapping("/song/{id}/getAlternativeTitles")
@@ -68,10 +61,9 @@ public class SongController {
     }
 
     @PostMapping("/song/addAlternativeTitle")
-    public String addAlternativeTitle(@RequestBody @Valid AlternativeTitlesDTO alternativeTitle) {
+    public AlternativeTitlesDTO addAlternativeTitle(@RequestBody @Valid AlternativeTitlesDTO alternativeTitle) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        alternativeTitlesService.createAlternativeTitle(alternativeTitle);
-        return "success!";
+        return alternativeTitlesService.createAlternativeTitle(alternativeTitle);
     }
 
     @GetMapping("songs/get_all_alternative_titles")

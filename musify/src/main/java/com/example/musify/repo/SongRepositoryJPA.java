@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface SongRepositoryJPA extends JpaRepository<Song, Integer> {
     Song getSongById(Integer id);
+
     List<Song> getSongByTitleContainingIgnoreCase(String title);
 }

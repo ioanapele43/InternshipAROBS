@@ -10,7 +10,12 @@ import java.util.Optional;
 @Repository
 public interface AlternativeTitlesRepositoryJPA extends JpaRepository<AlternativeTitles, Integer> {
     AlternativeTitles getAlternativeTitlesById(Integer id);
+
     List<AlternativeTitles> getAlternativeTitlesBySong_Id(Integer id);
-    AlternativeTitles getAlternativeTitlesBySong_IdAndAlternativeTitle(Integer idSong,String alternativeTitle);
+
+    AlternativeTitles getAlternativeTitlesBySong_IdAndAlternativeTitle(Integer idSong, String alternativeTitle);
+
     List<AlternativeTitles> getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(String input);
+
+    void deleteAlternativeTitlesBySong_Id(Integer id);
 }

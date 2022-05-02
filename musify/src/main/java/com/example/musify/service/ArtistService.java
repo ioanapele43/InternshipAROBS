@@ -2,10 +2,10 @@ package com.example.musify.service;
 
 import com.example.musify.dto.ArtistDTO;
 import com.example.musify.dto.ArtistViewDTO;
-import com.example.musify.exception.DataNotFoundException;
 import com.example.musify.exception.WrongInputException;
 import com.example.musify.model.Artist;
 import com.example.musify.repo.ArtistRepositoryJPA;
+import com.example.musify.repo.BandRepositoryJPA;
 import com.example.musify.service.mappers.ArtistMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +17,24 @@ import java.util.stream.Collectors;
 
 public class ArtistService {
     private final ArtistRepositoryJPA artistRepository;
+    private final BandRepositoryJPA bandRepositoryJPA;
     private final ArtistMapper artistMapper;
     private final ValidationsService validationsService;
 
-    public ArtistService(ArtistRepositoryJPA artistRepository, ArtistMapper artistMapper, ValidationsService validationsService) {
+
+    public ArtistService(ArtistRepositoryJPA artistRepository, BandRepositoryJPA bandRepositoryJPA, ArtistMapper artistMapper, ValidationsService validationsService) {
         this.artistRepository = artistRepository;
+        this.bandRepositoryJPA = bandRepositoryJPA;
         this.artistMapper = artistMapper;
         this.validationsService = validationsService;
     }
 
 
     public List<ArtistViewDTO> getArtists() {
-        return artistRepository.findAll().stream().map(a -> artistMapper.toViewDto(a)).collect(Collectors.toList());
+        return artistRepository.findAll()
+                .stream()
+                .map(a -> artistMapper.toViewDto(a))
+                .collect(Collectors.toList());
     }
 
     public ArtistViewDTO getArtistById(int id) {
@@ -38,25 +44,29 @@ public class ArtistService {
 
 
     @Transactional
-    public void saveArtist(ArtistDTO artist) {
-        if(artist.getActivityEndDate().before(artist.getActivityStartDate()))
+    public ArtistViewDTO saveArtist(ArtistDTO artist) {
+        if (artist.getActivityEndDate().before(artist.getActivityStartDate()))
             throw new WrongInputException("the dates you entered are not in a correct order");
-        artistRepository.save(artistMapper.toEntity(artist));
+        Artist artistFromDatabase = artistRepository.save(artistMapper.toEntity(artist));
+        return artistMapper.toViewDto(artistFromDatabase);
     }
 
     @Transactional
-    public void updateArtist(Integer id,ArtistDTO artistDTO) {
+    public ArtistViewDTO updateArtist(Integer id, ArtistDTO artistDTO) {
         validationsService.checkIfAnArtistExists(id);
-        if(artistDTO.getActivityEndDate().before(artistDTO.getActivityStartDate()))
+        if (artistDTO.getActivityEndDate().before(artistDTO.getActivityStartDate()))
             throw new WrongInputException("the dates you entered are not in a correct order");
-        Artist artist=artistMapper.toEntity(artistDTO);
+        Artist artist = artistMapper.toEntity(artistDTO);
         artist.setId(id);
-        artistRepository.save(artist);
+        Artist artistFromDatabase = artistRepository.save(artist);
+        return artistMapper.toViewDto(artistFromDatabase);
     }
 
     @Transactional
     public void deleteArtist(Integer id) {
         validationsService.checkIfAnArtistExists(id);
+        Artist artist = artistRepository.getArtistsById(id);
+        bandRepositoryJPA.findAll().forEach(band -> band.removeMember(artist));
         artistRepository.delete(artistRepository.getArtistsById(id));
     }
 

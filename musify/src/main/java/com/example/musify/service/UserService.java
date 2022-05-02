@@ -1,7 +1,6 @@
 package com.example.musify.service;
 
 import com.example.musify.dto.UserDTO;
-import com.example.musify.dto.UserUpdateDTO;
 import com.example.musify.dto.UserViewDTO;
 import com.example.musify.exception.UnauthorizedException;
 import com.example.musify.model.User;
@@ -28,7 +27,10 @@ public class UserService {
     }
 
     public List<UserViewDTO> getUsers() {
-        return userRepositoryJPA.findAll().stream().map(u -> userMapper.toViewDto(u)).collect(Collectors.toList());
+        return userRepositoryJPA.findAll()
+                .stream()
+                .map(u -> userMapper.toViewDto(u))
+                .collect(Collectors.toList());
     }
 
     public UserViewDTO getUserById(Integer id) {
@@ -41,58 +43,52 @@ public class UserService {
     }
 
     @Transactional
-    public void register(UserDTO userDTO) {
+    public UserViewDTO register(UserDTO userDTO) {
         byte[] bytes = userDTO.getPassword().getBytes();
         String encoded = String.valueOf(Hex.encode(bytes));
         userDTO.setPassword(encoded);
-        User user=userMapper.toEntity(userDTO);
+        User user = userMapper.toEntity(userDTO);
         user.setStatus("active");
-        if(user.getEmail().endsWith("@arobs.com"))
+        if (user.getEmail().endsWith("@arobs.com"))
             user.setRole("admin");
         else
             user.setRole("user");
-        userRepositoryJPA.save(user);
+        User userFromDatabase = userRepositoryJPA.save(user);
+        return userMapper.toViewDto(userFromDatabase);
     }
 
     @Transactional
-    public void updateUser(Integer id, UserUpdateDTO userDTO) {
+    public UserViewDTO updateUser(Integer id, UserDTO userDTO) {
         validationsService.checkIfAUserExists(id);
-        User user=userRepositoryJPA.getUserById(id);
-        if(!userDTO.getFirstName().equals(""))
-            user.setFirstName(userDTO.getFirstName());
-        if(!userDTO.getLastName().equals(""))
-            user.setLastName(userDTO.getLastName());
-        if(!userDTO.getCountry().equals(""))
-            user.setCountry(userDTO.getCountry());
-        if(!userDTO.getStatus().equals(""))
-            user.setStatus(userDTO.getStatus());
-        if(!userDTO.getRole().equals("") )
-            if(JwtUtils.getCurrentUserRole().equals("admin"))
-                user.setRole(userDTO.getRole());
-            else
-                throw new UnauthorizedException("you can't change your role");
-        if(!userDTO.getPassword().equals("")){
-            byte[] bytes = userDTO.getPassword().getBytes();
-            String encoded = String.valueOf(Hex.encode(bytes));
-            user.setPassword(encoded);
-        }
-        userRepositoryJPA.save(user);
+        User user = userMapper.toEntity(userDTO);
+        user.setId(id);
+        byte[] bytes = userDTO.getPassword().getBytes();
+        String encoded = String.valueOf(Hex.encode(bytes));
+        user.setPassword(encoded);
+
+        User userFromDatabase = userRepositoryJPA.save(user);
+        return userMapper.toViewDto(userFromDatabase);
     }
 
     @Transactional
-    public void setInactive(Integer id) {
+    public UserViewDTO setInactive(Integer id) {
         validationsService.checkIfAUserExists(id);
         User user = userRepositoryJPA.getUserById(id);
         user.setStatus("inactive");
+        User userFromDatabase = userRepositoryJPA.getUserById(id);
+        return userMapper.toViewDto(userFromDatabase);
     }
 
     @Transactional
-    public void setActive(Integer id) {
+    public UserViewDTO setActive(Integer id) {
         validationsService.checkIfAUserExists(id);
         User user = userRepositoryJPA.getUserById(id);
         user.setStatus("active");
+        User userFromDatabase = userRepositoryJPA.getUserById(id);
+        return userMapper.toViewDto(userFromDatabase);
     }
 
+    @Transactional
     public String login(String email, String password) {
         User user = null;
         if (userRepositoryJPA.getUserByEmail(email) != null) {
@@ -110,19 +106,24 @@ public class UserService {
         JwtUtils.invalidateToken(token);
     }
 
-
-    public void inactivateUser() {
+    @Transactional
+    public UserViewDTO inactivateUser() {
         Integer id = JwtUtils.getCurrentUserId();
         User user = userRepositoryJPA.getUserById(id);
         user.setStatus("inactive");
         userRepositoryJPA.save(user);
+        User userFromDatabase = userRepositoryJPA.getUserById(id);
+        return userMapper.toViewDto(userFromDatabase);
     }
 
-    public void activateUser() {
+    @Transactional
+    public UserViewDTO activateUser() {
         Integer id = JwtUtils.getCurrentUserId();
         User user = userRepositoryJPA.getUserById(id);
         user.setStatus("active");
         userRepositoryJPA.save(user);
+        User userFromDatabase = userRepositoryJPA.getUserById(id);
+        return userMapper.toViewDto(userFromDatabase);
 
     }
 

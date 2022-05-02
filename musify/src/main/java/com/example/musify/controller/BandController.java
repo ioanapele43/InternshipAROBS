@@ -24,43 +24,37 @@ public class BandController {
 
 
     @GetMapping("/bands")
-    public ResponseEntity<List<BandViewDTO>> getAllBands() {
-        List<BandViewDTO> bands = bandService.getAllBands();
-        return new ResponseEntity<>(bands, HttpStatus.OK);
+    public List<BandViewDTO> getAllBands() {
+        return bandService.getAllBands();
     }
 
     @PostMapping("/band/create")
-    public String createBand(@RequestBody @Valid BandDTO bandDTO) {
+    public BandViewDTO createBand(@RequestBody @Valid BandDTO bandDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        bandService.createBand(bandDTO);
-        return "Success!";
+        return bandService.createBand(bandDTO);
     }
 
     @PutMapping("/band/{id}/update")
-    public String updateBand(@PathVariable Integer id, @RequestBody @Valid BandDTO bandDTO) {
+    public BandViewDTO updateBand(@PathVariable Integer id, @RequestBody @Valid BandDTO bandDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        bandService.updateBand(id, bandDTO);
-        return "Success!";
+        return bandService.updateBand(id, bandDTO);
     }
 
     @DeleteMapping("/band/{id}/delete")
-    public String deleteBand(@PathVariable Integer id) {
+    public void deleteBand(@PathVariable Integer id) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         bandService.deleteBand(id);
-        return "Success!";
     }
 
     @PostMapping("/band/{idBand}/add_member/{idArtist}")
-    public String addBandMember(@PathVariable Integer idBand, @PathVariable Integer idArtist) {
+    public List<ArtistViewDTO> addBandMember(@PathVariable Integer idBand, @PathVariable Integer idArtist) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        bandService.addBandMember(idBand, idArtist);
-        return "success";
+        return bandService.addBandMember(idBand, idArtist);
     }
 
     @GetMapping("/band/{id}/members")
-    public ResponseEntity<List<ArtistViewDTO>> getBandMembers(@PathVariable Integer id) {
-        List<ArtistViewDTO> artistViewDTOS = bandService.getBandMembers(id);
-        return new ResponseEntity<>(artistViewDTOS, HttpStatus.OK);
+    public List<ArtistViewDTO> getBandMembers(@PathVariable Integer id) {
+        return bandService.getBandMembers(id);
     }
 
 
