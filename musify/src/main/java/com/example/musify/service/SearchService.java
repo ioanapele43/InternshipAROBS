@@ -1,6 +1,7 @@
 package com.example.musify.service;
 
 import com.example.musify.dto.*;
+import com.example.musify.model.AlternativeTitles;
 import com.example.musify.model.Song;
 import com.example.musify.repo.*;
 import com.example.musify.service.mappers.AlbumMapper;
@@ -10,10 +11,7 @@ import com.example.musify.service.mappers.SongMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,7 +46,7 @@ public class SearchService {
        // return artistRepositoryJPA.findArtistByFirstnameOrLastname("%" + name + "%").stream().map(a -> artistMapper.toViewDto(a)).collect(Collectors.toList());
         return artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name,name)
                 .stream()
-                .map(a -> artistMapper.toViewDto(a))
+                .map(artistMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 
@@ -56,7 +54,7 @@ public class SearchService {
     public List<BandViewDTO> searchByBandname(String bandname) {
         return bandRepositoryJPA.getBandByBandnameContainingIgnoreCase(bandname)
                 .stream()
-                .map(b -> bandMapper.toViewDto(b))
+                .map(bandMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 
@@ -64,22 +62,22 @@ public class SearchService {
     public List<AlbumViewDTO> searchByTitle(String title) {
         return albumRepositoryJPA.findAlbumByTitleContainingIgnoreCase(title)
                 .stream()
-                .map(a -> albumMapper.toViewDto(a))
+                .map(albumMapper::toViewDto)
                 .collect(Collectors.toList());
     }
     @Transactional
     public List<SongViewDTO> searchSongByTitle(String title){
         return songRepositoryJPA.getSongByTitleContainingIgnoreCase(title)
                 .stream()
-                .map(s->songMapper.toViewDto(s))
+                .map(songMapper::toViewDto)
                 .collect(Collectors.toList());
     }
     @Transactional
     public List<SongViewDTO> searchSongsByAlternativeTitle(String alternativeTitle){
-        List<Song> songs=alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(alternativeTitle).stream().map(at->at.getSong()).distinct().collect(Collectors.toList());
+        List<Song> songs=alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(alternativeTitle).stream().map(AlternativeTitles::getSong).distinct().collect(Collectors.toList());
         return songs.stream()
                 .distinct()
-                .map(s->songMapper.toViewDto(s))
+                .map(songMapper::toViewDto)
                 .collect(Collectors.toList());
        }
 
@@ -88,28 +86,28 @@ public class SearchService {
         SearchDTO searchDTO = new SearchDTO();
         searchDTO.setAlbums(albumRepositoryJPA.findAlbumByTitleContainingIgnoreCase(input)
                                                 .stream()
-                                                .map(a->albumMapper.toViewDto(a))
+                                                .map(albumMapper::toViewDto)
                                                 .collect(Collectors.toList()));
         searchDTO.setArtists(artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(input,input)
                                                 .stream()
-                                                .map(a->artistMapper.toViewDto(a))
+                                                .map(artistMapper::toViewDto)
                                                 .collect(Collectors.toList()));
         searchDTO.setBands(bandRepositoryJPA.getBandByBandnameContainingIgnoreCase(input)
                                             .stream()
-                                            .map(b->bandMapper.toViewDto(b))
+                                            .map(bandMapper::toViewDto)
                                             .collect(Collectors.toList()));
         searchDTO.setSongs(songRepositoryJPA.getSongByTitleContainingIgnoreCase(input)
                                             .stream()
-                                            .map(s->songMapper.toViewDto(s))
+                                            .map(songMapper::toViewDto)
                                             .collect(Collectors.toList()));
         List<Song> songs=alternativeTitlesRepositoryJPA.getAlternativeTitlesByAlternativeTitleContainingIgnoreCase(input)
                                                         .stream()
-                                                        .map(at->at.getSong())
+                                                        .map(AlternativeTitles::getSong)
                                                         .distinct()
                                                         .collect(Collectors.toList());
         searchDTO.setSongsByAlternativeTitle( songs.stream()
                                                     .distinct()
-                                                    .map(s->songMapper.toViewDto(s))
+                                                    .map(songMapper::toViewDto)
                                                     .collect(Collectors.toList()));
         return searchDTO;
     }

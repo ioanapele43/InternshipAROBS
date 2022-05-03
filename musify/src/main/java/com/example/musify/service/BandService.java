@@ -35,7 +35,7 @@ public class BandService {
     public List<BandViewDTO> getAllBands() {
         return bandRepositoryJPA.findAll()
                 .stream()
-                .map(b -> bandMapper.toViewDto(b))
+                .map(bandMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 
@@ -80,7 +80,7 @@ public class BandService {
         band.addMember(artistRepositoryJPA.getArtistsById(idArtist));
         return band.getMembers()
                 .stream()
-                .map(member -> artistMapper.toViewDto(member))
+                .map(artistMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 
@@ -88,7 +88,7 @@ public class BandService {
     public List<ArtistViewDTO> getBandMembers(Integer id) {
         return bandRepositoryJPA.getBandById(id).getMembers()
                 .stream()
-                .map(member -> artistMapper.toViewDto(member))
+                .map(artistMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 

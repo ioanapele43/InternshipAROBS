@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -35,9 +34,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleNotFound(EntityNotFoundException e) {
-        ApiError apiError = new ApiError(BAD_REQUEST, e.getMessage());
+        ApiError apiError = new ApiError(NOT_FOUND, e.getMessage());
         log.error("Not found : ", e);
-        return new ResponseEntity<>(apiError, BAD_REQUEST);
+        return new ResponseEntity<>(apiError,NOT_FOUND);
     }
     @ExceptionHandler(AlreadyExistingDataException.class)
     protected ResponseEntity<Object> handleAlreadyExistingDataException(AlreadyExistingDataException e){
@@ -53,15 +52,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(UnauthorizedException.class)
     protected ResponseEntity<Object> handleUnauthorizedException(UnauthorizedException e){
-        ApiError apiError = new ApiError(BAD_REQUEST, e.getMessage());
+        ApiError apiError = new ApiError(UNAUTHORIZED, e.getMessage());
         log.error("UNAUTHORIZED: "+e.getMessage());
-        return new ResponseEntity<>(apiError, BAD_REQUEST);
+        return new ResponseEntity<>(apiError, UNAUTHORIZED);
     }
     @ExceptionHandler(PrivatePlaylistException.class)
     protected ResponseEntity<Object> handlePrivatePlaylistException(PrivatePlaylistException e){
-        ApiError apiError = new ApiError(BAD_REQUEST, e.getMessage());
+        ApiError apiError = new ApiError(UNAUTHORIZED, e.getMessage());
         log.error("UNAUTHORIZED: "+e.getMessage());
-        return new ResponseEntity<>(apiError, BAD_REQUEST);
+        return new ResponseEntity<>(apiError, UNAUTHORIZED);
     }
     @ExceptionHandler(WrongInputException.class)
     protected ResponseEntity<Object> handleWrongInputException(WrongInputException e){

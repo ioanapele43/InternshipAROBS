@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserDTOTest {
     @Test
     public void givenValidUserViewDto_whenSerializingAndDeserializing_thenResultIsSimilar() throws JsonProcessingException {
-        UserViewDTO userViewDTO=new UserViewDTO(1,"pele","ioana","pele ioana","peleioana");
+        UserViewDTO userViewDTO=new UserViewDTO(1,"pele","ioana","pele ioana","peleioana","active");
         ObjectMapper objectMapper=new ObjectMapper();
         String valueAsString = objectMapper.writeValueAsString(userViewDTO);
         UserViewDTO userViewDTO1 = objectMapper.readValue(valueAsString, UserViewDTO.class);

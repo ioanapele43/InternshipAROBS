@@ -43,19 +43,19 @@ public class AlbumService {
 
     public List<AlbumViewDTO> getAllAlbums() {
         return albumRepositoryJPA.findAll().stream()
-                .map(a -> albumMapper.toViewDto(a))
+                .map(albumMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 
     public List<AlbumViewDTO> getAllAlbumsByArtist(Integer idArtist) {
         return albumRepositoryJPA.getAlbumsByArtist_Id(idArtist).stream()
-                .map(a -> albumMapper.toViewDto(a))
+                .map(albumMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 
     public List<AlbumViewDTO> getAllAlbumsByBand(Integer idBand) {
         return albumRepositoryJPA.getAlbumsByBand_Id(idBand).stream()
-                .map(a -> albumMapper.toViewDto(a))
+                .map(albumMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 

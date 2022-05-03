@@ -5,8 +5,6 @@ import com.example.musify.dto.ArtistViewDTO;
 import com.example.musify.security.AdminVerify;
 import com.example.musify.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -22,31 +20,31 @@ public class ArtistController {
         this.artistService = artistService;
     }
 
-    @GetMapping("/artists")
+    @GetMapping("/Artist")
     public List<ArtistViewDTO> getAllArtist() {
         return artistService.getArtists();
     }
 
-    @GetMapping("/artists/{id}")
-    public ArtistViewDTO getArtistByID(@PathVariable Integer id) {
-        return artistService.getArtistById(id);
+    @GetMapping("/Artist/{idArtist}")
+    public ArtistViewDTO getArtistByID(@PathVariable Integer idArtist) {
+        return artistService.getArtistById(idArtist);
     }
 
-    @PostMapping("/artist/create")
+    @PostMapping("/Artist")
     public ArtistViewDTO saveArtist(@RequestBody @Valid ArtistDTO artistDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return artistService.saveArtist(artistDTO);
     }
 
-    @PutMapping("/artist/{id}/update")
-    public ArtistViewDTO updateArtist(@PathVariable Integer id, @RequestBody @Valid ArtistDTO artistDTO) {
+    @PutMapping("/Artist/{idArtist}")
+    public ArtistViewDTO updateArtist(@PathVariable Integer idArtist, @RequestBody @Valid ArtistDTO artistDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        return artistService.updateArtist(id, artistDTO);
+        return artistService.updateArtist(idArtist, artistDTO);
     }
 
-    @DeleteMapping("/artist/{id}/delete")
-    public void deleteArtist(@PathVariable Integer id) {
+    @DeleteMapping("/Artist/{idArtist}")
+    public void deleteArtist(@PathVariable Integer idArtist) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        artistService.deleteArtist(id);
+        artistService.deleteArtist(idArtist);
     }
 }

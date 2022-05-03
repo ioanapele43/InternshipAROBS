@@ -4,69 +4,63 @@ package com.example.musify.controller;
 import com.example.musify.dto.AlternativeTitlesDTO;
 import com.example.musify.dto.SongDTO;
 import com.example.musify.dto.SongViewDTO;
-import com.example.musify.repo.jdbc.SongRepositoty;
 import com.example.musify.security.AdminVerify;
 import com.example.musify.service.AlternativeTitlesService;
 import com.example.musify.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 public class SongController {
     @Autowired
-    private SongRepositoty songRepositoty;
-    @Autowired
     private SongService songService;
-    @Autowired
-    private DataSource dataSource;
     @Autowired
     private AlternativeTitlesService alternativeTitlesService;
 
 
-    @GetMapping("/songs")
+    @GetMapping("/Song")
     public List<SongViewDTO> getAllPlaylists() {
         return songService.getAllSongs();
     }
 
-    @GetMapping("/song/{id}")
-    public SongViewDTO getPlaylistById(Integer id) {
-        return songService.getSongById(id);
+    @GetMapping("/Song/{idSong}")
+    public SongViewDTO getPlaylistById(@PathVariable Integer idSong) {
+        return songService.getSongById(idSong);
     }
 
-    @PostMapping("/song/create")
+    @PostMapping("/Song")
     public SongViewDTO createSong(@RequestBody @Valid SongDTO songDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return songService.createSong(songDTO);
     }
 
-    @PutMapping("/song/{id}/update")
-    public SongViewDTO updateSong(@PathVariable Integer id, @RequestBody @Valid SongDTO songDTO) {
+    @PutMapping("/Song/{idSong}")
+    public SongViewDTO updateSong(@PathVariable Integer idSong, @RequestBody @Valid SongDTO songDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        return songService.updateSong(id, songDTO);
+        return songService.updateSong(idSong, songDTO);
     }
 
-    @DeleteMapping("/song/{id}/delete")
-    public void deleteSong(@PathVariable Integer id) {
+    @DeleteMapping("/Song/{idSong}")
+    public void deleteSong(@PathVariable Integer idSong) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        songService.deleteSong(id);
+        songService.deleteSong(idSong);
     }
 
-    @GetMapping("/song/{id}/getAlternativeTitles")
+    @GetMapping("/Song/{idSong}/AlternativeTitles")
     public List<String> getAlternativeTitlesForASong(@PathVariable Integer id) {
         return alternativeTitlesService.getAlternativeTitlesForSong(id);
     }
 
-    @PostMapping("/song/addAlternativeTitle")
+    @PostMapping("/Song/AlternativeTitle")
     public AlternativeTitlesDTO addAlternativeTitle(@RequestBody @Valid AlternativeTitlesDTO alternativeTitle) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return alternativeTitlesService.createAlternativeTitle(alternativeTitle);
     }
 
-    @GetMapping("songs/get_all_alternative_titles")
+    @GetMapping("Songs/AlternativeTitles")
     public List<AlternativeTitlesDTO> getAllAlternativeTitles() {
         return alternativeTitlesService.getAllAternativeTitles();
     }

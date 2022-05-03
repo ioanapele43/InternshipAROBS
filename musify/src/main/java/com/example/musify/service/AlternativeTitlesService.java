@@ -28,7 +28,7 @@ public class AlternativeTitlesService {
     }
 
     public List<AlternativeTitlesDTO> getAllAternativeTitles() {
-        List<AlternativeTitlesDTO> alternativeTitles = new ArrayList<AlternativeTitlesDTO>();
+        List<AlternativeTitlesDTO> alternativeTitles = new ArrayList<>();
         alternativeTitlesRepositoryJPA.findAll().forEach(alternativeTitle -> {
             AlternativeTitlesDTO at = alternativeTitlesMapper.toDto(alternativeTitle);
             at.setIdSong(alternativeTitle.getSong().getId());
@@ -70,7 +70,7 @@ public class AlternativeTitlesService {
     public List<String> getAlternativeTitlesForSong(Integer idSong) {
         return alternativeTitlesRepositoryJPA.getAlternativeTitlesBySong_Id(idSong)
                 .stream()
-                .map(alternativeTitle -> alternativeTitle.getAlternativeTitle())
+                .map(AlternativeTitles::getAlternativeTitle)
                 .collect(Collectors.toList());
     }
 

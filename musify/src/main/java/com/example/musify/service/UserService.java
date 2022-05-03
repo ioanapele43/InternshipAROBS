@@ -1,11 +1,13 @@
 package com.example.musify.service;
 
+import com.example.musify.dto.PlaylistViewDTO;
 import com.example.musify.dto.UserDTO;
 import com.example.musify.dto.UserViewDTO;
 import com.example.musify.exception.UnauthorizedException;
 import com.example.musify.model.User;
 import com.example.musify.repo.UserRepositoryJPA;
 import com.example.musify.security.JwtUtils;
+import com.example.musify.service.mappers.PlaylistMapper;
 import com.example.musify.service.mappers.UserMapper;
 import org.springframework.security.crypto.codec.Hex;
 import org.springframework.stereotype.Service;
@@ -19,17 +21,19 @@ public class UserService {
     private final UserRepositoryJPA userRepositoryJPA;
     private final UserMapper userMapper;
     private final ValidationsService validationsService;
+    private final PlaylistMapper playlistMapper;
 
-    public UserService(UserRepositoryJPA userRepositoryJPA, UserMapper userMapper, ValidationsService validationsService) {
+    public UserService(UserRepositoryJPA userRepositoryJPA, UserMapper userMapper, ValidationsService validationsService, PlaylistMapper playlistMapper) {
         this.userRepositoryJPA = userRepositoryJPA;
         this.userMapper = userMapper;
         this.validationsService = validationsService;
+        this.playlistMapper = playlistMapper;
     }
 
     public List<UserViewDTO> getUsers() {
         return userRepositoryJPA.findAll()
                 .stream()
-                .map(u -> userMapper.toViewDto(u))
+                .map(userMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 
@@ -125,6 +129,23 @@ public class UserService {
         User userFromDatabase = userRepositoryJPA.getUserById(id);
         return userMapper.toViewDto(userFromDatabase);
 
+    }
+    @Transactional
+    public List<PlaylistViewDTO> getPlaylistCreatedByTheCurrentUser() {
+        User user = userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
+        return user.getPlaylistsCreated()
+                .stream()
+                .map(playlistMapper::toViewDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<PlaylistViewDTO> getPlaylistFollowedByTheCurrentUser() {
+        User user = userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
+        return user.getPlaylistsFollowed()
+                .stream()
+                .map(playlistMapper::toViewDto)
+                .collect(Collectors.toList());
     }
 
 

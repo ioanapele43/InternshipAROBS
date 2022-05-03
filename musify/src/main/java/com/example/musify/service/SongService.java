@@ -26,7 +26,7 @@ public class SongService {
     public List<SongViewDTO> getAllSongs() {
         return songRepositoryJPA.findAll()
                 .stream()
-                .map(s -> songMapper.toViewDto(s))
+                .map(songMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 

@@ -6,11 +6,8 @@ import com.example.musify.dto.BandViewDTO;
 import com.example.musify.security.AdminVerify;
 import com.example.musify.service.BandService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -18,43 +15,41 @@ import java.util.List;
 public class BandController {
 
     @Autowired
-    private DataSource dataSource;
-    @Autowired
     private BandService bandService;
 
 
-    @GetMapping("/bands")
+    @GetMapping("/Band")
     public List<BandViewDTO> getAllBands() {
         return bandService.getAllBands();
     }
 
-    @PostMapping("/band/create")
+    @PostMapping("/Band")
     public BandViewDTO createBand(@RequestBody @Valid BandDTO bandDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return bandService.createBand(bandDTO);
     }
 
-    @PutMapping("/band/{id}/update")
-    public BandViewDTO updateBand(@PathVariable Integer id, @RequestBody @Valid BandDTO bandDTO) {
+    @PutMapping("/Band/{idBand}")
+    public BandViewDTO updateBand(@PathVariable Integer idBand, @RequestBody @Valid BandDTO bandDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        return bandService.updateBand(id, bandDTO);
+        return bandService.updateBand(idBand, bandDTO);
     }
 
-    @DeleteMapping("/band/{id}/delete")
-    public void deleteBand(@PathVariable Integer id) {
+    @DeleteMapping("/Band/{idBand}")
+    public void deleteBand(@PathVariable Integer idBand) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        bandService.deleteBand(id);
+        bandService.deleteBand(idBand);
     }
 
-    @PostMapping("/band/{idBand}/add_member/{idArtist}")
+    @PostMapping("/Band/{idBand}/{idArtist}")
     public List<ArtistViewDTO> addBandMember(@PathVariable Integer idBand, @PathVariable Integer idArtist) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return bandService.addBandMember(idBand, idArtist);
     }
 
-    @GetMapping("/band/{id}/members")
-    public List<ArtistViewDTO> getBandMembers(@PathVariable Integer id) {
-        return bandService.getBandMembers(id);
+    @GetMapping("/Band/{idBand}/Members")
+    public List<ArtistViewDTO> getBandMembers(@PathVariable Integer idBand) {
+        return bandService.getBandMembers(idBand);
     }
 
 

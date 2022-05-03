@@ -41,7 +41,7 @@ public class PlaylistService {
     public List<PlaylistViewDTO> getAllPlaylists() {
         return playlistRepositoryJPA.findAll()
                 .stream()
-                .map(p -> playlistMapper.toViewDto(p))
+                .map(playlistMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 
@@ -77,10 +77,8 @@ public class PlaylistService {
         validationsService.checkIfAPlaylistExists(id);
         playlistSongsRepositoryJPA.deletePlaylistSongsByPlaylist_Id(id);
         User user = userRepositoryJPA.getUserById(playlistRepositoryJPA.getPlaylistById(id).getOwner().getId());
-        List<Playlist> playlists = user.getPlaylistsCreated();
-        playlists.remove(playlistRepositoryJPA.getPlaylistById(id));
-        user.setPlaylistsCreated(playlists);
-        userRepositoryJPA.save(user);
+        user.removePlaylistCreated(playlistRepositoryJPA.getPlaylistById(id));
+       //de testat
         Playlist playlist = playlistRepositoryJPA.getPlaylistById(id);
         playlist.setOwner(null);
         playlistRepositoryJPA.delete(playlist);
@@ -104,23 +102,7 @@ public class PlaylistService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public List<PlaylistViewDTO> getPlaylistCreatedByTheCurrentUser() {
-        User user = userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
-        return user.getPlaylistsCreated()
-                .stream()
-                .map(playlist -> playlistMapper.toViewDto(playlist))
-                .collect(Collectors.toList());
-    }
 
-    @Transactional
-    public List<PlaylistViewDTO> getPlaylistFollowedByTheCurrentUser() {
-        User user = userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
-        return user.getPlaylistsFollowed()
-                .stream()
-                .map(playlist -> playlistMapper.toViewDto(playlist))
-                .collect(Collectors.toList());
-    }
 
     @Transactional
     public List<PlaylistViewDTO> followPlaylistByCurrentUser(Integer idPlaylist) {
@@ -130,7 +112,11 @@ public class PlaylistService {
             playlistRepositoryJPA.getPlaylistById(idPlaylist).addFollower(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()));
         else
             throw new WrongInputException("you already follow this playlist");
-        return userRepositoryJPA.getUserById(playlistRepositoryJPA.getPlaylistById(idPlaylist).getOwner().getId()).getPlaylistsFollowed().stream().map(playlist -> playlistMapper.toViewDto(playlist)).collect(Collectors.toList());
+        return userRepositoryJPA.getUserById(playlistRepositoryJPA.getPlaylistById(idPlaylist).getOwner().getId())
+                .getPlaylistsFollowed()
+                .stream()
+                .map(playlistMapper::toViewDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -145,7 +131,7 @@ public class PlaylistService {
         return userRepositoryJPA.getUserById(playlistRepositoryJPA.getPlaylistById(idPlaylist).getOwner().getId())
                 .getPlaylistsFollowed()
                 .stream()
-                .map(playlist -> playlistMapper.toViewDto(playlist))
+                .map(playlistMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 
@@ -154,7 +140,7 @@ public class PlaylistService {
         validationsService.checkIfAPlaylistExists(idPlaylist);
         validationsService.checkIfAnAlbumExists(idAlbum);
         validationsService.checkIfAUserCanAccessAPlaylist(idPlaylist);
-        List<Song> songs = albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(idAlbum).stream().map(as -> as.getSong()).collect(Collectors.toList());
+        List<Song> songs = albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(idAlbum).stream().map(AlbumSongs::getSong).collect(Collectors.toList());
         songs.forEach(song -> {
             if (playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_IdAndSong_Id(idPlaylist, song.getId()) == null) {
                 addSongToPlaylist(idPlaylist, song.getId());

@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -20,63 +19,61 @@ public class AlbumController {
 
     @Autowired
     private AlbumService albumService;
-    @Autowired
-    private DataSource dataSource;
 
-    @GetMapping("/albums")
+    @GetMapping("/Album")
     public ResponseEntity<List<AlbumViewDTO>> getAllAlbums() {
         List<AlbumViewDTO> albums = albumService.getAllAlbums();
         return new ResponseEntity<>(albums, HttpStatus.OK);
     }
 
-    @GetMapping("/album/{id}")
-    public ResponseEntity<AlbumViewDTO> getAlbumById(Integer id) {
-        AlbumViewDTO album = albumService.getAlbumById(id);
+    @GetMapping("/Album/{idAlbum}")
+    public ResponseEntity<AlbumViewDTO> getAlbumById(Integer idAlbum) {
+        AlbumViewDTO album = albumService.getAlbumById(idAlbum);
         return new ResponseEntity<>(album, HttpStatus.OK);
     }
 
-    @PostMapping("/album/create")
+    @PostMapping("/Album")
     public AlbumViewDTO createAlbum(@RequestBody @Valid AlbumDTO albumDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return albumService.createAlbum(albumDTO);
     }
 
-    @PutMapping("/album/{id}/update")
-    public AlbumViewDTO updateAlbum(@PathVariable Integer id, @RequestBody @Valid AlbumDTO albumDTO) {
+    @PutMapping("/Album/{idAlbum}")
+    public AlbumViewDTO updateAlbum(@PathVariable Integer idAlbum, @RequestBody @Valid AlbumDTO albumDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        return albumService.updateAlbum(id, albumDTO);
+        return albumService.updateAlbum(idAlbum, albumDTO);
     }
 
-    @DeleteMapping("/album/{id}/delete")
-    public void deleteAlbum(@PathVariable Integer id) {
+    @DeleteMapping("/Album/{idAlbum}")
+    public void deleteAlbum(@PathVariable Integer idAlbum) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        albumService.deleteAlbum(id);
+        albumService.deleteAlbum(idAlbum);
     }
 
-    @GetMapping("/album/{id}/get_songs")
-    public List<SongDTO> getAlbumSongs(@PathVariable Integer id) {
-        return albumService.getAlbumSongs(id);
+    @GetMapping("/Album/{idAlbum}/songs")
+    public List<SongDTO> getAlbumSongs(@PathVariable Integer idAlbum) {
+        return albumService.getAlbumSongs(idAlbum);
     }
 
-    @PostMapping("/album/{idAlbum}/add_song/{idSong}")
+    @PostMapping("/Album/{idAlbum}/{idSong}")
     public List<SongViewDTO> addSongToAlbum(@PathVariable Integer idAlbum, @PathVariable Integer idSong) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return albumService.addSongToAlbum(idAlbum, idSong);
 
     }
 
-    @PutMapping("/album/{idAlbum}/change_songs_order/{idSong}/{newOrderNumber}")
+    @PutMapping("/Album/{idAlbum}/{idSong}/{newOrderNumber}")
     public List<SongViewDTO> changeSongsOrder(@PathVariable Integer idAlbum, @PathVariable Integer idSong, @PathVariable Integer newOrderNumber) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return albumService.changeSongOrderNumber(idAlbum, idSong, newOrderNumber);
     }
 
-    @GetMapping("/albums/from_artist/{idArtist}")
+    @GetMapping("/Album/{idArtist}")
     public List<AlbumViewDTO> getAlbumsByArtist(@PathVariable Integer idArtist) {
         return albumService.getAllAlbumsByArtist(idArtist);
     }
 
-    @GetMapping("/albums/from_band/{idBand}")
+    @GetMapping("/Album/{idBand}")
     public List<AlbumViewDTO> getAlbumsByBand(@PathVariable Integer idBand) {
         return albumService.getAllAlbumsByBand(idBand);
     }

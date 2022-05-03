@@ -1,5 +1,6 @@
 package com.example.musify.controller;
 
+import com.example.musify.dto.PlaylistViewDTO;
 import com.example.musify.dto.UserDTO;
 import com.example.musify.dto.UserViewDTO;
 import com.example.musify.security.AdminVerify;
@@ -8,7 +9,6 @@ import com.example.musify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -16,62 +16,71 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private DataSource dataSource;
 
-    @GetMapping("/users")
+    @GetMapping("/User")
     public List<UserViewDTO> getAllUsers() {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return userService.getUsers();
     }
 
-    @GetMapping("/user/{id}")
-    public UserViewDTO getUserById(@PathVariable Integer id) {
+    @GetMapping("/User/{idUser}")
+    public UserViewDTO getUserById(@PathVariable Integer idUser) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        return userService.getUserById(id);
+        return userService.getUserById(idUser);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/Register")
     public UserViewDTO register(@RequestBody @Valid UserDTO userDTO) {
         return userService.register(userDTO);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/Login")
     public String login(@RequestParam String email, @RequestParam String password) {
         return userService.login(email, password);
     }
 
-    @PutMapping("/user/update/my_account")
+    @PutMapping("/User")
     public UserViewDTO updateMyUser(@RequestBody @Valid UserDTO userDTO) {
         return userService.updateUser(JwtUtils.getCurrentUserId(), userDTO);
     }
 
-    @PutMapping("/user/update/{id}")
-    public UserViewDTO updateUser(@PathVariable Integer id, @RequestBody @Valid UserDTO userDTO) {
+    @PutMapping("/User/{idUser}")
+    public UserViewDTO updateUser(@PathVariable Integer idUser, @RequestBody @Valid UserDTO userDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        return userService.updateUser(id, userDTO);
+        return userService.updateUser(idUser, userDTO);
     }
 
-    @PutMapping("/user/setActive/{id}")
-    public UserViewDTO setUserActive(@PathVariable Integer id) {
+    @PutMapping("/User/{idUser}/Active")
+    public UserViewDTO setUserActive(@PathVariable Integer idUser) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        return userService.setActive(id);
+        return userService.setActive(idUser);
     }
 
-    @PutMapping("/user/setInactive/{id}")
-    public UserViewDTO setUserInactive(@PathVariable Integer id) {
+    @PutMapping("/User/{idUser}/Inactive")
+    public UserViewDTO setUserInactive(@PathVariable Integer idUser) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
-        return userService.setInactive(id);
+        return userService.setInactive(idUser);
     }
 
-    @PutMapping("/user/inactivate_my_account")
+    @PutMapping("/User/Inactivate")
     public UserViewDTO inactivate() {
         return userService.inactivateUser();
     }
 
-    @PutMapping("/user/activate_my_account")
+    @PutMapping("/User/Activate")
     public UserViewDTO activate() {
         return userService.activateUser();
+    }
+    @PutMapping("/User/Logout")
+    public void logout(@RequestParam String token){ userService.logout(token);}
+    @GetMapping("/User/CreatedPlaylists")
+    public List<PlaylistViewDTO> getPlaylistsCreated() {
+        return userService.getPlaylistCreatedByTheCurrentUser();
+    }
+
+    @GetMapping("/User/FollowedPlaylists")
+    public List<PlaylistViewDTO> getPlaylistsFollowed() {
+        return userService.getPlaylistFollowedByTheCurrentUser();
     }
 
 

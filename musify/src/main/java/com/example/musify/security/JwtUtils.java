@@ -4,10 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import org.springframework.data.util.Pair;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class JwtUtils {
     private static String signatureSecret = "myMusifyApp2022";
@@ -48,9 +48,16 @@ public class JwtUtils {
         String role = decodedJWT.getClaim("role").asString();
 
         Map<String, Object> userInfo = new HashMap<>();
+        if(blacklistTokens.contains(jwtToken)){
+            userInfo.put("id", null);
+            userInfo.put("email", null);
+            userInfo.put("role", null);
+            return userInfo;
+        }
         userInfo.put("id", id);
         userInfo.put("email", email);
         userInfo.put("role", role);
+
 
         return userInfo;
     }
@@ -60,9 +67,7 @@ public class JwtUtils {
         blacklistTokens.add(jwtToken);
     }
 
-    public static boolean isBlackListed(String token) {
-        return blacklistTokens.contains(token);
-    }
+
 
     public static Integer getCurrentUserId() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

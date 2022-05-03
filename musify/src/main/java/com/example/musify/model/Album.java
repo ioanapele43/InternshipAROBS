@@ -49,10 +49,8 @@ public class Album {
 
     @Override
     public String toString() {
-        List<String> albumSongsString = new ArrayList<String>();
-        albumSongs.forEach(a -> {
-            albumSongsString.add(a.getSong().getTitle());
-        });
+        List<String> albumSongsString = new ArrayList<>();
+        albumSongs.forEach(a -> albumSongsString.add(a.getSong().getTitle()));
         return "Album{" +
                 "id=" + id +
                 ", title='" + title + '\'' +

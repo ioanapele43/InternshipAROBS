@@ -33,7 +33,7 @@ public class ArtistService {
     public List<ArtistViewDTO> getArtists() {
         return artistRepository.findAll()
                 .stream()
-                .map(a -> artistMapper.toViewDto(a))
+                .map(artistMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 
