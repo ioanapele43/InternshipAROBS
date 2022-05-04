@@ -174,7 +174,7 @@ public class PlaylistService {
                 }
             }
         });
-        albumSongsRepositoryJPA.getAlbumSongsByAlbum_IdAndSong_id(idPlaylist, idSong).setOrderNumber(newOrderNumber);
+        playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_IdAndSong_Id(idPlaylist, idSong).setOrderNumber(newOrderNumber);
         return playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_Id(idPlaylist)
                 .stream()
                 .sorted(Comparator.comparing(PlaylistSongs::getOrderNumber))
