@@ -44,11 +44,10 @@ public class PlaylistController {
         playlistService.deletePlaylist(idPlaylist);
     }
 
-    @PostMapping("/Playlist/{idPlaylist}/{idSong}")
+    @PostMapping("/Playlist/{idPlaylist}/Song/{idSong}")
     public List<SongViewDTO> addSongToPlaylist(@PathVariable Integer idPlaylist, @PathVariable Integer idSong) {
         return playlistService.addSongToPlaylist(idPlaylist, idSong);
     }
-
 
 
     @PostMapping("/Playlist/{id}/Follow")
@@ -61,7 +60,7 @@ public class PlaylistController {
         return playlistService.unfollowPlaylistByCurrentUser(id);
     }
 
-    @PostMapping("/Playlist/{idPlaylist}/{idAlbum}")
+    @PostMapping("/Playlist/{idPlaylist}/Album/{idAlbum}")
     public List<SongViewDTO> addSongFromAnAlbum(@PathVariable Integer idPlaylist, @PathVariable Integer idAlbum) {
         return playlistService.addAlbumSongsToPlaylist(idPlaylist, idAlbum);
     }
@@ -69,5 +68,10 @@ public class PlaylistController {
     @PutMapping("/Playlist/{idPlaylist}/{idSong}/{newOrderNumber}")
     public List<SongViewDTO> changeSongsOrder(@PathVariable Integer idPlaylist, @PathVariable Integer idSong, @PathVariable Integer newOrderNumber) {
         return playlistService.changeSongOrderNumber(idPlaylist, idSong, newOrderNumber);
+    }
+
+    @GetMapping("/Playlist/{idPlaylist}/Songs")
+    public List<SongViewDTO> getPlaylistSongs(@PathVariable Integer idPlaylist) {
+        return playlistService.getPlaylistSongs(idPlaylist);
     }
 }

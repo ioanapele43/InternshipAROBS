@@ -68,12 +68,12 @@ public class AlbumController {
         return albumService.changeSongOrderNumber(idAlbum, idSong, newOrderNumber);
     }
 
-    @GetMapping("/Album/{idArtist}")
+    @GetMapping("/Album/Artist/{idArtist}")
     public List<AlbumViewDTO> getAlbumsByArtist(@PathVariable Integer idArtist) {
         return albumService.getAllAlbumsByArtist(idArtist);
     }
 
-    @GetMapping("/Album/{idBand}")
+    @GetMapping("/Album/Band/{idBand}")
     public List<AlbumViewDTO> getAlbumsByBand(@PathVariable Integer idBand) {
         return albumService.getAllAlbumsByBand(idBand);
     }

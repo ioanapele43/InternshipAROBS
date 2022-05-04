@@ -46,9 +46,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(DataNotFoundException.class)
     protected ResponseEntity<Object> handleDataNotFoundException(DataNotFoundException e){
-        ApiError apiError = new ApiError(BAD_REQUEST, e.getMessage());
+        ApiError apiError = new ApiError(NOT_FOUND, e.getMessage());
         log.error("DATA NOT FOUND: "+e.getMessage());
-        return new ResponseEntity<>(apiError, BAD_REQUEST);
+        return new ResponseEntity<>(apiError, NOT_FOUND);
     }
     @ExceptionHandler(UnauthorizedException.class)
     protected ResponseEntity<Object> handleUnauthorizedException(UnauthorizedException e){

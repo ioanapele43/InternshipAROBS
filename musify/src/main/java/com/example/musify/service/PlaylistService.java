@@ -12,6 +12,7 @@ import com.example.musify.service.mappers.SongMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -176,6 +177,15 @@ public class PlaylistService {
         albumSongsRepositoryJPA.getAlbumSongsByAlbum_IdAndSong_id(idPlaylist, idSong).setOrderNumber(newOrderNumber);
         return playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_Id(idPlaylist)
                 .stream()
+                .sorted(Comparator.comparing(PlaylistSongs::getOrderNumber))
+                .map(ps -> songMapper.toViewDto(ps.getSong()))
+                .collect(Collectors.toList());
+    }
+    @Transactional
+    public List<SongViewDTO> getPlaylistSongs(Integer idPlaylist){
+        return playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_Id(idPlaylist)
+                .stream()
+                .sorted(Comparator.comparing(PlaylistSongs::getOrderNumber))
                 .map(ps -> songMapper.toViewDto(ps.getSong()))
                 .collect(Collectors.toList());
     }
