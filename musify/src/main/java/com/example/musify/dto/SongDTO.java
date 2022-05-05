@@ -21,4 +21,6 @@ public class SongDTO {
     private String title;
     private Time duration;
     private Date creationDate;
+    private Integer idArtist;
+    private Integer idBand;
 }

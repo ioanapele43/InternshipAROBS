@@ -74,4 +74,14 @@ public class PlaylistController {
     public List<SongViewDTO> getPlaylistSongs(@PathVariable Integer idPlaylist) {
         return playlistService.getPlaylistSongs(idPlaylist);
     }
+    @GetMapping("/playlist/created")
+    public List<PlaylistViewDTO> getPlaylistsCreated() {
+        return playlistService.getPlaylistCreatedByTheCurrentUser();
+    }
+
+    @GetMapping("/playlist/followed")
+    public List<PlaylistViewDTO> getPlaylistsFollowed() {
+        return playlistService.getPlaylistFollowedByTheCurrentUser();
+    }
+
 }

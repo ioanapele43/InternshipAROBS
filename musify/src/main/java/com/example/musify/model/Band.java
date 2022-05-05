@@ -45,6 +45,8 @@ public class Band {
 
     @OneToMany(mappedBy = "band", orphanRemoval = true)
     private List<Album> albums;
+    @OneToMany(mappedBy = "band", orphanRemoval = true)
+    private List<Song> songs;
 
     public Band(Integer idBand, String bandname, String location, Date startDate, Date endDate) {
         this.id = idBand;

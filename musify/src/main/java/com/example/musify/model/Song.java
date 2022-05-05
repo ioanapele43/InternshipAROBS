@@ -26,6 +26,12 @@ public class Song {
     @Column(name = "creation_date")
     private Date creationDate;
 
+    @ManyToOne
+    private Artist artist;
+
+    @ManyToOne
+    private Band band;
+
 
     @OneToMany(mappedBy = "song", orphanRemoval = true)
     private List<AlternativeTitles> alternativeTitles;

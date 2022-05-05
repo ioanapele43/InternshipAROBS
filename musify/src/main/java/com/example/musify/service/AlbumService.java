@@ -49,6 +49,7 @@ public class AlbumService {
     }
 
     public List<AlbumViewDTO> getAllAlbumsByArtist(Integer idArtist) {
+        validationsService.checkIfAnArtistExists(idArtist);
         return albumRepositoryJPA.getAlbumsByArtist_Id(idArtist).stream()
                 .map(albumMapper::toViewDto)
                 .collect(Collectors.toList());

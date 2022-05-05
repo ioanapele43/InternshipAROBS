@@ -39,6 +39,8 @@ public class Artist {
 
     @OneToMany(mappedBy = "artist", orphanRemoval = true)
     private List<Album> albums;
+    @OneToMany(mappedBy = "artist", orphanRemoval = true)
+    private List<Song> songs;
 
     public Artist(String firstname, String lastname, String stagename, Date birthday, Date startDate, Date endDate) {
         this.firstname = firstname;

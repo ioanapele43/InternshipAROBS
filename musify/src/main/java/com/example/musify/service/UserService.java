@@ -130,23 +130,7 @@ public class UserService {
         return userMapper.toViewDto(userFromDatabase);
 
     }
-    @Transactional
-    public List<PlaylistViewDTO> getPlaylistCreatedByTheCurrentUser() {
-        User user = userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
-        return user.getPlaylistsCreated()
-                .stream()
-                .map(playlistMapper::toViewDto)
-                .collect(Collectors.toList());
-    }
 
-    @Transactional
-    public List<PlaylistViewDTO> getPlaylistFollowedByTheCurrentUser() {
-        User user = userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
-        return user.getPlaylistsFollowed()
-                .stream()
-                .map(playlistMapper::toViewDto)
-                .collect(Collectors.toList());
-    }
 
 
 }

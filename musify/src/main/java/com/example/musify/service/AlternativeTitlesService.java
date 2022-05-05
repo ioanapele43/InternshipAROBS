@@ -38,6 +38,7 @@ public class AlternativeTitlesService {
     }
 
     public AlternativeTitlesDTO getAlternativeTitleById(Integer id) {
+        validationsService.checkIfAnAlternativeTitleExists(id);
         return alternativeTitlesMapper.toDto(alternativeTitlesRepositoryJPA.getAlternativeTitlesById(id));
     }
 
@@ -68,6 +69,7 @@ public class AlternativeTitlesService {
 
     @Transactional
     public List<String> getAlternativeTitlesForSong(Integer idSong) {
+        validationsService.checkIfASongExists(idSong);
         return alternativeTitlesRepositoryJPA.getAlternativeTitlesBySong_Id(idSong)
                 .stream()
                 .map(AlternativeTitles::getAlternativeTitle)

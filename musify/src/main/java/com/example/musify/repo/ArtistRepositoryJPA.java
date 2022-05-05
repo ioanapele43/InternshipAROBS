@@ -21,5 +21,5 @@ public interface ArtistRepositoryJPA extends JpaRepository<Artist, Integer> {
 
     List<Artist> getArtistsByLastnameContainingIgnoreCase(String name);
 
-    List<Artist> getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(String firstname, String lastname);
+    List<Artist> getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCaseOrStagenameContainingIgnoreCase(String firstname, String lastname,String stagename);
 }

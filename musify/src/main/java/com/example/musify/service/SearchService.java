@@ -44,7 +44,7 @@ public class SearchService {
     @Transactional
     public List<ArtistViewDTO> searchByName(String name) {
        // return artistRepositoryJPA.findArtistByFirstnameOrLastname("%" + name + "%").stream().map(a -> artistMapper.toViewDto(a)).collect(Collectors.toList());
-        return artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name,name)
+        return artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCaseOrStagenameContainingIgnoreCase(name,name,name)
                 .stream()
                 .map(artistMapper::toViewDto)
                 .collect(Collectors.toList());
@@ -88,7 +88,7 @@ public class SearchService {
                                                 .stream()
                                                 .map(albumMapper::toViewDto)
                                                 .collect(Collectors.toList()));
-        searchDTO.setArtists(artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCase(input,input)
+        searchDTO.setArtists(artistRepositoryJPA.getArtistsByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCaseOrStagenameContainingIgnoreCase(input,input,input)
                                                 .stream()
                                                 .map(artistMapper::toViewDto)
                                                 .collect(Collectors.toList()));

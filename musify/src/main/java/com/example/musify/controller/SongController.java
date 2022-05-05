@@ -1,6 +1,7 @@
 package com.example.musify.controller;
 
 
+import com.example.musify.dto.AlbumViewDTO;
 import com.example.musify.dto.AlternativeTitlesDTO;
 import com.example.musify.dto.SongDTO;
 import com.example.musify.dto.SongViewDTO;
@@ -21,49 +22,57 @@ public class SongController {
     private AlternativeTitlesService alternativeTitlesService;
 
 
-    @GetMapping("/Song")
+    @GetMapping("/song")
     public List<SongViewDTO> getAllPlaylists() {
         return songService.getAllSongs();
     }
 
-    @GetMapping("/Song/{idSong}")
+    @GetMapping("/song/{idSong}")
     public SongViewDTO getPlaylistById(@PathVariable Integer idSong) {
         return songService.getSongById(idSong);
     }
 
-    @PostMapping("/Song")
+    @PostMapping("/song")
     public SongViewDTO createSong(@RequestBody @Valid SongDTO songDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return songService.createSong(songDTO);
     }
 
-    @PutMapping("/Song/{idSong}")
+    @PutMapping("/song/{idSong}")
     public SongViewDTO updateSong(@PathVariable Integer idSong, @RequestBody @Valid SongDTO songDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return songService.updateSong(idSong, songDTO);
     }
 
-    @DeleteMapping("/Song/{idSong}")
+    @DeleteMapping("/song/{idSong}")
     public void deleteSong(@PathVariable Integer idSong) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         songService.deleteSong(idSong);
     }
 
     @GetMapping("/Song/{idSong}/AlternativeTitles")
-    public List<String> getAlternativeTitlesForASong(@PathVariable Integer id) {
-        return alternativeTitlesService.getAlternativeTitlesForSong(id);
+    public List<String> getAlternativeTitlesForASong(@PathVariable Integer idSong) {
+        return alternativeTitlesService.getAlternativeTitlesForSong(idSong);
     }
 
-    @PostMapping("/Song/AlternativeTitle")
+    @PostMapping("/song/alternativeTitle")
     public AlternativeTitlesDTO addAlternativeTitle(@RequestBody @Valid AlternativeTitlesDTO alternativeTitle) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return alternativeTitlesService.createAlternativeTitle(alternativeTitle);
     }
 
-    @GetMapping("Songs/AlternativeTitles")
+    @GetMapping("songs/alternativeTitles")
     public List<AlternativeTitlesDTO> getAllAlternativeTitles() {
         return alternativeTitlesService.getAllAternativeTitles();
     }
+    @GetMapping("/song/artist/{idArtist}")
+    public List<SongViewDTO> getAlbumsByArtist(@PathVariable Integer idArtist) {
+        return songService.getAllSongsByArtist(idArtist);
+    }
 
+    @GetMapping("/song/band/{idBand}")
+    public List<SongViewDTO> getAlbumsByBand(@PathVariable Integer idBand) {
+        return songService.getAllSongsByBand(idBand);
+    }
 
 }

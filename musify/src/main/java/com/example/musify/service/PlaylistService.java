@@ -182,10 +182,28 @@ public class PlaylistService {
     }
     @Transactional
     public List<SongViewDTO> getPlaylistSongs(Integer idPlaylist){
+        validationsService.checkIfAPlaylistExists(idPlaylist);
         return playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_Id(idPlaylist)
                 .stream()
                 .sorted(Comparator.comparing(PlaylistSongs::getOrderNumber))
                 .map(ps -> songMapper.toViewDto(ps.getSong()))
+                .collect(Collectors.toList());
+    }
+    @Transactional
+    public List<PlaylistViewDTO> getPlaylistCreatedByTheCurrentUser() {
+        User user = userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
+        return user.getPlaylistsCreated()
+                .stream()
+                .map(playlistMapper::toViewDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<PlaylistViewDTO> getPlaylistFollowedByTheCurrentUser() {
+        User user = userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId());
+        return user.getPlaylistsFollowed()
+                .stream()
+                .map(playlistMapper::toViewDto)
                 .collect(Collectors.toList());
     }
 

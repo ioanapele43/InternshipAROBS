@@ -67,21 +67,9 @@ public class UserController {
         return userService.inactivateUser();
     }
 
-    @PutMapping("/user/activate")
-    public UserViewDTO activate() {
-        return userService.activateUser();
-    }
+
     @PutMapping("/user/logout")
     public void logout(@RequestParam String token){ userService.logout(token);}
-    @GetMapping("/user/createdPlaylists")
-    public List<PlaylistViewDTO> getPlaylistsCreated() {
-        return userService.getPlaylistCreatedByTheCurrentUser();
-    }
-
-    @GetMapping("/user/followedPlaylists")
-    public List<PlaylistViewDTO> getPlaylistsFollowed() {
-        return userService.getPlaylistFollowedByTheCurrentUser();
-    }
 
 
 }

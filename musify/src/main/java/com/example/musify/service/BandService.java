@@ -86,6 +86,7 @@ public class BandService {
 
     @Transactional
     public List<ArtistViewDTO> getBandMembers(Integer id) {
+        validationsService.checkIfABandExists(id);
         return bandRepositoryJPA.getBandById(id).getMembers()
                 .stream()
                 .map(artistMapper::toViewDto)
