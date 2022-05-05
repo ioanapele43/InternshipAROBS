@@ -50,7 +50,7 @@ public class SongController {
         songService.deleteSong(idSong);
     }
 
-    @GetMapping("/Song/{idSong}/AlternativeTitles")
+    @GetMapping("/song/{idSong}/alternativeTitles")
     public List<String> getAlternativeTitlesForASong(@PathVariable Integer idSong) {
         return alternativeTitlesService.getAlternativeTitlesForSong(idSong);
     }
