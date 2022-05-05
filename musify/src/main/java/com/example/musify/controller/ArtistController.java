@@ -20,29 +20,29 @@ public class ArtistController {
         this.artistService = artistService;
     }
 
-    @GetMapping("/Artist")
+    @GetMapping("/artist")
     public List<ArtistViewDTO> getAllArtist() {
         return artistService.getArtists();
     }
 
-    @GetMapping("/Artist/{idArtist}")
+    @GetMapping("/artist/{idArtist}")
     public ArtistViewDTO getArtistByID(@PathVariable Integer idArtist) {
         return artistService.getArtistById(idArtist);
     }
 
-    @PostMapping("/Artist")
+    @PostMapping("/artist")
     public ArtistViewDTO saveArtist(@RequestBody @Valid ArtistDTO artistDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return artistService.saveArtist(artistDTO);
     }
 
-    @PutMapping("/Artist/{idArtist}")
+    @PutMapping("/artist/{idArtist}")
     public ArtistViewDTO updateArtist(@PathVariable Integer idArtist, @RequestBody @Valid ArtistDTO artistDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return artistService.updateArtist(idArtist, artistDTO);
     }
 
-    @DeleteMapping("/Artist/{idArtist}")
+    @DeleteMapping("/artist/{idArtist}")
     public void deleteArtist(@PathVariable Integer idArtist) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         artistService.deleteArtist(idArtist);

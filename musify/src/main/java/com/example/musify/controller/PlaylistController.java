@@ -16,61 +16,61 @@ public class PlaylistController {
     @Autowired
     private PlaylistService playlistService;
 
-    @GetMapping("/Playlist")
+    @GetMapping("/playlist")
     public List<PlaylistViewDTO> getAllPlaylists() {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return playlistService.getAllPlaylists();
     }
 
-    @GetMapping("/Playlist/{idPlaylist}")
+    @GetMapping("/playlist/{idPlaylist}")
     public PlaylistViewDTO getPlaylistById(@PathVariable Integer idPlaylist) {
         return playlistService.getPlaylistbyId(idPlaylist);
     }
 
-    @PostMapping("/Playlist")
+    @PostMapping("/playlist")
     public PlaylistViewDTO createPlaylist(@RequestBody @Valid PlaylistDTO playlistDTO) {
         return playlistService.createPlaylist(playlistDTO);
     }
 
-    @PutMapping("/Playlist/{idPlaylist}")
+    @PutMapping("/playlist/{idPlaylist}")
     public PlaylistViewDTO updatePlaylist(@PathVariable Integer idPlaylist, @RequestBody @Valid PlaylistDTO playlistDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return playlistService.updatePlaylist(idPlaylist, playlistDTO);
     }
 
-    @DeleteMapping("/Playlist/{idPlaylist}")
+    @DeleteMapping("/playlist/{idPlaylist}")
     public void deletePlaylist(@PathVariable Integer idPlaylist) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         playlistService.deletePlaylist(idPlaylist);
     }
 
-    @PostMapping("/Playlist/{idPlaylist}/Song/{idSong}")
+    @PostMapping("/playlist/{idPlaylist}/Song/{idSong}")
     public List<SongViewDTO> addSongToPlaylist(@PathVariable Integer idPlaylist, @PathVariable Integer idSong) {
         return playlistService.addSongToPlaylist(idPlaylist, idSong);
     }
 
 
-    @PostMapping("/Playlist/{id}/Follow")
+    @PostMapping("/playlist/{id}/follow")
     public List<PlaylistViewDTO> followPlaylist(@PathVariable Integer id) {
         return playlistService.followPlaylistByCurrentUser(id);
     }
 
-    @PostMapping("/Playlist/{id}/Unfollow")
+    @PostMapping("/playlist/{id}/unfollow")
     public List<PlaylistViewDTO> unfollowPlaylist(@PathVariable Integer id) {
         return playlistService.unfollowPlaylistByCurrentUser(id);
     }
 
-    @PostMapping("/Playlist/{idPlaylist}/Album/{idAlbum}")
+    @PostMapping("/playlist/{idPlaylist}/album/{idAlbum}")
     public List<SongViewDTO> addSongFromAnAlbum(@PathVariable Integer idPlaylist, @PathVariable Integer idAlbum) {
         return playlistService.addAlbumSongsToPlaylist(idPlaylist, idAlbum);
     }
 
-    @PutMapping("/Playlist/{idPlaylist}/{idSong}/{newOrderNumber}")
+    @PutMapping("/playlist/{idPlaylist}/{idSong}/{newOrderNumber}")
     public List<SongViewDTO> changeSongsOrder(@PathVariable Integer idPlaylist, @PathVariable Integer idSong, @PathVariable Integer newOrderNumber) {
         return playlistService.changeSongOrderNumber(idPlaylist, idSong, newOrderNumber);
     }
 
-    @GetMapping("/Playlist/{idPlaylist}/Songs")
+    @GetMapping("/playlist/{idPlaylist}/songs")
     public List<SongViewDTO> getPlaylistSongs(@PathVariable Integer idPlaylist) {
         return playlistService.getPlaylistSongs(idPlaylist);
     }
