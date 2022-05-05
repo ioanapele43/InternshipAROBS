@@ -55,6 +55,7 @@ public class AlbumService {
     }
 
     public List<AlbumViewDTO> getAllAlbumsByBand(Integer idBand) {
+        validationsService.checkIfABandExists(idBand);
         return albumRepositoryJPA.getAlbumsByBand_Id(idBand).stream()
                 .map(albumMapper::toViewDto)
                 .collect(Collectors.toList());

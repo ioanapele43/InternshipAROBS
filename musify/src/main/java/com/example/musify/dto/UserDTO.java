@@ -16,7 +16,7 @@ public class UserDTO {
 
     @NotBlank(message = "First Name cannot be blank!")
     private String firstName;
-    @NotNull(message = "Last Name cannot be blank!")
+    @NotBlank(message = "Last Name cannot be blank!")
     private String lastName;
     @NotBlank(message = "Email cannot be blank!")
     @Email(message = "Email should be valid")
