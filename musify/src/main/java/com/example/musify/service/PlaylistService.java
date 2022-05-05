@@ -79,7 +79,6 @@ public class PlaylistService {
         playlistSongsRepositoryJPA.deletePlaylistSongsByPlaylist_Id(id);
         User user = userRepositoryJPA.getUserById(playlistRepositoryJPA.getPlaylistById(id).getOwner().getId());
         user.removePlaylistCreated(playlistRepositoryJPA.getPlaylistById(id));
-       //de testat
         Playlist playlist = playlistRepositoryJPA.getPlaylistById(id);
         playlist.setOwner(null);
         playlistRepositoryJPA.delete(playlist);
