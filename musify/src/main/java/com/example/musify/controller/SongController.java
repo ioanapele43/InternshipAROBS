@@ -50,8 +50,8 @@ public class SongController {
     }
 
     @GetMapping("/Song/{idSong}/AlternativeTitles")
-    public List<String> getAlternativeTitlesForASong(@PathVariable Integer idSong) {
-        return alternativeTitlesService.getAlternativeTitlesForSong(idSong);
+    public List<String> getAlternativeTitlesForASong(@PathVariable Integer id) {
+        return alternativeTitlesService.getAlternativeTitlesForSong(id);
     }
 
     @PostMapping("/Song/AlternativeTitle")

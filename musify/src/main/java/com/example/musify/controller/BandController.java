@@ -18,36 +18,36 @@ public class BandController {
     private BandService bandService;
 
 
-    @GetMapping("/Band")
+    @GetMapping("/band")
     public List<BandViewDTO> getAllBands() {
         return bandService.getAllBands();
     }
 
-    @PostMapping("/Band")
+    @PostMapping("/band")
     public BandViewDTO createBand(@RequestBody @Valid BandDTO bandDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return bandService.createBand(bandDTO);
     }
 
-    @PutMapping("/Band/{idBand}")
+    @PutMapping("/band/{idBand}")
     public BandViewDTO updateBand(@PathVariable Integer idBand, @RequestBody @Valid BandDTO bandDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return bandService.updateBand(idBand, bandDTO);
     }
 
-    @DeleteMapping("/Band/{idBand}")
+    @DeleteMapping("/band/{idBand}")
     public void deleteBand(@PathVariable Integer idBand) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         bandService.deleteBand(idBand);
     }
 
-    @PostMapping("/Band/{idBand}/{idArtist}")
+    @PostMapping("/band/{idBand}/{idArtist}")
     public List<ArtistViewDTO> addBandMember(@PathVariable Integer idBand, @PathVariable Integer idArtist) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return bandService.addBandMember(idBand, idArtist);
     }
 
-    @GetMapping("/Band/{idBand}/Members")
+    @GetMapping("/band/{idBand}/members")
     public List<ArtistViewDTO> getBandMembers(@PathVariable Integer idBand) {
         return bandService.getBandMembers(idBand);
     }

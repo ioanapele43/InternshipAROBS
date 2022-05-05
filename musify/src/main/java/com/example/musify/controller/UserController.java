@@ -17,68 +17,68 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/User")
+    @GetMapping("/user")
     public List<UserViewDTO> getAllUsers() {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return userService.getUsers();
     }
 
-    @GetMapping("/User/{idUser}")
+    @GetMapping("/user/{idUser}")
     public UserViewDTO getUserById(@PathVariable Integer idUser) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return userService.getUserById(idUser);
     }
 
-    @PostMapping("/Register")
+    @PostMapping("/register")
     public UserViewDTO register(@RequestBody @Valid UserDTO userDTO) {
         return userService.register(userDTO);
     }
 
-    @PostMapping("/Login")
+    @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password) {
         return userService.login(email, password);
     }
 
-    @PutMapping("/User")
+    @PutMapping("/user")
     public UserViewDTO updateMyUser(@RequestBody @Valid UserDTO userDTO) {
         return userService.updateUser(JwtUtils.getCurrentUserId(), userDTO);
     }
 
-    @PutMapping("/User/{idUser}")
+    @PutMapping("/user/{idUser}")
     public UserViewDTO updateUser(@PathVariable Integer idUser, @RequestBody @Valid UserDTO userDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return userService.updateUser(idUser, userDTO);
     }
 
-    @PutMapping("/User/{idUser}/Active")
+    @PutMapping("/user/{idUser}/active")
     public UserViewDTO setUserActive(@PathVariable Integer idUser) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return userService.setActive(idUser);
     }
 
-    @PutMapping("/User/{idUser}/Inactive")
+    @PutMapping("/user/{idUser}/inactive")
     public UserViewDTO setUserInactive(@PathVariable Integer idUser) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return userService.setInactive(idUser);
     }
 
-    @PutMapping("/User/Inactivate")
+    @PutMapping("/user/inactivate")
     public UserViewDTO inactivate() {
         return userService.inactivateUser();
     }
 
-    @PutMapping("/User/Activate")
+    @PutMapping("/user/activate")
     public UserViewDTO activate() {
         return userService.activateUser();
     }
-    @PutMapping("/User/Logout")
+    @PutMapping("/user/logout")
     public void logout(@RequestParam String token){ userService.logout(token);}
-    @GetMapping("/User/CreatedPlaylists")
+    @GetMapping("/user/createdPlaylists")
     public List<PlaylistViewDTO> getPlaylistsCreated() {
         return userService.getPlaylistCreatedByTheCurrentUser();
     }
 
-    @GetMapping("/User/FollowedPlaylists")
+    @GetMapping("/user/followedPlaylists")
     public List<PlaylistViewDTO> getPlaylistsFollowed() {
         return userService.getPlaylistFollowedByTheCurrentUser();
     }

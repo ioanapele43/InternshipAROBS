@@ -20,60 +20,60 @@ public class AlbumController {
     @Autowired
     private AlbumService albumService;
 
-    @GetMapping("/Album")
+    @GetMapping("/album")
     public ResponseEntity<List<AlbumViewDTO>> getAllAlbums() {
         List<AlbumViewDTO> albums = albumService.getAllAlbums();
         return new ResponseEntity<>(albums, HttpStatus.OK);
     }
 
-    @GetMapping("/Album/{idAlbum}")
+    @GetMapping("/album/{idAlbum}")
     public ResponseEntity<AlbumViewDTO> getAlbumById(Integer idAlbum) {
         AlbumViewDTO album = albumService.getAlbumById(idAlbum);
         return new ResponseEntity<>(album, HttpStatus.OK);
     }
 
-    @PostMapping("/Album")
+    @PostMapping("/album")
     public AlbumViewDTO createAlbum(@RequestBody @Valid AlbumDTO albumDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return albumService.createAlbum(albumDTO);
     }
 
-    @PutMapping("/Album/{idAlbum}")
+    @PutMapping("/album/{idAlbum}")
     public AlbumViewDTO updateAlbum(@PathVariable Integer idAlbum, @RequestBody @Valid AlbumDTO albumDTO) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return albumService.updateAlbum(idAlbum, albumDTO);
     }
 
-    @DeleteMapping("/Album/{idAlbum}")
+    @DeleteMapping("/album/{idAlbum}")
     public void deleteAlbum(@PathVariable Integer idAlbum) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         albumService.deleteAlbum(idAlbum);
     }
 
-    @GetMapping("/Album/{idAlbum}/songs")
+    @GetMapping("/album/{idAlbum}/songs")
     public List<SongDTO> getAlbumSongs(@PathVariable Integer idAlbum) {
         return albumService.getAlbumSongs(idAlbum);
     }
 
-    @PostMapping("/Album/{idAlbum}/{idSong}")
+    @PostMapping("/album/{idAlbum}/{idSong}")
     public List<SongViewDTO> addSongToAlbum(@PathVariable Integer idAlbum, @PathVariable Integer idSong) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return albumService.addSongToAlbum(idAlbum, idSong);
 
     }
 
-    @PutMapping("/Album/{idAlbum}/{idSong}/{newOrderNumber}")
+    @PutMapping("/album/{idAlbum}/{idSong}/{newOrderNumber}")
     public List<SongViewDTO> changeSongsOrder(@PathVariable Integer idAlbum, @PathVariable Integer idSong, @PathVariable Integer newOrderNumber) {
         AdminVerify.checkIfTheUserLoggedIsAdmin();
         return albumService.changeSongOrderNumber(idAlbum, idSong, newOrderNumber);
     }
 
-    @GetMapping("/Album/Artist/{idArtist}")
+    @GetMapping("/album/artist/{idArtist}")
     public List<AlbumViewDTO> getAlbumsByArtist(@PathVariable Integer idArtist) {
         return albumService.getAllAlbumsByArtist(idArtist);
     }
 
-    @GetMapping("/Album/Band/{idBand}")
+    @GetMapping("/album/band/{idBand}")
     public List<AlbumViewDTO> getAlbumsByBand(@PathVariable Integer idBand) {
         return albumService.getAllAlbumsByBand(idBand);
     }
