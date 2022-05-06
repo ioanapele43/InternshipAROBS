@@ -92,6 +92,7 @@ public class AlbumService {
     public AlbumViewDTO updateAlbum(Integer id, AlbumDTO albumDTO) {
         if (albumRepositoryJPA.getAlbumById(id) == null)
             throw new DataNotFoundException("the album you want to update doesn't exist");
+        Album initial=albumRepositoryJPA.getAlbumById(id);
         Album album = albumMapper.toEntity(albumDTO);
         album.setId(id);
         if (albumDTO.getIdBand() != 0 && albumDTO.getIdArtist() != 0)
@@ -105,7 +106,7 @@ public class AlbumService {
             validationsService.checkIfABandExists(albumDTO.getIdBand());
             album.setBand(bandRepositoryJPA.getById(albumDTO.getIdBand()));
         }
-
+        album.setAlbumSongs(initial.getAlbumSongs());
         Album albumFromDatabase = albumRepositoryJPA.save(album);
         return albumMapper.toViewDto(albumFromDatabase);
     }

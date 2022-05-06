@@ -67,6 +67,7 @@ public class SongService {
     @Transactional
     public SongViewDTO updateSong(Integer id, SongDTO songDTO) {
         validationsService.checkIfASongExists(id);
+        Song initial=songRepositoryJPA.getSongById(id);
         Song song = songMapper.toEntity(songDTO);
         song.setId(id);
         if (songDTO.getIdBand() != 0 && songDTO.getIdArtist() != 0)
@@ -82,6 +83,9 @@ public class SongService {
             validationsService.checkIfABandExists(songDTO.getIdBand());
             song.setBand(bandRepositoryJPA.getById(songDTO.getIdBand()));
         }
+        song.setAlbumSongs(initial.getAlbumSongs());
+        song.setAlternativeTitles(initial.getAlternativeTitles());
+        song.setPlaylistSongs(initial.getPlaylistSongs());
         Song songFromDatabase = songRepositoryJPA.save(song);
         return songMapper.toViewDto(songFromDatabase);
     }

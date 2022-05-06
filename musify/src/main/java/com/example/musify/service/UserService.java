@@ -64,12 +64,16 @@ public class UserService {
     @Transactional
     public UserViewDTO updateUser(Integer id, UserDTO userDTO) {
         validationsService.checkIfAUserExists(id);
+        User initialuser=userRepositoryJPA.getUserById(id);
         User user = userMapper.toEntity(userDTO);
         user.setId(id);
         byte[] bytes = userDTO.getPassword().getBytes();
         String encoded = String.valueOf(Hex.encode(bytes));
         user.setPassword(encoded);
-
+        user.setStatus("active");
+        user.setRole(initialuser.getRole());
+        user.setPlaylistsCreated(initialuser.getPlaylistsCreated());
+        user.setPlaylistsFollowed(initialuser.getPlaylistsFollowed());
         User userFromDatabase = userRepositoryJPA.save(user);
         return userMapper.toViewDto(userFromDatabase);
     }

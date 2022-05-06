@@ -54,10 +54,14 @@ public class ArtistService {
     @Transactional
     public ArtistViewDTO updateArtist(Integer id, ArtistDTO artistDTO) {
         validationsService.checkIfAnArtistExists(id);
+        Artist initial=artistRepository.getArtistsById(id);
         if (artistDTO.getActivityEndDate().before(artistDTO.getActivityStartDate()))
             throw new WrongInputException("the dates you entered are not in a correct order");
         Artist artist = artistMapper.toEntity(artistDTO);
         artist.setId(id);
+        artist.setAlbums(initial.getAlbums());
+        artist.setBandMember(initial.getBandMember());
+        artist.setSongs(initial.getSongs());
         Artist artistFromDatabase = artistRepository.save(artist);
         return artistMapper.toViewDto(artistFromDatabase);
     }

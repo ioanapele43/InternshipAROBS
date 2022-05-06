@@ -66,9 +66,11 @@ public class PlaylistService {
     @Transactional
     public PlaylistViewDTO updatePlaylist(Integer id, PlaylistDTO playlistDTO) {
         validationsService.checkIfAPlaylistExists(id);
+        Playlist initial=playlistRepositoryJPA.getPlaylistById(id);
         Playlist playlist = playlistMapper.toEntity(playlistDTO);
         playlist.setId(id);
-        playlist.setOwner(userRepositoryJPA.getUserById(JwtUtils.getCurrentUserId()));
+        playlist.setOwner(initial.getOwner());
+        playlist.setUsersWhoFollows(initial.getUsersWhoFollows());
         Playlist playlistFromDatabase = playlistRepositoryJPA.save(playlist);
         return playlistMapper.toViewDto(playlistFromDatabase);
     }
@@ -183,6 +185,7 @@ public class PlaylistService {
     @Transactional
     public List<SongViewDTO> getPlaylistSongs(Integer idPlaylist){
         validationsService.checkIfAPlaylistExists(idPlaylist);
+        validationsService.checkIfAUserIsTheOwnerOfAPlaylist(idPlaylist);
         return playlistSongsRepositoryJPA.getPlaylistSongsByPlaylist_Id(idPlaylist)
                 .stream()
                 .sorted(Comparator.comparing(PlaylistSongs::getOrderNumber))

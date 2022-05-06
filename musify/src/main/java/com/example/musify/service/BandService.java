@@ -55,10 +55,14 @@ public class BandService {
     @Transactional
     public BandViewDTO updateBand(Integer id, BandDTO bandDTO) {
         validationsService.checkIfABandExists(id);
+        Band initial=bandRepositoryJPA.getBandById(id);
         if (bandDTO.getActivityEndDate().before(bandDTO.getActivityStartDate()))
             throw new WrongInputException("the dates you entered are not in a correct order");
         Band band = bandMapper.toEntity(bandDTO);
         band.setId(id);
+        band.setAlbums(initial.getAlbums());
+        band.setMembers(initial.getMembers());
+        band.setSongs(initial.getSongs());
         Band bandFromDatabese = bandRepositoryJPA.save(band);
         return bandMapper.toViewDto(bandFromDatabese);
     }
