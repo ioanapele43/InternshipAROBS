@@ -118,12 +118,12 @@ public class AlbumService {
     }
 
     @Transactional
-    public List<SongDTO> getAlbumSongs(Integer id) {
+    public List<SongViewDTO> getAlbumSongs(Integer id) {
         validationsService.checkIfAnAlbumExists(id);
         return albumSongsRepositoryJPA.getAlbumSongsByAlbum_Id(id)
                 .stream()
                 .sorted(Comparator.comparing(AlbumSongs::getOrderNumber))
-                .map(as -> songMapper.toDto(as.getSong()))
+                .map(as -> songMapper.toViewDto(as.getSong()))
                 .collect(Collectors.toList());
     }
 

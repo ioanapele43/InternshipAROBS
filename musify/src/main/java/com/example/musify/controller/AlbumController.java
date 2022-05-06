@@ -51,7 +51,7 @@ public class AlbumController {
     }
 
     @GetMapping("/album/{idAlbum}/songs")
-    public List<SongDTO> getAlbumSongs(@PathVariable Integer idAlbum) {
+    public List<SongViewDTO> getAlbumSongs(@PathVariable Integer idAlbum) {
         return albumService.getAlbumSongs(idAlbum);
     }
 
