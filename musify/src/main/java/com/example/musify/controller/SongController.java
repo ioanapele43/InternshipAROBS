@@ -63,6 +63,7 @@ public class SongController {
 
     @GetMapping("songs/alternativeTitles")
     public List<AlternativeTitlesDTO> getAllAlternativeTitles() {
+        AdminVerify.checkIfTheUserLoggedIsAdmin();
         return alternativeTitlesService.getAllAternativeTitles();
     }
     @GetMapping("/song/artist/{idArtist}")

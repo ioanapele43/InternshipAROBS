@@ -48,7 +48,9 @@ public class AlternativeTitlesService {
         AlternativeTitles alternativeTitle = alternativeTitlesMapper.toEntity(alternativeTitlesDTO);
         alternativeTitle.setSong(songRepositoryJPA.getSongById(alternativeTitlesDTO.getIdSong()));
         AlternativeTitles alternativeTitleFromDatabase = alternativeTitlesRepositoryJPA.save(alternativeTitle);
-        return alternativeTitlesMapper.toDto(alternativeTitleFromDatabase);
+        AlternativeTitlesDTO alternativeTitlesDTO1=alternativeTitlesMapper.toDto(alternativeTitleFromDatabase);
+        alternativeTitlesDTO1.setIdSong(alternativeTitleFromDatabase.getSong().getId());
+        return alternativeTitlesDTO1;
     }
 
     @Transactional
